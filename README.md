@@ -1,4 +1,4 @@
-# Paddle Example for Arm Virtual Hardware(AVH)
+# Paddle Examples for Arm Virtual Hardware(AVH)
 
 ## Arm Virtual Hardware(AVH)
 [Arm Virtual Hardware (AVH)](https://www.arm.com/products/development-tools/simulation/virtual-hardware) scales and accelerates IoT software development by virtualising popular IoT development kits, Arm-based processors, and systems in the cloud. It is an evolution of Arm’s modelling technology that removes the wait for hardware and the complexity of building and configuring board farms for testing. It enables modern agile software development practices, such as DevOps and MLOps workflows.
