@@ -1,3 +1,5 @@
+[English](./README.md) | 简体中文
+
 # 基于metal Arm(R) Cortex(R)-M55 CPU在Arm Virtual Hardware上运行PPOCR方向分类模型
 
 此文件夹包含如何使用[Arm Virtual Hardware](https://www.arm.com/products/development-tools/simulation/virtual-hardware)

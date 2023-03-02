@@ -1,3 +1,5 @@
+English | [简体中文](./README_CN.md)
+
 # Running PPOCR Direction Classifier model on bare metal Arm(R) Cortex(R)-M55 CPU using Arm Virtual Hardware
 
 This folder contains an example of how to run a PaddleOCR-Cls model on bare
