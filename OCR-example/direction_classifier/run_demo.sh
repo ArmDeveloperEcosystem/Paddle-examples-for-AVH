@@ -143,13 +143,15 @@ cd build
 
 # Get PaddlePaddle inference model
 echo -e "\e[36mDownload PaddlePaddle inference model\e[0m"
-wget https://paddleocr.bj.bcebos.com/tvm/ocr_en.tar
-tar -xf ocr_en.tar
+wget https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_cls_infer.tar
+tar -xf ch_ppocr_mobile_v2.0_cls_infer.tar
 
-# Compile model for Arm(R) Cortex(R)-M55 CPU and CMSIS-NN
-# An alternative to using "python3 -m tvm.driver.tvmc" is to call
-# "tvmc" directly once TVM has been pip installed.
-python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
+# 重命名文件夹
+mv ch_ppocr_mobile_v2.0_cls_infer ppcls
+
+# 导出模型
+python3 -m tvm.driver.tvmc compile \
+    --target=cmsis-nn,c \
     --target-cmsis-nn-mcpu=cortex-m55 \
     --target-c-mcpu=cortex-m55 \
     --runtime=crt \
@@ -159,17 +161,17 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --pass-config tir.usmp.enable=1 \
     --pass-config tir.usmp.algorithm=hill_climb \
     --pass-config tir.disable_storage_rewrite=1 \
-    --pass-config tir.disable_vectorize=1 ocr_en/inference.pdmodel \
+    --pass-config tir.disable_vectorize=1 ppcls/inference.pdmodel \
     --output-format=mlf \
     --model-format=paddle \
-    --module-name=rec \
-    --input-shapes x:[1,3,32,320] \
-    --output=rec.tar
-tar -xf rec.tar
+    --module-name=cls \
+    --input-shapes "x:[1,3,48,192]" \
+    --output=cls.tar
+tar -xf cls.tar
 
 # Create C header files
 cd ..
-python3 ./convert_image.py imgs_words_en/word_116.png
+python3 ./convert_image.py img/word_10.png
 
 # Build demo executable
 cd ${script_dir}

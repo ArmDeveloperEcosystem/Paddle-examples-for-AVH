@@ -24,6 +24,7 @@ import math
 from PIL import Image
 import numpy as np
 
+
 def resize_norm_img(img, image_shape, padding=True):
     imgC, imgH, imgW = image_shape
     h = img.shape[0]
@@ -76,13 +77,13 @@ def create_headers(image_name):
     """
     This function generates C header files for the input and output arrays required to run inferences
     """
-    img_path = os.path.join("../", f"{image_name}")
+    img_path = os.path.join(f"{image_name}")
 
     # Resize image to 32x320
     img = cv2.imread(img_path)
-    img = resize_norm_img(img, [3,32,320])
+    img = resize_norm_img(img, [3, 48, 192])
     img_data = img.astype("float32")
-    
+
     # # Add the batch dimension, as we are expecting 4-dimensional input: NCHW.
     img_data = np.expand_dims(img_data, axis=0)
 

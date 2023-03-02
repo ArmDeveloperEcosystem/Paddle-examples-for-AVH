@@ -19,7 +19,7 @@
 
 #include <stdio.h>
 #include <tvm_runtime.h>
-#include <tvmgen_rec.h>
+#include <tvmgen_cls.h>
 
 #include "uart.h"
 
@@ -30,21 +30,21 @@
 
 int main(int argc, char** argv) {
   uart_init();
-  printf("Starting ocr rec inference\n");
-  struct tvmgen_rec_outputs rec_outputs = {
+  printf("Starting ocr cls inference\n");
+  struct tvmgen_cls_outputs cls_outputs = {
       .output = output,
   };
-  struct tvmgen_rec_inputs rec_inputs = {
+  struct tvmgen_cls_inputs cls_inputs = {
       .x = input,
   };
 
-  tvmgen_rec_run(&rec_inputs, &rec_outputs);
+  tvmgen_cls_run(&cls_inputs, &cls_outputs);
 
   // post process
   if(output[0] < output[1]) {
-    printf("Horizontal\n");
+    printf("The input picture is a vertical picture, conf is %.2f\n", output[1]);
   } else{
-    printf("Vertical\n");
+    printf("The input picture is a horizontal picture, conf is %.2f\n",output[0]);
   }
 
   // The FVP will shut down when it receives "EXITTHESIM" on the UART
