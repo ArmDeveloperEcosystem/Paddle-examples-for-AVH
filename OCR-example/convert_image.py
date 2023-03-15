@@ -76,7 +76,7 @@ def create_headers(image_name):
     """
     This function generates C header files for the input and output arrays required to run inferences
     """
-    img_path = os.path.join("../", f"{image_name}")
+    img_path = os.path.join("./", f"{image_name}")
 
     # Resize image to 32x320
     img = cv2.imread(img_path)
@@ -87,14 +87,14 @@ def create_headers(image_name):
     img_data = np.expand_dims(img_data, axis=0)
 
     # Create input header file
-    create_header_file("inputs", "input", img_data, "include")
+    create_header_file("inputs", "input", img_data, "./include")
     # Create output header file
     output_data = np.zeros([7760], np.float)
     create_header_file(
         "outputs",
         "output",
         output_data,
-        "include",
+        "./include",
     )
 
 
