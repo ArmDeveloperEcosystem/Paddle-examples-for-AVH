@@ -16,10 +16,10 @@
 <!--- under the License. -->
 
 
-Running PaddleOCR text recognition model on bare metal Arm(R) Cortex(R)-M55 CPU using Arm Virtual Hardware
+Running PaddleClas Classification model on bare metal Arm(R) Cortex(R)-M55 CPU using Arm Virtual Hardware
 ======================================================================
 
-This folder contains an example of how to run a PaddleOCR model on bare metal [Cortex(R)-M55 CPU](https://www.arm.com/products/silicon-ip-cpu/cortex-m/cortex-m55) using [Arm Virtual Hardware](https://www.arm.com/products/development-tools/simulation/virtual-hardware).
+This folder contains an example of how to run a PaddleClas model on bare metal [Cortex(R)-M55 CPU](https://www.arm.com/products/silicon-ip-cpu/cortex-m/cortex-m55) using [Arm Virtual Hardware](https://www.arm.com/products/development-tools/simulation/virtual-hardware).
 
 
 Running environment and prerequisites
