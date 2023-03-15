@@ -163,7 +163,7 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --output-format=mlf \
     --model-format=paddle \
     --module-name=rec \
-    --input-shapes x:[1,3,224,224] \
+    --input-shapes inputs:[1,3,224,224] \
     --output=cls.tar
 tar -xf cls.tar
 

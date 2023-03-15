@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
   tvmgen_cls_run(&cls_inputs, &cls_outputs);
 
   // post process
-  printf("output_len: %d",output_len);
+  printf("output_len: %d", output_len);
   
   // The FVP will shut down when it clseives "EXITTHESIM" on the UART
   printf("EXITTHESIM\n");
