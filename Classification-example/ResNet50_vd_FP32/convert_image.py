@@ -32,7 +32,7 @@ def resize_image(im_rgb, resize_short=256):
     percent = float(resize_short) / min(img_w, img_h)
     w = int(round(img_w * percent))
     h = int(round(img_h * percent))
-    resize_img = cv2.resize(im_rgb, (w, h))
+    resize_img = cv2.resize(im_rgb, (w, h), cv2.INTER_LINEAR)
     return resize_img
 
 
@@ -53,7 +53,7 @@ def crop_image(im_rgb, size=224):
 
 def normalize_image(im_rgb, mean, std):
     im_rgb = im_rgb.astype('float32')
-    im_rgb = im_rgb / 255
+    im_rgb = im_rgb * 0.00392157
     shape = (1, 1, 3)
     mean = np.array(mean).reshape(shape).astype('float32')
     std = np.array(std).reshape(shape).astype('float32')
@@ -67,6 +67,7 @@ def resize_norm_img(img):
     image = resize_image(image)
     image = crop_image(image)
     image = normalize_image(image, [0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+    image = np.transpose(image, [2, 0, 1])
     return image
 
 
