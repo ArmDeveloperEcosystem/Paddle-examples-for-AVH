@@ -24,7 +24,7 @@ This folder contains an example of how to run a PaddleOCR model on bare metal [C
 
 Running environment and prerequisites
 -------------
-Case 1: If the demo is run in Arm Virtual Hardware Amazon Machine Image(AMI) instance hosted by [AWS](https://aws.amazon.com/marketplace/pp/prodview-urbpq7yo5va7g?sr=0-1&ref_=beagle&applicationId=AWSMPContessa)/[AWS China](https://awsmarketplace.amazonaws.cn/marketplace/pp/prodview-2y7nefntbmybu), the following software will be installed through [configure_avh.sh](configure_avh.sh) script. It will install automatically when you run the application through [run_demo.sh](run_demo.sh) script.
+Case 1: If the demo is run in Arm Virtual Hardware Amazon Machine Image(AMI) instance hosted by [AWS](https://aws.amazon.com/marketplace/pp/prodview-urbpq7yo5va7g?sr=0-1&ref_=beagle&applicationId=AWSMPContessa)/[AWS China](https://awsmarketplace.amazonaws.cn/marketplace/pp/prodview-2y7nefntbmybu), the following software will be installed through [configure_avh.sh](./configure_avh.sh) script. It will install automatically when you run the application through [run_demo.sh](./run_demo.sh) script.
 You can refer to this [guide](https://arm-software.github.io/AVH/main/examples/html/MicroSpeech.html#amilaunch) to launch an Arm Virtual Hardware AMI instance.
 
 Case 2: If the demo is run in the [ci_cpu Docker container](https://github.com/apache/tvm/blob/main/docker/Dockerfile.ci_cpu) provided with [TVM](https://github.com/apache/tvm), then the following software will already be installed.
@@ -62,7 +62,7 @@ You will also need TVM which can either be:
 
 Running the demo application
 ----------------------------
-Type the following command to run the bare metal text recognition application ([src/demo_bare_metal.c](src/demo_bare_metal.c)):
+Type the following command to run the bare metal text recognition application ([src/demo_bare_metal.c](./src/demo_bare_metal.c)):
 
 ```bash
 ./run_demo.sh
@@ -82,7 +82,7 @@ the locations for these can be specified as arguments to run_demo.sh, for exampl
 --ethosu_platform_path /home/tvm-user/ethosu/core_platform
 ```
 
-With [run_demo.sh](run_demo.sh) to run the demo application, it will:
+With [run_demo.sh](./run_demo.sh) to run the demo application, it will:
 - Set up running environment by installing the required prerequisites automatically if running in Arm Virtual Hardware Amazon AMI instance(not specify --enable_FVP to 1)
 - Download a PaddleOCR text recognition model
 - Use tvmc to compile the text recognition model for Cortex(R)-M55 CPU and CMSIS-NN
