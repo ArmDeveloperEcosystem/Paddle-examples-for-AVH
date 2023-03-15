@@ -143,8 +143,8 @@ cd build
 
 # Get PaddlePaddle inference model
 echo -e "\e[36mDownload PaddlePaddle inference model\e[0m"
-wget https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/ResNet50_vd_infer.tar
-tar -xf ResNet50_vd_infer.tar
+wget https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/MobileNetV3_small_x0_35_ssld_infer.tar
+tar -xf MobileNetV3_small_x0_35_ssld_infer.tar
 
 # Compile model for Arm(R) Cortex(R)-M55 CPU and CMSIS-NN
 # An alternative to using "python3 -m tvm.driver.tvmc" is to call
@@ -159,11 +159,11 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --pass-config tir.usmp.enable=1 \
     --pass-config tir.usmp.algorithm=hill_climb \
     --pass-config tir.disable_storage_rewrite=1 \
-    --pass-config tir.disable_vectorize=1 ResNet50_vd_infer/inference.pdmodel \
+    --pass-config tir.disable_vectorize=1 MobileNetV3_small_x0_35_ssld_infer/inference/inference.pdmodel \
     --output-format=mlf \
     --model-format=paddle \
-    --module-name=rec \
-    --input-shapes inputs:[1,3,224,224] \
+    --module-name=cls \
+    --input-shapes x:[1,3,224,224] \
     --output=cls.tar
 tar -xf cls.tar
 

@@ -29,7 +29,6 @@
 
 
 int main(int argc, char** argv) {
-  int char_dict_nums = 97;
   uart_init();
   printf("Starting ocr cls inference\n");
   struct tvmgen_cls_outputs cls_outputs = {
@@ -42,8 +41,14 @@ int main(int argc, char** argv) {
   tvmgen_cls_run(&cls_inputs, &cls_outputs);
 
   // post process
-  printf("output_len: %d", output_len);
-  
+  int index = 0;
+  for(int i = 0; i < output_len;i++){
+    if(cls_outputs[i] > cls_outputs[index]){
+        index = i;
+    }
+  }
+  printf("max index is %d, max conf is %f", index, cls_outputs[index]);
+
   // The FVP will shut down when it clseives "EXITTHESIM" on the UART
   printf("EXITTHESIM\n");
   while (1 == 1)
