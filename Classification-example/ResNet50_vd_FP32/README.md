@@ -84,7 +84,7 @@ the locations for these can be specified as arguments to run_demo.sh, for exampl
 
 With [run_demo.sh](run_demo.sh) to run the demo application, it will:
 - Set up running environment by installing the required prerequisites automatically if running in Arm Virtual Hardware Amazon AMI instance(not specify --enable_FVP to 1)
-- Download a PaddleOCR text recognition model
+- Download a PaddleClas text recognition model
 - Use tvmc to compile the text recognition model for Cortex(R)-M55 CPU and CMSIS-NN
 - Create a C header file inputs.c containing the image data as a C array
 - Create a C header file outputs.c containing a C array where the output of inference will be stored
@@ -105,11 +105,6 @@ python3 ./convert_image.py path/to/image
 
 Model description
 -----------------
-The example is built on [PP-OCRv3](https://github.com/PaddlePaddle/PaddleOCR/blob/dygraph/doc/doc_ch/PP-OCRv3_introduction.md) English recognition model released by [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR). Since Arm(R) Cortex(R)-M55 CPU does not support rnn operator, we delete the unsupported operator based on the PP-OCRv3 text recognition model to obtain the current 2.7M English recognition model.
-
-PP-OCRv3 is the third version of the PP-OCR series model. This series of models has the following features:
-  - PP-OCRv3: ultra-lightweight OCR system: detection (3.6M) + direction classifier (1.4M) + recognition (12M) = 17.0M
-  - Support more than 80 kinds of multi-language recognition models, including English, Chinese, French, German, Arabic, Korean, Japanese and so on. For details
-  - Support vertical text recognition, and long text recognition
+The example is built on [MobileNetV3_small_x0_35_ssld](https://github.com/PaddlePaddle/PaddleClas/tree/release/2.5/docs/zh_CN/models/ImageNet1k#Mobile) Classification model released by [PaddleClas](https://github.com/PaddlePaddle/PaddleClas). Since Arm(R) Cortex(R)-M55 CPU does not support rnn operator, we delete the unsupported operator based on the PP-OCRv3 text recognition model to obtain the current 6.9M Classification model.
 
 
