@@ -15,19 +15,14 @@
 # specific language governing permissions and limitations
 # under the License.
 
-import os
 import pathlib
-import re
 import sys
 import cv2
-import math
-from PIL import Image
 import numpy as np
 
 
-# for bgr to rgb
 def decode_image(img_bgr):
-    img_rgb = img_bgr[:, :, [2, 1, 0]]
+    img_rgb = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2RGB)
     return img_rgb
 
 
@@ -59,17 +54,19 @@ def crop_image(im_rgb, size=224):
 def normalize_image(im_rgb, mean, std):
     im_rgb = im_rgb.astype('float32')
     im_rgb = im_rgb / 255
-    mean = np.array(mean).astype('float32')
-    std = np.array(std).astype('float32')
+    shape = (1, 1, 3)
+    mean = np.array(mean).reshape(shape).astype('float32')
+    std = np.array(std).reshape(shape).astype('float32')
     im_rgb = (im_rgb.astype('float32') - mean) / std
     return im_rgb.astype('float32')
 
 
 def resize_norm_img(img):
-    image = decode_image(img)
+    image = np.array(img)
+    image = decode_image(image)
     image = resize_image(image)
     image = crop_image(image)
-    image = normalize_image(image)
+    image = normalize_image(image, [0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     return image
 
 
@@ -93,24 +90,23 @@ def create_header_file(name, tensor_name, tensor_data, output_path):
         header_file.write("};\n\n")
 
 
-def create_headers(image_name):
+def create_headers(img_path):
     """
     This function generates C header files for the input and output arrays required to run inferences
     """
-    img_path = os.path.join("../", f"{image_name}")
 
     # Resize image to 32x320
     img = cv2.imread(img_path)
     img = resize_norm_img(img)
     img_data = img.astype("float32")
 
-    # # Add the batch dimension, as we are expecting 4-dimensional input: NCHW.
+    # Add the batch dimension, as we are expecting 4-dimensional input: NCHW.
     img_data = np.expand_dims(img_data, axis=0)
 
     # Create input header file
     create_header_file("inputs", "input", img_data, "include")
     # Create output header file
-    output_data = np.zeros([1000], np.float)
+    output_data = np.zeros([1000], np.float32)
     create_header_file(
         "outputs",
         "output",

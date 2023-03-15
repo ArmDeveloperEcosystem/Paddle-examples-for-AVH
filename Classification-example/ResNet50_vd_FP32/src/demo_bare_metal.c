@@ -19,7 +19,7 @@
 
 #include <stdio.h>
 #include <tvm_runtime.h>
-#include <tvmgen_rec.h>
+#include <tvmgen_cls.h>
 
 #include "uart.h"
 
@@ -29,48 +29,22 @@
 
 
 int main(int argc, char** argv) {
-  char dict[]={"#0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~!\"#$%&'()*+,-./  "};
   int char_dict_nums = 97;
   uart_init();
-  printf("Starting ocr rec inference\n");
-  struct tvmgen_rec_outputs rec_outputs = {
+  printf("Starting ocr cls inference\n");
+  struct tvmgen_cls_outputs cls_outputs = {
       .output = output,
   };
-  struct tvmgen_rec_inputs rec_inputs = {
+  struct tvmgen_cls_inputs cls_inputs = {
       .x = input,
   };
 
-  tvmgen_rec_run(&rec_inputs, &rec_outputs);
+  tvmgen_cls_run(&cls_inputs, &cls_outputs);
 
   // post process
-  int char_nums = output_len / char_dict_nums;
+  printf("output_len: %d",output_len);
   
-  int last_index = 0;
-  float score = 0.f;
-  int count = 0;
-  
-  printf("text: ");
-  for (int i = 0; i < char_nums; i++) {
-    int argmax_idx = 0;
-    float max_value = 0.0f;
-    for (int j = 0; j < char_dict_nums; j++){
-      if (output[i * char_dict_nums + j] > max_value){
-        max_value = output[i * char_dict_nums + j];
-        argmax_idx = j;
-      }
-    }
-    if (argmax_idx > 0 && (!(i > 0 && argmax_idx == last_index))) {
-      score += max_value;
-      count += 1;
-      // printf("%d，%f，%c\n", argmax_idx, max_value, dict[argmax_idx]);
-      printf("%c", dict[argmax_idx]);
-    }
-    last_index = argmax_idx;
-  }
-  score /= count;
-  printf(", score: %f\n", score);
-  
-  // The FVP will shut down when it receives "EXITTHESIM" on the UART
+  // The FVP will shut down when it clseives "EXITTHESIM" on the UART
   printf("EXITTHESIM\n");
   while (1 == 1)
     ;

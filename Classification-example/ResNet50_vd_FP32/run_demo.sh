@@ -143,8 +143,8 @@ cd build
 
 # Get PaddlePaddle inference model
 echo -e "\e[36mDownload PaddlePaddle inference model\e[0m"
-wget https://paddleocr.bj.bcebos.com/tvm/ocr_en.tar
-tar -xf ocr_en.tar
+wget https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/ResNet50_vd_infer.tar
+tar -xf ResNet50_vd_infer.tar
 
 # Compile model for Arm(R) Cortex(R)-M55 CPU and CMSIS-NN
 # An alternative to using "python3 -m tvm.driver.tvmc" is to call
@@ -159,17 +159,17 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --pass-config tir.usmp.enable=1 \
     --pass-config tir.usmp.algorithm=hill_climb \
     --pass-config tir.disable_storage_rewrite=1 \
-    --pass-config tir.disable_vectorize=1 ocr_en/inference.pdmodel \
+    --pass-config tir.disable_vectorize=1 ResNet50_vd_infer/inference.pdmodel \
     --output-format=mlf \
     --model-format=paddle \
     --module-name=rec \
     --input-shapes x:[1,3,32,320] \
-    --output=rec.tar
-tar -xf rec.tar
+    --output=cls.tar
+tar -xf cls.tar
 
 # Create C header files
 cd ..
-python3 ./convert_image.py imgs_words_en/word_116.png
+python3 ./convert_image.py ./imgs/ILSVRC2012_val_00000010.jpeg
 
 # Build demo executable
 cd ${script_dir}
