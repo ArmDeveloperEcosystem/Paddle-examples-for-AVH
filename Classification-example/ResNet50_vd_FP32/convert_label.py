@@ -20,7 +20,6 @@ import sys
 import re
 
 
-# Due to the limitation of ram, only one is selected for each category.
 def create_label_list(file_path="./img_and_label/imagenet1k_label_list.txt"):
     label_list = []
     with open(file_path) as f:
@@ -33,20 +32,18 @@ def create_label_list(file_path="./img_and_label/imagenet1k_label_list.txt"):
             label = label.split(",")[-1].replace(" ", "_")
             label_list.append(label)
             line_text = f.readline().replace("\n", "")
-        print(label_list)
     return label_list
-
-
-def label_list_to_head(label_list, file_path):
-    if len(label_list) == 0:
-        return
-    with open(file_path, "w") as header_file:
-        header_file.write(f"const char label_list[][{len(label_list)}]=" + "{")
-        for label in label_list:
-            header_file.write(f"\"{label}\"" + ",")
-        header_file.write("}\n")
 
 
 if __name__ == "__main__":
     label_list = create_label_list(sys.argv[1])
-    label_list_to_head(label_list, "./include/label_list.h")
+    with open("./uart0.txt") as f:
+        # Starting cls inference
+        f.readline()
+        # index and score
+        str_text = f.readline()
+        print(str_text)
+        index_str, score_str = str_text.replace("\n", "").split(",")
+        index = int(index_str)
+        score = float(score_str)
+        print(f"index is {index}, max score is {score}, label is {label_list[index]}")

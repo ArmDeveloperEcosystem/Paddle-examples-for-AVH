@@ -169,7 +169,7 @@ tar -xf cls.tar
 
 # Create C header files
 cd ..
-python3 ./convert_image.py ./imgs/ILSVRC2012_val_00000010.jpeg
+python3 ./convert_image.py ./img_and_label/ILSVRC2012_val_00000010.jpeg
 
 # Build demo executable
 cd ${script_dir}
@@ -178,7 +178,9 @@ make
 
 # Run demo executable on the AVH
 $Platform -C cpu0.CFGDTCMSZ=15 \
--C cpu0.CFGITCMSZ=15 -C mps3_board.uart0.out_file=\"-\" -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
+-C cpu0.CFGITCMSZ=15 -C mps3_board.uart0.out_file=\"./uart0.txt\" -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
 -C mps3_board.visualisation.disable-visualisation=1 -C mps3_board.telnetterminal0.start_telnet=0 \
 -C mps3_board.telnetterminal1.start_telnet=0 -C mps3_board.telnetterminal2.start_telnet=0 -C mps3_board.telnetterminal5.start_telnet=0 \
 ./build/demo --stat
+
+python ./convert_label.py ./img_and_label/imagenet1k_label_list.txt
