@@ -100,7 +100,7 @@ image to be converted into an array of bytes for consumption by the model.
 The demo can be modified to use an image of your choice by changing the following line in run_demo.sh
 
 ```bash
-python3 ./convert_image.py path/to/image
+python3 ./convert_image.py path/to/img_and_label
 ```
 
 Model description

@@ -15,25 +15,26 @@
 <!--- specific language governing permissions and limitations -->
 <!--- under the License. -->
 
-Running PP-PicoDet object detection model on bare metal Arm(R) Cortex(R)-M55 CPU using Arm Virtual Hardware
+
+Running PaddleClas Classification model on bare metal Arm(R) Cortex(R)-M55 CPU using Arm Virtual Hardware
 ======================================================================
 
-This folder contains an example of how to run a PP-PicoDet model on bare metal [Cortex(R)-M55 CPU](https://www.arm.com/products/silicon-ip-cpu/cortex-m/cortex-m55) using [Arm Virtual Hardware](https://www.arm.com/products/development-tools/simulation/virtual-hardware).
+This folder contains an example of how to run a PaddleClas model on bare metal [Cortex(R)-M55 CPU](https://www.arm.com/products/silicon-ip-cpu/cortex-m/cortex-m55) using [Arm Virtual Hardware](https://www.arm.com/products/development-tools/simulation/virtual-hardware).
 
 
 Running environment and prerequisites
 -------------
-Case 1: If the demo is run in Arm Virtual Hardware Amazon Machine Image(AMI) instance hosted by [AWS](https://aws.amazon.com/marketplace/pp/prodview-urbpq7yo5va7g?sr=0-1&ref_=beagle&applicationId=AWSMPContessa)/[AWS China](https://awsmarketplace.amazonaws.cn/marketplace/pp/prodview-2y7nefntbmybu), the following software will be installed through [configure_avh.sh](./configure_avh.sh) script. It will install automatically when you run the application through [run_demo.sh](./run_demo.sh) script.
+Case 1: If the demo is run in Arm Virtual Hardware Amazon Machine Image(AMI) instance hosted by [AWS](https://aws.amazon.com/marketplace/pp/prodview-urbpq7yo5va7g?sr=0-1&ref_=beagle&applicationId=AWSMPContessa)/[AWS China](https://awsmarketplace.amazonaws.cn/marketplace/pp/prodview-2y7nefntbmybu), the following software will be installed through [configure_avh.sh](configure_avh.sh) script. It will install automatically when you run the application through [run_demo.sh](run_demo.sh) script.
 You can refer to this [guide](https://arm-software.github.io/AVH/main/examples/html/MicroSpeech.html#amilaunch) to launch an Arm Virtual Hardware AMI instance.
 
 Case 2: If the demo is run in the [ci_cpu Docker container](https://github.com/apache/tvm/blob/main/docker/Dockerfile.ci_cpu) provided with [TVM](https://github.com/apache/tvm), then the following software will already be installed.
 
 Case 3: If the demo is not run in the ci_cpu Docker container, then you will need the following:
-- Software required to build and run the demo (These can all be installed by running
+- Software required to build and run the demo (These can all be installed by running 
   tvm/docker/install/ubuntu_install_ethosu_driver_stack.sh.)
-  - [Fixed Virtual Platform (FVP) based on Arm(R) Corstone(TM)-300 software](https://release/2.5er.arm.com/tools-and-software/open-source-software/arm-platforms-software/arm-ecosystem-fvps)
+  - [Fixed Virtual Platform (FVP) based on Arm(R) Corstone(TM)-300 software](https://developer.arm.com/tools-and-software/open-source-software/arm-platforms-software/arm-ecosystem-fvps)
   - [cmake 3.19.5](https://github.com/Kitware/CMake/releases/)
-  - [GCC toolchain from Arm(R)](https://release/2.5er.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2)
+  - [GCC toolchain from Arm(R)](https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2)
   - [Arm(R) Ethos(TM)-U NPU driver stack](https://review.mlplatform.org)
   - [CMSIS](https://github.com/ARM-software/CMSIS_5)
 - The python libraries listed in the requirements.txt of this directory
@@ -43,7 +44,7 @@ Case 3: If the demo is not run in the ci_cpu Docker container, then you will nee
     ```
 
 In case2 and case3:  
-
+    
 You will need to update your PATH environment variable to include the path to cmake 3.19.5 and the FVP.
 For example if you've installed these in ```/opt/arm``` , then you would do the following:
 ```bash
@@ -61,7 +62,7 @@ You will also need TVM which can either be:
 
 Running the demo application
 ----------------------------
-Type the following command to run the bare metal text recognition application ([src/demo_bare_metal.c](./src/demo_bare_metal.c)):
+Type the following command to run the bare metal Classification application ([src/demo_bare_metal.c](src/demo_bare_metal.c)):
 
 ```bash
 ./run_demo.sh
@@ -81,15 +82,15 @@ the locations for these can be specified as arguments to run_demo.sh, for exampl
 --ethosu_platform_path /home/tvm-user/ethosu/core_platform
 ```
 
-With [run_demo.sh](./run_demo.sh) to run the demo application, it will:
+With [run_demo.sh](run_demo.sh) to run the demo application, it will:
 - Set up running environment by installing the required prerequisites automatically if running in Arm Virtual Hardware Amazon AMI instance(not specify --enable_FVP to 1)
-- Download a PP-PicoDet model
-- Use tvmc to compile the text recognition model for Cortex(R)-M55 CPU and CMSIS-NN
+- Download a PaddleClas Classification model
+- Use tvmc to compile the Classification model for Cortex(R)-M55 CPU and CMSIS-NN
 - Create a C header file inputs.c containing the image data as a C array
 - Create a C header file outputs.c containing a C array where the output of inference will be stored
 - Build the demo application
 - Run the demo application on a Arm Virtual Hardware based on Arm(R) Corstone(TM)-300 software
-- The application will report the text on the image and the corresponding score.
+- The application will report the max index and score on the image and the corresponding score.
 
 Using your own image
 --------------------
@@ -104,4 +105,5 @@ python3 ./convert_image.py path/to/img_and_label
 
 Model description
 -----------------
-In this demo, the model we used is based on [PP-PicoDet](https://github.com/PaddlePaddle/PaddleDetection/tree/release/2.5/configs/picodet). Because of the excellent performance, PP-PicoDet are very suitable for deployment on mobile or CPU. And it is released by [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection).
+The example is built on [MobileNetV3_small_x0_35_ssld](https://github.com/PaddlePaddle/PaddleClas/tree/release/2.5/docs/zh_CN/models/ImageNet1k#Mobile) Classification model released by [PaddleClas](https://github.com/PaddlePaddle/PaddleClas).
+

@@ -63,7 +63,7 @@ def create_headers(image_name):
     """
     img_path = os.path.join("./", f"{image_name}")
 
-    # Resize image to 32x320
+    # Resize img_and_label to 32x320
     img = cv2.imread(img_path)
     img = resize_norm_img(img, [3, 32, 320])
     img_data = img.astype("float32")
