@@ -19,7 +19,7 @@
 
 #include <stdio.h>
 #include <tvm_runtime.h>
-#include <tvmgen_cls.h>
+#include <tvmgen_text_angle_cls.h>
 
 #include "uart.h"
 
@@ -30,21 +30,21 @@
 
 int main(int argc, char** argv) {
   uart_init();
-  printf("Starting ocr cls inference\n");
-  struct tvmgen_cls_outputs cls_outputs = {
+  printf("Starting text angle classification inference\n");
+  struct tvmgen_angle_cls_outputs angle_cls_outputs = {
       .output = output,
   };
-  struct tvmgen_cls_inputs cls_inputs = {
+  struct tvmgen_angle_cls_inputs angle_cls_inputs = {
       .x = input,
   };
 
-  tvmgen_cls_run(&cls_inputs, &cls_outputs);
+  tvmgen_cls_run(&angle_cls_outputs, &angle_cls_inputs);
 
   // post process
   if(output[0] < output[1]) {
-    printf("The input picture is a vertical picture, conf is %.2f\n", output[1]);
+    printf("The input picture is a vertical picture, confidence is %.2f\n", output[1]);
   } else{
-    printf("The input picture is a horizontal picture, conf is %.2f\n",output[0]);
+    printf("The input picture is a horizontal picture, confidence is %.2f\n",output[0]);
   }
 
   // The FVP will shut down when it receives "EXITTHESIM" on the UART

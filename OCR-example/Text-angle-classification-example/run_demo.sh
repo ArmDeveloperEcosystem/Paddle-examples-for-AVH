@@ -146,10 +146,12 @@ echo -e "\e[36mDownload PaddlePaddle inference model\e[0m"
 wget https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_cls_infer.tar
 tar -xf ch_ppocr_mobile_v2.0_cls_infer.tar
 
-# 重命名文件夹
-mv ch_ppocr_mobile_v2.0_cls_infer ppcls
+# rename
+mv ch_ppocr_mobile_v2.0_cls_infer angle_cls
 
-# 导出模型
+# Compile model for Arm(R) Cortex(R)-M55 CPU and CMSIS-NN
+# An alternative to using "python3 -m tvm.driver.tvmc" is to call
+# "tvmc" directly once TVM has been pip installed.
 python3 -m tvm.driver.tvmc compile \
     --target=cmsis-nn,c \
     --target-cmsis-nn-mcpu=cortex-m55 \
@@ -161,13 +163,13 @@ python3 -m tvm.driver.tvmc compile \
     --pass-config tir.usmp.enable=1 \
     --pass-config tir.usmp.algorithm=hill_climb \
     --pass-config tir.disable_storage_rewrite=1 \
-    --pass-config tir.disable_vectorize=1 ppcls/inference.pdmodel \
+    --pass-config tir.disable_vectorize=1 angle_cls/inference.pdmodel \
     --output-format=mlf \
     --model-format=paddle \
-    --module-name=cls \
+    --module-name=text_angle_cls \
     --input-shapes "x:[1,3,48,192]" \
-    --output=cls.tar
-tar -xf cls.tar
+    --output=text_angle_cls.tar
+tar -xf text_angle_cls.tar
 
 # Create C header files
 cd ..

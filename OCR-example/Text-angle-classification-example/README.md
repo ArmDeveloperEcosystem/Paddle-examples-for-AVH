@@ -1,6 +1,4 @@
-English | [简体中文](./README_CN.md)
-
-# Running PPOCR Direction Classifier model on bare metal Arm(R) Cortex(R)-M55 CPU using Arm Virtual Hardware
+# Running PaddleOCR text angle classification model on bare metal Arm(R) Cortex(R)-M55 CPU using Arm Virtual Hardware
 
 This folder contains an example of how to run a PaddleOCR-Cls model on bare
 metal [Cortex(R)-M55 CPU](https://www.arm.com/products/silicon-ip-cpu/cortex-m/cortex-m55)
@@ -42,3 +40,12 @@ Please modify line 174 of this file. For example, you can make the following mod
 ```text
 python3 ./convert_image.py path/to/picture
 ```
+
+Model description
+-----------------
+The example is built on [PP-OCRv3](https://github.com/PaddlePaddle/PaddleOCR/blob/dygraph/doc/doc_ch/PP-OCRv3_introduction.md) English recognition model released by [PaddleOCR](https://github.com/PaddlePaddle/PaddleOCR). 
+
+PP-OCRv3 is the third version of the PP-OCR series model. This series of models has the following features:
+  - PP-OCRv3: ultra-lightweight OCR system: detection (3.6M) + direction classifier (1.4M) + recognition (12M) = 17.0M
+  - Support more than 80 kinds of multi-language recognition models, including English, Chinese, French, German, Arabic, Korean, Japanese and so on. For details
+  - Support vertical text recognition, and long text recognition
