@@ -171,7 +171,7 @@ tar -xf cls.tar
 
 # Create C header files
 cd ..
-python3 ./convert_image.py img/word_10.png
+python3 ./convert_image.py imgs/word_10.png
 
 # Build demo executable
 cd ${script_dir}
