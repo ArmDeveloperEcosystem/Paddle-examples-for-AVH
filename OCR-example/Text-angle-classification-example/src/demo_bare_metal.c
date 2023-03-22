@@ -31,20 +31,20 @@
 int main(int argc, char** argv) {
   uart_init();
   printf("Starting text angle classification inference\n");
-  struct tvmgen_angle_cls_outputs angle_cls_outputs = {
-      .output = output,
+  struct tvmgen_text_angle_cls_outputs text_angle_cls_outputs = {
+      .output = text_angle_cls_output,
   };
-  struct tvmgen_angle_cls_inputs angle_cls_inputs = {
-      .x = input,
+  struct tvmgen_text_angle_cls_inputs text_angle_cls_inputs = {
+      .x = text_angle_cls_input,
   };
 
-  tvmgen_cls_run(&angle_cls_outputs, &angle_cls_inputs);
+  tvmgen_text_angle_cls_run(&text_angle_cls_inputs, &text_angle_cls_outputs);
 
   // post process
-  if(output[0] < output[1]) {
-    printf("The input picture is a vertical picture, confidence is %.2f\n", output[1]);
+  if(text_angle_cls_output[0] >= text_angle_cls_output[1]) {
+    printf("The input picture is a horizontal picture, confidence is %.2f\n",text_angle_cls_output[0]);
   } else{
-    printf("The input picture is a horizontal picture, confidence is %.2f\n",output[0]);
+    printf("The input picture is a vertical picture, confidence is %.2f\n", text_angle_cls_output[1]);
   }
 
   // The FVP will shut down when it receives "EXITTHESIM" on the UART
