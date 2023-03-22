@@ -173,7 +173,7 @@ tar -xf text_angle_cls.tar
 
 # Create C header files
 cd ..
-python3 ./convert_image.py imgs/word_10.png
+python3 ./convert_image.py imgs/vertical_01.png
 
 # Build demo executable
 cd ${script_dir}
