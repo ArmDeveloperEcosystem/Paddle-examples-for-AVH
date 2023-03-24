@@ -40,9 +40,12 @@ fi
 
 echo -e "\e[36mStart setting up running environment\e[0m"
 
+# Remove ethosu
+rm -rf /opt/arm/ethosu/
+
 # Install CMSIS
 echo -e "\e[36mStart installing CMSIS\e[0m"
-CMSIS_PATH="/opt/arm/ethosu/cmsis" 
+CMSIS_PATH="/opt/arm/ethosu/cmsis"
 mkdir -p "${CMSIS_PATH}"
 
 CMSIS_SHA="51263182d16c92649a48144ba56c0945f9fce60e"
