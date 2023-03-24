@@ -20,7 +20,7 @@
 # Setup build environment
 BUILD_DIR := build
 
-ARM_CPU = ARMCM55
+ARM_CPU = ARMCM85
 ETHOSU_PATH = /opt/arm/ethosu
 CMSIS_PATH ?= ${ETHOSU_PATH}/cmsis
 ETHOSU_PLATFORM_PATH ?= ${ETHOSU_PATH}/core_platform
