@@ -40,9 +40,11 @@ if __name__ == "__main__":
     with open("./uart0.txt") as f:
         # Starting cls inference
         f.readline()
-        # index and score
+        
+        # get index and score
         str_text = f.readline()
-        print(str_text)
+        
+        # print detial info
         index_str, score_str = str_text.replace("\n", "").split(",")
         index = int(index_str)
         score = float(score_str)
