@@ -62,15 +62,19 @@ echo -e "\e[36mCMSIS Installation SUCCESS\e[0m"
 # Install Arm(R) Ethos(TM)-U NPU driver stack
 echo -e "\e[36mStart installing Arm(R) Ethos(TM)-U NPU driver stack\e[0m"
 git clone "https://review.mlplatform.org/ml/ethos-u/ethos-u-core-platform" /opt/arm/ethosu/core_platform 
-cd /opt/arm/ethosu/core_platform 
 echo -e "\e[36mArm(R) Ethos(TM)-U Core Platform Installation SUCCESS\e[0m"
  
 # Install Arm(R) GNU Toolchain
 echo -e "\e[36mStart installing Arm(R) GNU Toolchain\e[0m"
-mkdir -p /opt/arm/gcc-arm-none-eabi
-export gcc_arm_url='https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2?revision=ca0cbf9c-9de2-491c-ac48-898b5bbc0443&la=en&hash=68760A8AE66026BCF99F05AC017A6A50C6FD832A'
-curl --retry 64 -sSL ${gcc_arm_url} | tar -C /opt/arm/gcc-arm-none-eabi --strip-components=1 -jx 
-export PATH=/opt/arm/gcc-arm-none-eabi/bin:$PATH 
+sudo rm -rf /opt/arm/gcc-arm-none-eabi
+sudo mkdir -p /opt/arm/gcc-arm-none-eabi
+cd /opt/arm/gcc-arm-none-eabi
+export gcc_arm_url='https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu/12.2.mpacbti-rel1/binrel/arm-gnu-toolchain-12.2.mpacbti-rel1-x86_64-arm-none-eabi.tar.xz'
+wget ${gcc_arm_url}
+sudo xz -d arm-gnu-toolchain-12.2.mpacbti-rel1-x86_64-arm-none-eabi.tar.xz
+sudo tar -xvf arm-gnu-toolchain-12.2.mpacbti-rel1-x86_64-arm-none-eabi.tar -C /opt/arm/gcc-arm-none-eabi
+sudo rm -rf arm-gnu-toolchain-12.2.mpacbti-rel1-x86_64-arm-none-eabi.tar
+export PATH=/opt/arm/gcc-arm-none-eabi/arm-gnu-toolchain-12.2.mpacbti-rel1-x86_64-arm-none-eabi/bin:$PATH
 arm-none-eabi-gcc --version
 arm-none-eabi-g++ --version
 echo -e "\e[36mArm(R) Arm(R) GNU Toolchain Installation SUCCESS\e[0m"

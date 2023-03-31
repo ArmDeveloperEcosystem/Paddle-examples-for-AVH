@@ -123,14 +123,9 @@ while (( $# )); do
 done
 
 # Choose running environment: cloud(default) or local environment
-Platform="VHT_Corstone_SSE-300_Ethos-U55"
-if [ $FVP_enable == "1" ]; then
-	Platform="FVP_Corstone_SSE-300_Ethos-U55"
-	echo -e "\e[36mRun application on local Fixed Virtual Platforms (FVPs)\e[0m"
-else
-	if [ ! -d "/opt/arm/" ]; then
+Platform="VHT_Corstone_SSE-310"
+if [ ! -d "/opt/arm/" ]; then
 		sudo ./configure_avh.sh
-	fi
 fi
 
 # Directories
@@ -154,8 +149,8 @@ mv ch_ppocr_mobile_v2.0_cls_infer angle_cls
 # "tvmc" directly once TVM has been pip installed.
 python3 -m tvm.driver.tvmc compile \
     --target=cmsis-nn,c \
-    --target-cmsis-nn-mcpu=cortex-m55 \
-    --target-c-mcpu=cortex-m55 \
+    --target-cmsis-nn-mcpu=cortex-m85 \
+    --target-c-mcpu=cortex-m85 \
     --runtime=crt \
     --executor=aot \
     --executor-aot-interface-api=c \

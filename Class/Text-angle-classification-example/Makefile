@@ -25,8 +25,8 @@ ETHOSU_PATH = /opt/arm/ethosu
 CMSIS_PATH ?= ${ETHOSU_PATH}/cmsis
 ETHOSU_PLATFORM_PATH ?= ${ETHOSU_PATH}/core_platform
 STANDALONE_CRT_PATH := $(abspath $(BUILD_DIR))/runtime
-CORSTONE_300_PATH = ${ETHOSU_PLATFORM_PATH}/targets/corstone-300
-PKG_COMPILE_OPTS = -g -Wall -O2 -Wno-incompatible-pointer-types -Wno-format -mcpu=cortex-m55 -mthumb -mfloat-abi=hard -std=gnu99
+CORSTONE_310_PATH = ${ETHOSU_PLATFORM_PATH}/targets/corstone-310
+PKG_COMPILE_OPTS = -g -Wall -O2 -Wno-incompatible-pointer-types -Wno-format -mcpu=cortex-m85 -mthumb -mfloat-abi=hard -std=gnu99
 CMAKE ?= cmake
 CC = arm-none-eabi-gcc
 AR = arm-none-eabi-ar
@@ -35,16 +35,17 @@ PKG_CFLAGS = ${PKG_COMPILE_OPTS} \
 	-I${STANDALONE_CRT_PATH}/include \
 	-I${STANDALONE_CRT_PATH}/src/runtime/crt/include \
 	-I${PWD}/include \
-	-I${CORSTONE_300_PATH} \
+	-I${ETHOSU_PLATFORM_PATH}/drivers/uart/include \
+	-I${CORSTONE_310_PATH} \
 	-I${CMSIS_PATH}/Device/ARM/${ARM_CPU}/Include/ \
 	-I${CMSIS_PATH}/CMSIS/Core/Include \
 	-I${CMSIS_PATH}/CMSIS/NN/Include \
 	-I${CMSIS_PATH}/CMSIS/DSP/Include \
 	-I$(abspath $(BUILD_DIR))/codegen/host/include
 CMSIS_NN_CMAKE_FLAGS = -DCMAKE_TOOLCHAIN_FILE=$(abspath $(BUILD_DIR))/../arm-none-eabi-gcc.cmake \
-	-DTARGET_CPU=cortex-m55 \
+	-DTARGET_CPU=cortex-m85 \
 	-DBUILD_CMSIS_NN_FUNCTIONS=YES
-PKG_LDFLAGS = -lm -specs=nosys.specs -static -T corstone300.ld
+PKG_LDFLAGS = -lm -specs=nosys.specs -static -T corstone310.ld
 
 $(ifeq VERBOSE,1)
 QUIET ?=
@@ -56,7 +57,8 @@ DEMO_MAIN = src/demo_bare_metal.c
 CODEGEN_SRCS = $(wildcard $(abspath $(BUILD_DIR))/codegen/host/src/*.c)
 CODEGEN_OBJS = $(subst .c,.o,$(CODEGEN_SRCS))
 CMSIS_STARTUP_SRCS = $(wildcard ${CMSIS_PATH}/Device/ARM/${ARM_CPU}/Source/*.c)
-UART_SRCS = $(wildcard ${CORSTONE_300_PATH}/*.c)
+UART_DRIVER_SRCS = $(wildcard ${ETHOSU_PLATFORM_PATH}/drivers/uart/src/*.c)
+UART_SRCS = $(wildcard ${CORSTONE_310_PATH}/*.c)
 
 demo: $(BUILD_DIR)/demo
 
@@ -64,7 +66,15 @@ $(BUILD_DIR)/stack_allocator.o: $(STANDALONE_CRT_PATH)/src/runtime/crt/memory/st
 	$(QUIET)mkdir -p $(@D)
 	$(QUIET)$(CC) -c $(PKG_CFLAGS) -o $@  $^
 
+$(BUILD_DIR)/stack_allocator.o: $(STANDALONE_CRT_PATH)/src/runtime/crt/memory/stack_allocator.c
+	$(QUIET)mkdir -p $(@D)
+	$(QUIET)$(CC) -c $(PKG_CFLAGS) -o $@  $^
+
 $(BUILD_DIR)/crt_backend_api.o: $(STANDALONE_CRT_PATH)/src/runtime/crt/common/crt_backend_api.c
+	$(QUIET)mkdir -p $(@D)
+	$(QUIET)$(CC) -c $(PKG_CFLAGS) -o $@  $^
+
+${BUILD_DIR}/uart_cmsdk_apb.o: ${ETHOSU_PLATFORM_PATH}/drivers/uart/src/uart_cmsdk_apb.c
 	$(QUIET)mkdir -p $(@D)
 	$(QUIET)$(CC) -c $(PKG_CFLAGS) -o $@  $^
 
@@ -80,6 +90,12 @@ ${BUILD_DIR}/libcmsis_startup.a: $(CMSIS_STARTUP_SRCS)
 	$(QUIET)cd $(abspath $(BUILD_DIR)/libcmsis_startup) && $(CC) -c $(PKG_CFLAGS) -D${ARM_CPU} $^
 	$(QUIET)$(AR) -cr $(abspath $(BUILD_DIR)/libcmsis_startup.a) $(abspath $(BUILD_DIR))/libcmsis_startup/*.o
 	$(QUIET)$(RANLIB) $(abspath $(BUILD_DIR)/libcmsis_startup.a)
+
+#${BUILD_DIR}/libuart_driver.a: $(UART_DRIVER_SRCS)
+#	$(QUIET)mkdir -p $(abspath $(BUILD_DIR)/libuart_driver)
+#	$(QUIET)cd $(abspath $(BUILD_DIR)/libuart_driver) && $(CC) -c $(PKG_CFLAGS) -D${ARM_CPU} $^
+#	$(QUIET)$(AR) -cr $(abspath $(BUILD_DIR)/libuart_driver.a) $(abspath $(BUILD_DIR))/libuart_driver/*.o
+#	$(QUIET)$(RANLIB) $(abspath $(BUILD_DIR)/libuart_driver.a)
 
 CMSIS_SHA_FILE=${CMSIS_PATH}/51263182d16c92649a48144ba56c0945f9fce60e.sha
 ifneq ("$(wildcard $(CMSIS_SHA_FILE))","")
@@ -98,7 +114,8 @@ endif
 # Build demo application
 ifneq ("$(wildcard $(CMSIS_SHA_FILE))","")
 $(BUILD_DIR)/demo: $(DEMO_MAIN) $(UART_SRCS) $(BUILD_DIR)/stack_allocator.o $(BUILD_DIR)/crt_backend_api.o \
-	${BUILD_DIR}/libcodegen.a ${BUILD_DIR}/libcmsis_startup.a ${BUILD_DIR}/cmsis_nn/Source/libcmsis-nn.a
+	${BUILD_DIR}/libcodegen.a ${BUILD_DIR}/libcmsis_startup.a ${BUILD_DIR}/cmsis_nn/Source/libcmsis-nn.a \
+	${BUILD_DIR}/uart_cmsdk_apb.o
 	$(QUIET)mkdir -p $(@D)
 	$(QUIET)$(CC) $(PKG_CFLAGS) $(FREERTOS_FLAGS) -o $@ -Wl,--whole-archive $^ -Wl,--no-whole-archive $(PKG_LDFLAGS)
 else
