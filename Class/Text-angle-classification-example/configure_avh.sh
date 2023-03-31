@@ -63,7 +63,6 @@ echo -e "\e[36mCMSIS Installation SUCCESS\e[0m"
 echo -e "\e[36mStart installing Arm(R) Ethos(TM)-U NPU driver stack\e[0m"
 git clone "https://review.mlplatform.org/ml/ethos-u/ethos-u-core-platform" /opt/arm/ethosu/core_platform 
 cd /opt/arm/ethosu/core_platform 
-#git checkout tags/"21.11"
 echo -e "\e[36mArm(R) Ethos(TM)-U Core Platform Installation SUCCESS\e[0m"
  
 # Install Arm(R) GNU Toolchain
