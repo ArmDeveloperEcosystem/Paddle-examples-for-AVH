@@ -27,6 +27,7 @@
 
 
 int main(int argc, char** argv) {
+  UartStdOutInit();
   printf("Starting cls inference\n");
   struct tvmgen_cls_outputs cls_outputs = {
       .output = output,

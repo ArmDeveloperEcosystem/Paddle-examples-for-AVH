@@ -1,111 +1,102 @@
 /*
- * Copyright (c) 2009-2022 Arm Limited. All rights reserved.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- * SPDX-License-Identifier: Apache-2.0
+ *   http://www.apache.org/licenses/LICENSE-2.0
  *
- * Licensed under the Apache License, Version 2.0 (the License); you may
- * not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an AS IS BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
  */
+
+/*------------------ Reference System Memories -------------
+  +===================+============+=======+============+============+
+  | Memory            | Address    | Size  | CPU Access | NPU Access |
+  +===================+============+=======+============+============+
+  | ITCM              | 0x00000000 | 512KB | Yes (RO)   | No         |
+  +-------------------+------------+-------+------------+------------+
+  | DTCM              | 0x20000000 | 512KB | Yes (R/W)  | No         |
+  +-------------------+------------+-------+------------+------------+
+  | SSE-300 SRAM      | 0x21000000 |   2MB | Yes (R/W)  | Yes (R/W)  |
+  +-------------------+------------+-------+------------+------------+
+  | Data SRAM         | 0x01000000 |   2MB | Yes (R/W)  | Yes (R/W)  |
+  +-------------------+------------+-------+------------+------------+
+  | DDR               | 0x60000000 |  32MB | Yes (R/W)  | Yes (R/W)  |
+  +-------------------+------------+-------+------------+------------+ */
+
+/*---------------------- ITCM Configuration ----------------------------------
+  <h> Flash Configuration
+    <o0> Flash Base Address <0x0-0xFFFFFFFF:8>
+    <o1> Flash Size (in Bytes) <0x0-0xFFFFFFFF:8>
+  </h>
+  -----------------------------------------------------------------------------*/
+__ROM_BASE = 0x00000000;
+__ROM_SIZE = 0x00008000;
+
+/*--------------------- DTCM RAM Configuration ----------------------------
+  <h> RAM Configuration
+    <o0> RAM Base Address    <0x0-0xFFFFFFFF:8>
+    <o1> RAM Size (in Bytes) <0x0-0xFFFFFFFF:8>
+  </h>
+ -----------------------------------------------------------------------------*/
+__RAM_BASE = 0x20000000;
+__RAM_SIZE = 0x00008000;
+
+/*----------------------- Data SRAM Configuration ------------------------------
+  <h> Data SRAM Configuration
+    <o0> DATA_SRAM Base Address    <0x0-0xFFFFFFFF:8>
+    <o1> DATA_SRAM Size (in Bytes) <0x0-0xFFFFFFFF:8>
+  </h>
+ -----------------------------------------------------------------------------*/
+__DATA_SRAM_BASE = 0x01000000;
+__DATA_SRAM_SIZE = 0x00200000;
+
+/*--------------------- Embedded SRAM Configuration ----------------------------
+  <h> SRAM Configuration
+    <o0> SRAM Base Address    <0x0-0xFFFFFFFF:8>
+    <o1> SRAM Size (in Bytes) <0x0-0xFFFFFFFF:8>
+  </h>
+ -----------------------------------------------------------------------------*/
+__SRAM_BASE = 0x21000000;
+__SRAM_SIZE = 0x00400000;
+
+/*--------------------- Stack / Heap Configuration ----------------------------
+  <h> Stack / Heap Configuration
+    <o0> Stack Size (in Bytes) <0x0-0xFFFFFFFF:8>
+    <o1> Heap Size (in Bytes) <0x0-0xFFFFFFFF:8>
+  </h>
+  -----------------------------------------------------------------------------*/
+__STACK_SIZE = 0x00008000;
+__HEAP_SIZE  = 0x00008000;
+
+/*--------------------- Embedded RAM Configuration ----------------------------
+  <h> DDR Configuration
+    <o0> DDR Base Address    <0x0-0xFFFFFFFF:8>
+    <o1> DDR Size (in Bytes) <0x0-0xFFFFFFFF:8>
+  </h>
+ -----------------------------------------------------------------------------*/
+__DDR_BASE = 0x60000000;
+__DDR_SIZE = 0x10000000;
 
 /*
- * Corstone-310 is the next generation Corstone-300 where the CPU
- * has been upgraded to Cortex-M85.
- *
- * This is a simplified picture of the Corstone-310 memory system.
- * Please refer to the Corstone SSE-310 Technical Reference Manual for
- * further information.
- *
- * https://developer.arm.com/ip-products/subsystem/corstone/corstone-300
- *
- * +---------------+   +---------------+  +------+
- * | Ethos-U55     |   | Cortex-M85    +--+ ITCM |
- * |               |   |               |  +------+
- * |               |   |               |
- * |               |   |               |  +------+
- * |  M1      M0   |   |               +--+ DTCM |
- * +---+-------+---+   +-------+-------+  +------+
- *     |       |               |
- *     |   +---+---------------+-----+
- *     |   | AMBA AXI NIC-400-Lite   |
- *     |   +---+-----------------+---+
- *     |       |                 |
- * +---+-------+------------+ +--+-------+
- * | AMBA AXI NIC-400       | | SSE-300  |
- * +---+--------+--------+--+ | SRAM     |
- *     |        |        |    +----------+
- * +---+---+ +--+---+ +--+--+
- * | Flash | | BRAM | | DDR |
- * +-------+ +------+ +-----+
- *
- * +-----------------------+-------------+-------------+----+--------------------------------------+
- * |  Memory region name   | Base addr   |    Size     |IDAU|  MCC load address + remarks          |
- * +-----------------------+-------------+-------------+----+--------------------------------------+
- * | ITCM                  | 0x0000_0000 | 0x0000_8000 | NS | 32 kiB                               |
- * | ITCM                  | 0x1000_0000 | 0x0000_8000 | S  | Secure alias for NS ITCM             |
- * | FPGA Data SRAM; BRAM  | 0x0100_0000 | 0x0020_0000 | NS | 2 MiB                                |
- * | FPGA data SRAM; BRAM  | 0x1100_0000 | 0x0020_0000 | S  | Secure alias for NS BRAM             |
- * | DTCM                  | 0x2000_0000 | 0x0000_8000 | NS | 32 kiB                               |
- * | DTCM                  | 0x3000_0000 | 0x0000_8000 | S  | Secure alias for NS DTCM             |
- * | SSE-300 internal SRAM | 0x2100_0000 | 0x0040_0000 | NS | 2 banks of 2 MiB; 3 cycles latency   |
- * | SSE-300 internal SRAM | 0x3100_0000 | 0x0040_0000 | S  | Secure alias for NS internal SRAM    |
- * | DDR                   | 0x6000_0000 | 0x1000_0000 | NS | 256 MB bank                          |
- * | DDR                   | 0x7000_0000 | 0x1000_0000 | S  | Secure alias for NS DDR              |
- * +-----------------------+-------------+-------------+----+--------------------------------------+
- *
- *  Note: Ethos-U55 can access BRAM, internal SRAM and the DDR sections => activation buffers and
- *        the model should only be placed in those regions.
- *
- *  Note: Alias regions means that secure and non-secure addresses are mapped to the same physical
- *        memory banks.
+ *-------------------- <<< end of configuration section >>> -------------------
  */
-
-/* default value - '1', for DRAM */
-/*#ifndef ETHOSU_MODEL*/
-/*#define ETHOSU_MODEL  1*/
-/*#endif*/
-
-/* default value - '1', for DRAM */
-/*#ifndef ETHOSU_ARENA*/
-/*#define ETHOSU_ARENA  1*/
-/*#endif*/
-
-/*#ifndef STACK_SIZE*/
-/*#define STACK_SIZE 0x8000*/
-/*#endif*/
-
-/*#ifndef HEAP_SIZE*/
-/*#define HEAP_SIZE 0x10000*/
-/*#endif*/
-
-/*__STACK_SIZE = STACK_SIZE;*/
-/*__HEAP_SIZE  = HEAP_SIZE;*/
-__STACK_SIZE = 0x8000;
-__HEAP_SIZE  = 0x10000;
 
 MEMORY
 {
-  ITCM  (rx)  : ORIGIN = 0x10000000, LENGTH = 0x00008000
-  BRAM  (rw)  : ORIGIN = 0x11000000, LENGTH = 0x00200000
-  DTCM  (rw)  : ORIGIN = 0x30000000, LENGTH = 0x00008000
-  SRAM  (rw)  : ORIGIN = 0x31000000, LENGTH = 0x00400000
-  QSPI  (rw)  : ORIGIN = 0x38000000, LENGTH = 0x00800000
-  DDR   (rwx) : ORIGIN = 0x70000000, LENGTH = 0x10000000
-}
-
-PHDRS
-{
-    rom_exec PT_LOAD;
-    rom_dram PT_LOAD;
-    null     PT_NULL;
+  ITCM       (rx)  : ORIGIN = __ROM_BASE, LENGTH = __ROM_SIZE
+  DTCM       (rwx) : ORIGIN = __RAM_BASE, LENGTH = __RAM_SIZE
+  DATA_SRAM  (rwx) : ORIGIN = __DATA_SRAM_BASE, LENGTH = __DATA_SRAM_SIZE
+  SRAM       (rwx) : ORIGIN = __SRAM_BASE, LENGTH = __SRAM_SIZE
+  DDR        (rwx) : ORIGIN = __DDR_BASE, LENGTH = __DDR_SIZE
 }
 
 /* Linker script to place sections and symbol values. Should be used together
@@ -138,18 +129,27 @@ PHDRS
  *   __StackTop
  *   __stack
  */
-
 ENTRY(Reset_Handler)
 
 SECTIONS
 {
+  /* .ddr is placed before .text so that .rodata.tvm is encountered before .rodata* */
+  .ddr :
+  {
+    . = ALIGN (16);
+    *(.rodata.tvm)
+    . = ALIGN (16);
+    *(.data.tvm);
+    . = ALIGN(16);
+  } > DDR
+
   .text :
   {
     KEEP(*(.vectors))
-    *crt* (.text*)
+    *(.text*)
     *startup_ARMCM85.c.obj (.text*)
     *system_ARMCM85.c.obj (.text*)
-    *target.cpp.obj (.text*)
+/*    *target.cpp.obj (.text*)*/
 
     KEEP(*(.init))
     KEEP(*(.fini))
@@ -168,83 +168,59 @@ SECTIONS
     *(SORT(.dtors.*))
     *(.dtors)
 
-    *(.text*)
-
-    KEEP(*(.eh_frame*))
-  } > BRAM :rom_exec
-
-  .data :
-  {
-    . = ALIGN(4);
-    __data_start__ = .;
-
-    *(vtable)
-    *(.data)
-    *(.data.*)
     *(.rodata*)
 
-    . = ALIGN(4);
-    __data_end__ = .;
-  } > BRAM :rom_exec
-  /*
-   * SG veneers:
-   * All SG veneers are placed in the special output section .gnu.sgstubs. Its start address
-   * must be set, either with the command line option '--section-start' or in a linker script,
-   * to indicate where to place these veneers in memory.
-   */
-/*
-  .gnu.sgstubs :
-  {
-    . = ALIGN(32);
-  } > BRAM :rom_exec
-*/
+    KEEP(*(.eh_frame*))
+  } > DATA_SRAM
+
   .ARM.extab :
   {
     *(.ARM.extab* .gnu.linkonce.armextab.*)
-  } > BRAM :rom_exec
+  } > ITCM
 
+  __exidx_start = .;
   .ARM.exidx :
   {
-  __exidx_start = .;
     *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+  } > ITCM
   __exidx_end = .;
-  } > BRAM :rom_exec
 
   .copy.table :
   {
     . = ALIGN(4);
     __copy_table_start__ = .;
-
-    LONG (LOADADDR(.sram))
-    LONG (ADDR(.sram))
-    LONG (SIZEOF(.sram) / 4)
-
+    LONG (__etext)
+    LONG (__data_start__)
+    LONG (__data_end__ - __data_start__)
+    /* Add each additional data section here */
     __copy_table_end__ = .;
-  } > BRAM :rom_exec
+  } > ITCM
 
   .zero.table :
   {
     . = ALIGN(4);
     __zero_table_start__ = .;
-
-    LONG (ADDR(.bss))
-    LONG (SIZEOF(.bss) / 4)
-
-    LONG (ADDR(.sram.bss))
-    LONG (SIZEOF(.sram.bss) / 4)
-
     __zero_table_end__ = .;
-  } > BRAM :rom_exec
+  } > ITCM
 
-  .sram : AT(__etext)
+  /**
+   * Location counter can end up 2byte aligned with narrow Thumb code but
+   * __etext is assumed by startup code to be the LMA of a section in DTCM
+   * which must be 4byte aligned
+   */
+  __etext = ALIGN (4);
+
+  .sram :
   {
-/*#if (ETHOSU_MODEL == 0)*/
-/*    . = ALIGN(16);*/
-/*    *(network_model_sec)*/
-/*#endif*/
-
     . = ALIGN(16);
-    *(.sram.data)
+  } > SRAM AT > SRAM
+
+  .data : AT (__etext)
+  {
+    __data_start__ = .;
+    *(vtable)
+    *(.data)
+    *(.data.*)
 
     . = ALIGN(4);
     /* preinit data */
@@ -259,6 +235,7 @@ SECTIONS
     KEEP(*(.init_array))
     PROVIDE_HIDDEN (__init_array_end = .);
 
+
     . = ALIGN(4);
     /* finit data */
     PROVIDE_HIDDEN (__fini_array_start = .);
@@ -267,61 +244,34 @@ SECTIONS
     PROVIDE_HIDDEN (__fini_array_end = .);
 
     KEEP(*(.jcr*))
-  } > SRAM :rom_dram
-
-  .sram.bss :
-  {
-/*#if (ETHOSU_ARENA == 0)*/
-/*    . = ALIGN(16);*/
-/*    *(.bss.tensor_arena)*/
-/*#endif*/
-
-    . = ALIGN(16);
-    *(.bss.ethosu_scratch);
-  } > SRAM :null
-
-  .ddr :
-  {
-/*#if (ETHOSU_ARENA == 1)*/
-    . = ALIGN(16);
-    *(.bss.tensor_arena)
-/*#endif*/
-
-/*#if (ETHOSU_MODEL == 1)*/
-    . = ALIGN(16);
-    *(network_model_sec)
-/*#endif*/
-
     . = ALIGN(4);
-    *(input_data_sec)
-    *(expected_output_data_sec)
-    *(output_data_sec)
+    /* All data end */
+    __data_end__ = .;
 
-    *(ethosu_core_in_queue ethosu_core_out_queue)
+  } > DATA_SRAM
 
-    /* Place data for scatter loading here */
-    __etext = .;
-  } > DDR :rom_dram
-
-    .bss.noinit (NOLOAD):
-    {
+  .bss.noinit (NOLOAD):
+  {
     . = ALIGN(16);
     *(.bss.noinit.*)
     . = ALIGN(16);
-    } > DDR AT > DDR
+  } > DDR AT > DDR
 
   .bss :
   {
     . = ALIGN(4);
     __bss_start__ = .;
-
     *(.bss)
     *(.bss.*)
     *(COMMON)
-
     . = ALIGN(4);
     __bss_end__ = .;
-  } > DTCM AT > DTCM
+  } > DATA_SRAM AT > DATA_SRAM
+
+  .data_sram :
+  {
+    . = ALIGN(16);
+  } > DATA_SRAM
 
   .heap (COPY) :
   {
@@ -331,7 +281,7 @@ SECTIONS
     . = . + __HEAP_SIZE;
     . = ALIGN(8);
     __HeapLimit = .;
-  } > BRAM :null
+  } > DTCM
 
   .stack (ORIGIN(DTCM) + LENGTH(DTCM) - __STACK_SIZE) (COPY) :
   {
@@ -340,9 +290,9 @@ SECTIONS
     . = . + __STACK_SIZE;
     . = ALIGN(8);
     __StackTop = .;
-  } > DTCM :null
+  } > DTCM
   PROVIDE(__stack = __StackTop);
 
-  /* Check if data + heap + stack exceeds DTCM limit */
-  ASSERT(LENGTH(DTCM) >= __STACK_SIZE, "region DTCM overflowed with stack")
+  /* Check if data + stack exceeds DTCM limit */
+  ASSERT(__StackLimit >= __bss_end__, "region DTCM overflowed with stack")
 }
