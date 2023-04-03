@@ -186,7 +186,6 @@ SECTIONS
     . = ALIGN(4);
     __data_end__ = .;
   } > BRAM :rom_exec
-
   /*
    * SG veneers:
    * All SG veneers are placed in the special output section .gnu.sgstubs. Its start address
@@ -304,6 +303,13 @@ SECTIONS
     __etext = .;
   } > DDR :rom_dram
 
+    .bss.noinit (NOLOAD):
+    {
+    . = ALIGN(16);
+    *(.bss.noinit.*)
+    . = ALIGN(16);
+    } > DDR AT > DDR
+
   .bss :
   {
     . = ALIGN(4);
@@ -315,7 +321,7 @@ SECTIONS
 
     . = ALIGN(4);
     __bss_end__ = .;
-  } > BRAM :null
+  } > DTCM AT > DTCM
 
   .heap (COPY) :
   {

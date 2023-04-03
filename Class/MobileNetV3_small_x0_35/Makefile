@@ -91,6 +91,12 @@ ${BUILD_DIR}/libcmsis_startup.a: $(CMSIS_STARTUP_SRCS)
 	$(QUIET)$(AR) -cr $(abspath $(BUILD_DIR)/libcmsis_startup.a) $(abspath $(BUILD_DIR))/libcmsis_startup/*.o
 	$(QUIET)$(RANLIB) $(abspath $(BUILD_DIR)/libcmsis_startup.a)
 
+#${BUILD_DIR}/libuart_driver.a: $(UART_DRIVER_SRCS)
+#	$(QUIET)mkdir -p $(abspath $(BUILD_DIR)/libuart_driver)
+#	$(QUIET)cd $(abspath $(BUILD_DIR)/libuart_driver) && $(CC) -c $(PKG_CFLAGS) -D${ARM_CPU} $^
+#	$(QUIET)$(AR) -cr $(abspath $(BUILD_DIR)/libuart_driver.a) $(abspath $(BUILD_DIR))/libuart_driver/*.o
+#	$(QUIET)$(RANLIB) $(abspath $(BUILD_DIR)/libuart_driver.a)
+
 CMSIS_SHA_FILE=${CMSIS_PATH}/51263182d16c92649a48144ba56c0945f9fce60e.sha
 ifneq ("$(wildcard $(CMSIS_SHA_FILE))","")
 ${BUILD_DIR}/cmsis_nn/Source/libcmsis-nn.a:

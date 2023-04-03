@@ -138,15 +138,15 @@ cd build
 
 # Get PaddlePaddle inference model
 echo -e "\e[36mDownload PaddlePaddle inference model\e[0m"
-wget https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/PPLCNetV2_base_infer.tar
-tar -xf PPLCNetV2_base_infer.tar
+wget https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/MobileNetV3_small_x0_35_ssld_infer.tar
+tar -xf MobileNetV3_small_x0_35_ssld_infer.tar
 
-# Compile model for Arm(R) Cortex(R)-M55 CPU and CMSIS-NN
+# Compile model for Arm(R) Cortex(R)-M85 CPU and CMSIS-NN
 # An alternative to using "python3 -m tvm.driver.tvmc" is to call
 # "tvmc" directly once TVM has been pip installed.
 python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
-    --target-cmsis-nn-mcpu=cortex-m55 \
-    --target-c-mcpu=cortex-m55 \
+    --target-cmsis-nn-mcpu=cortex-m85 \
+    --target-c-mcpu=cortex-m85 \
     --runtime=crt \
     --executor=aot \
     --executor-aot-interface-api=c \
@@ -154,7 +154,7 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --pass-config tir.usmp.enable=1 \
     --pass-config tir.usmp.algorithm=hill_climb \
     --pass-config tir.disable_storage_rewrite=1 \
-    --pass-config tir.disable_vectorize=1 PPLCNetV2_base_infer/inference.pdmodel \
+    --pass-config tir.disable_vectorize=1 MobileNetV3_small_x0_35_ssld_infer/inference/inference.pdmodel \
     --output-format=mlf \
     --model-format=paddle \
     --module-name=cls \
@@ -167,13 +167,14 @@ cd ..
 python3 ./convert_image.py ./img_and_label/ILSVRC2012_val_00000010.jpeg
 
 # Build demo executable
+export PATH=/opt/arm/gcc-arm-none-eabi/arm-gnu-toolchain-12.2.mpacbti-rel1-x86_64-arm-none-eabi/bin:$PATH
 cd ${script_dir}
 echo ${script_dir}
 make
 
 # Run demo executable on the AVH
 $Platform -C cpu0.CFGDTCMSZ=15 \
--C cpu0.CFGITCMSZ=15 -C mps3_board.uart0.out_file=\"-\" -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
+-C cpu0.CFGITCMSZ=15 -C mps3_board.uart0.out_file=\"./uart0.txt\" -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
 -C mps3_board.visualisation.disable-visualisation=1 -C mps3_board.telnetterminal0.start_telnet=0 \
 -C mps3_board.telnetterminal1.start_telnet=0 -C mps3_board.telnetterminal2.start_telnet=0 -C mps3_board.telnetterminal5.start_telnet=0 \
 ./build/demo --stat
