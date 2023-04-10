@@ -84,8 +84,8 @@ the locations for these can be specified as arguments to run_demo.sh, for exampl
 
 With [run_demo.sh](run_demo.sh) to run the demo application, it will:
 - Set up running environment by installing the required prerequisites automatically if running in Arm Virtual Hardware Amazon AMI instance(not specify --enable_FVP to 1)
-- Download a PaddleClas Classification model
-- Use tvmc to compile the Classification model for Cortex(R)-M55 CPU and CMSIS-NN
+- Download a PaddleClas classification model.
+- Use tvmc to compile the classification model for Cortex(R)-M55 CPU and CMSIS-NN
 - Create a C header file inputs.c containing the image data as a C array
 - Create a C header file outputs.c containing a C array where the output of inference will be stored
 - Build the demo application
@@ -102,6 +102,11 @@ The demo can be modified to use an image of your choice by changing the followin
 ```bash
 python3 ./convert_image.py path/to/img_and_label
 ```
+
+Post process of the inference results
+--------------------
+The `labels/label_list.txt` stores the label information of the model.
+The `labels/convert_label.py` will correspond the output information transmitted from the serial port to the label one by one.
 
 Model description
 -----------------

@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
   }
   printf("%d,%f\n", index, output[index]);
 
-  // The FVP will shut down when it clseives "EXITTHESIM" on the UART
+  // The FVP will shut down when it receives "EXITTHESIM" on the UART
   printf("EXITTHESIM\n");
   while (1 == 1)
     ;

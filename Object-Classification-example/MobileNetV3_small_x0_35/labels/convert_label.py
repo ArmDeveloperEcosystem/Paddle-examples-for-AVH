@@ -37,7 +37,7 @@ def create_label_list(file_path="./img_and_label/imagenet1k_label_list.txt"):
 
 if __name__ == "__main__":
     label_list = create_label_list(sys.argv[1])
-    with open("./uart0.txt") as f:
+    with open("./result.txt") as f:
         # Starting cls inference
         f.readline()
         
@@ -48,4 +48,4 @@ if __name__ == "__main__":
         index_str, score_str = str_text.replace("\n", "").split(",")
         index = int(index_str)
         score = float(score_str)
-        print(f"index is {index}, max score is {score}, label is {label_list[index]}")
+        print(f"The label index is {index}, Max score is {score}, The classification result is {label_list[index]}")
