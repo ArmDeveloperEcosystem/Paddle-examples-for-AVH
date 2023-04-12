@@ -1,0 +1,3 @@
+# About Dataset
+* The test image [OIF-e2bexWrojgtQnAPPcUfOWQ.jpeg](./OIF-e2bexWrojgtQnAPPcUfOWQ.jpeg) for this example comes from [Animals-10](https://www.kaggle.com/datasets/alessiocorrado99/animals10). You can also visit [Kaggle](https://www.kaggle.com/datasets/alessiocorrado99/animals10) page to obtain the images. It is used for verifying the inference results of PaddleClas model running on AVH Corstone 300 platform with Cortex-M55 CPU. 
+* [Animals-10](https://www.kaggle.com/datasets/alessiocorrado99/animals10) use [GPL2](http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) license.
