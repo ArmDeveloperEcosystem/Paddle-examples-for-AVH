@@ -26,10 +26,9 @@ def create_label_list(file_path="./img_and_label/imagenet1k_label_list.txt"):
         line_text = f.readline().replace("\n", "")
         while line_text:
             split_line_list = line_text.split(" ")
-            label = ""
-            for i in range(1, len(split_line_list)):
-                label += split_line_list[i]
-            label = label.split(",")[-1].replace(" ", "_")
+            label = " "
+            label = label.join(split_line_list[1:])
+            label = label.split(",")[-1]
             label_list.append(label)
             line_text = f.readline().replace("\n", "")
     return label_list
@@ -40,10 +39,10 @@ if __name__ == "__main__":
     with open("./result.txt") as f:
         # Starting cls inference
         f.readline()
-        
+
         # get index and score
         str_text = f.readline()
-        
+
         # print detial info
         index_str, score_str = str_text.replace("\n", "").split(",")
         index = int(index_str)
