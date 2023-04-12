@@ -168,8 +168,8 @@ tar -xf clas.tar
 
 # Create C header files
 cd ..
-python3 ./convert_labels.py image/labels.txt
-python3 ./convert_image.py image/daisy.jpg
+python3 labels/convert_labels.py labels/labels.txt
+python3 ./convert_image.py image/ILSVRC2012_val_00020010.jpg
 
 # Build demo executable
 cd ${script_dir}
