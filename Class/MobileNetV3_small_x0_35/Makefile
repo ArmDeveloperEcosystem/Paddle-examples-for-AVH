@@ -45,7 +45,7 @@ PKG_CFLAGS = ${PKG_COMPILE_OPTS} \
 CMSIS_NN_CMAKE_FLAGS = -DCMAKE_TOOLCHAIN_FILE=$(abspath $(BUILD_DIR))/../arm-none-eabi-gcc.cmake \
 	-DTARGET_CPU=cortex-m85 \
 	-DBUILD_CMSIS_NN_FUNCTIONS=YES
-PKG_LDFLAGS = -lm -specs=nosys.specs -static -T corstone300.ld
+PKG_LDFLAGS = -lm -specs=nosys.specs -static -T corstone310.ld
 
 $(ifeq VERBOSE,1)
 QUIET ?=
