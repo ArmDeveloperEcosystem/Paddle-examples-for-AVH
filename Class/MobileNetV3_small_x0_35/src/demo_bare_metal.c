@@ -33,7 +33,7 @@ int main(int argc, char** argv) {
       .output = output,
   };
   struct tvmgen_cls_inputs cls_inputs = {
-      .x = input,
+      .inputs = input,
   };
 
   tvmgen_cls_run(&cls_inputs, &cls_outputs);

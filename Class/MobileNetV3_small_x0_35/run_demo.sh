@@ -134,16 +134,16 @@ script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
 # Make build directory
 make cleanall
 mkdir -p build
+
+cp -r MobileNetV1_infer ./build
 cd build
 
-# Get PaddlePaddle inference model
-echo -e "\e[36mDownload PaddlePaddle inference model\e[0m"
-wget https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/MobileNetV3_small_x0_35_ssld_infer.tar
-tar -xf MobileNetV3_small_x0_35_ssld_infer.tar
-
-# Compile model for Arm(R) Cortex(R)-M85 CPU and CMSIS-NN
-# An alternative to using "python3 -m tvm.driver.tvmc" is to call
-# "tvmc" directly once TVM has been pip installed.
+## Get PaddlePaddle inference model
+paddle2onnx --model_dir MobileNetV1_infer \
+            --model_filename best_model.pdmodel \
+            --params_filename best_model.pdiparams \
+            --save_file MobileNetV1_infer/inference.onnx \
+            --enable_dev_version True
 python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --target-cmsis-nn-mcpu=cortex-m85 \
     --target-c-mcpu=cortex-m85 \
@@ -154,11 +154,11 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --pass-config tir.usmp.enable=1 \
     --pass-config tir.usmp.algorithm=hill_climb \
     --pass-config tir.disable_storage_rewrite=1 \
-    --pass-config tir.disable_vectorize=1 MobileNetV3_small_x0_35_ssld_infer/inference/inference.pdmodel \
+    --pass-config tir.disable_vectorize=1 MobileNetV1_infer/inference.onnx \
     --output-format=mlf \
-    --model-format=paddle \
+    --model-format=onnx \
     --module-name=cls \
-    --input-shapes x:[1,3,224,224] \
+    --input-shapes inputs:[1,3,224,224] \
     --output=cls.tar
 tar -xf cls.tar
 
