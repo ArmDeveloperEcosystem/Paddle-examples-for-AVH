@@ -140,10 +140,9 @@ cd build
 
 ## Get PaddlePaddle inference model
 paddle2onnx --model_dir MobileNetV1_infer \
-            --model_filename best_model.pdmodel \
-            --params_filename best_model.pdiparams \
-            --save_file MobileNetV1_infer/inference.onnx \
-            --enable_dev_version True
+            --model_filename inference.pdmodel \
+            --params_filename inference.pdiparams \
+            --save_file MobileNetV1_infer/inference.onnx
 python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --target-cmsis-nn-mcpu=cortex-m85 \
     --target-c-mcpu=cortex-m85 \
