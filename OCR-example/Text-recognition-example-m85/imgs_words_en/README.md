@@ -1,0 +1,5 @@
+# About Dataset
+* The test image [word_116.png](word_116.png) / [word_10.png](word_10.png) for this example comes from the dataset `Test Set Word Images`
+for [Task 4.3 Word Recognition](https://rrc.cvc.uab.es/?ch=4&com=tasks) of [Incidental Scene Text](https://rrc.cvc.uab.es/?ch=4&com=introduction) challenge from [Robust Reading Competition](https://rrc.cvc.uab.es/) (RR-2015) in 13th International Conference on Document Analysis and Recognition ([ICDAR 2015](https://iapr.org/archives/icdar2015/index.html)).It is used for verifying the inference results of PP-OCRv3 English recognition model running on AVH Corstone 300 platform with Cortex-M55 CPU. 
+* The `Test Set Word Images` dataset provides 2077 cut out word images corresponding to the axis oriented bounding boxes of the words are provided along with a single text file with the relative coordinates of the bounding shape within each word image. 
+* The "Incidental Scene Text" dataset and corresponding annotations are licensed under a [Creative Commons Attribution 4.0 License](https://rrc.cvc.uab.es/?com=downloads&action=download&ch=4&f=aHR0cHM6Ly9jcmVhdGl2ZWNvbW1vbnMub3JnL2xpY2Vuc2VzL2J5LzQuMC8=).
