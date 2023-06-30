@@ -1,0 +1,33 @@
+#include <stdio.h>
+#include "uart_stdout.h"
+#include "tvmgen_clas.h"
+#include "inputs.h"
+#include "outputs.h"
+#include "labels.h"
+
+
+int main(){
+    UartStdOutInit();
+    printf("Starting image classification inference\n");
+    struct tvmgen_clas_outputs clas_outputs = {
+            .${OUTPUT_NODE_NAME} = output,
+    };
+    struct tvmgen_clas_inputs clas_inputs = {
+            .${INPUT_NODE_NAME} = input,
+    };
+    tvmgen_clas_run(&clas_inputs, &clas_outputs);
+
+    // post process
+    int max_index = 0;
+    float max_value = 0.f;
+
+    for (int i = 0; i < output_len; i++) {
+        max_index = output[i] > max_value ? i : max_index;
+        max_value = output[max_index];
+    }
+    printf("The image has been classified as '%s', class_index is %d, max_value is %f\n", labels[max_index], max_index, max_value);
+
+    // The FVP will shut down when it receives "EXITTHESIM" on the UART
+    printf("EXITTHESIM\n");
+    return 0;
+}
