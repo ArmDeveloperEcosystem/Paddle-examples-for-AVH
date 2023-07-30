@@ -3,7 +3,7 @@ project(object_classfication_example)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
-set(ETHOSU_PATH /home/ubuntu/opt/arm/ethosu)
+set(ETHOSU_PATH $ENV{HOME}/opt/arm/ethosu)
 
 set(THIRD_PARTIES "")
 # libcmsis_startup.a
