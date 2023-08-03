@@ -9,11 +9,11 @@ if [ -d "$gcc_directory" ]; then
     exit 0
 fi
 
-architecture=$(uname -m)
+arch=$(uname -m)
 
 echo "-> Start downloading arm-gnu-toolchain."
 download_url="https://armkeil.blob.core.windows.net/developer/Files/downloads/gnu/12.3.rel1/binrel/"
-arm_gnu_toolchain_file_name="arm-gnu-toolchain-12.3.rel1-${architecture}-arm-none-eabi.tar.xz"
+arm_gnu_toolchain_file_name="arm-gnu-toolchain-12.3.rel1-${arch}-arm-none-eabi.tar.xz"
 echo "${download_url}${arm_gnu_toolchain_file_name}"
 wget "${download_url}${arm_gnu_toolchain_file_name}"
 echo "-> Downloading arm-gnu-toolchain success."
@@ -23,7 +23,7 @@ tar -xvf ${arm_gnu_toolchain_file_name}
 echo "-> Extracting arm-gnu-toolchain success."
 
 echo "-> Start moving arm-gnu-toolchain to ~/opt."
-arm_gnu_toolchain_folder_name="arm-gnu-toolchain-12.3.rel1-${architecture}-arm-none-eabi"
+arm_gnu_toolchain_folder_name="arm-gnu-toolchain-12.3.rel1-${arch}-arm-none-eabi"
 mv ${arm_gnu_toolchain_folder_name} ${gcc_directory}
 echo "-> Moving arm-gnu-toolchain to ~/opt success."
 
