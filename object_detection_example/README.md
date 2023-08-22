@@ -15,12 +15,10 @@
 <!--- specific language governing permissions and limitations -->
 <!--- under the License. -->
 
-English | [简体中文](README_ch.md)
-
-Running PaddleClas image classification model on bare metal Arm(R) Cortex(R)-M55 CPU using Arm Virtual Hardware
+Running PP-PicoDet object detection model on bare metal Arm(R) Cortex(R)-M55 CPU using Arm Virtual Hardware
 ======================================================================
 
-This folder contains an example of how to run a PaddleClas model on bare metal [Cortex(R)-M55 CPU](https://www.arm.com/products/silicon-ip-cpu/cortex-m/cortex-m55) using [Arm Virtual Hardware](https://www.arm.com/products/development-tools/simulation/virtual-hardware).
+This folder contains an example of how to run a PP-PicoDet model on bare metal [Cortex(R)-M55 CPU](https://www.arm.com/products/silicon-ip-cpu/cortex-m/cortex-m55) using [Arm Virtual Hardware](https://www.arm.com/products/development-tools/simulation/virtual-hardware).
 
 
 Running environment and prerequisites
@@ -33,9 +31,9 @@ Case 2: If the demo is run in the [ci_cpu Docker container](https://github.com/a
 Case 3: If the demo is not run in the ci_cpu Docker container, then you will need the following:
 - Software required to build and run the demo (These can all be installed by running
   tvm/docker/install/ubuntu_install_ethosu_driver_stack.sh.)
-    - [Fixed Virtual Platform (FVP) based on Arm(R) Corstone(TM)-300 software](https://developer.arm.com/tools-and-software/open-source-software/arm-platforms-software/arm-ecosystem-fvps)
+    - [Fixed Virtual Platform (FVP) based on Arm(R) Corstone(TM)-300 software](https://release/2.5er.arm.com/tools-and-software/open-source-software/arm-platforms-software/arm-ecosystem-fvps)
     - [cmake 3.19.5](https://github.com/Kitware/CMake/releases/)
-    - [GCC toolchain from Arm(R)](https://developer.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2)
+    - [GCC toolchain from Arm(R)](https://release/2.5er.arm.com/-/media/Files/downloads/gnu-rm/10-2020q4/gcc-arm-none-eabi-10-2020-q4-major-x86_64-linux.tar.bz2)
     - [Arm(R) Ethos(TM)-U NPU driver stack](https://review.mlplatform.org)
     - [CMSIS](https://github.com/ARM-software/CMSIS_5)
 - The python libraries listed in the requirements.txt of this directory
@@ -63,7 +61,7 @@ You will also need TVM which can either be:
 
 Running the demo application
 ----------------------------
-Type the following command to run the bare metal image classification application ([src/demo_bare_metal.c](./src/demo_bare_metal.c)):
+Type the following command to run the bare metal text recognition application ([src/demo_bare_metal.c](./src/demo_bare_metal.c)):
 
 ```bash
 ./run_demo.sh
@@ -85,14 +83,13 @@ the locations for these can be specified as arguments to run_demo.sh, for exampl
 
 With [run_demo.sh](./run_demo.sh) to run the demo application, it will:
 - Set up running environment by installing the required prerequisites automatically if running in Arm Virtual Hardware Amazon AMI instance(not specify --enable_FVP to 1)
-- Download a PaddleClas image classification model
-- Use tvmc to compile the image classification model for Cortex(R)-M55 CPU and CMSIS-NN
+- Download a PP-PicoDet model
+- Use tvmc to compile the text recognition model for Cortex(R)-M55 CPU and CMSIS-NN
 - Create a C header file inputs.c containing the image data as a C array
 - Create a C header file outputs.c containing a C array where the output of inference will be stored
-- Create a C header file labels.h containing  the ImageNet labels as a C array
 - Build the demo application
 - Run the demo application on a Arm Virtual Hardware based on Arm(R) Corstone(TM)-300 software
-- The application will report the classification result about the image and the score.
+- The application will report the text on the image and the corresponding score.
 
 Using your own image
 --------------------
@@ -107,9 +104,4 @@ python3 ./convert_image.py path/to/image
 
 Model description
 -----------------
-The example is built on [PP-LCNet](https://github.com/PaddlePaddle/PaddleClas/blob/release/2.5/docs/zh_CN/models/ImageNet1k/PP-LCNet.md) Visual backbone network released by [PaddleClas](https://github.com/PaddlePaddle/PaddleClas).
-
-PP-LCNet is the first version of the PP-LCNet series model. This series of models has the following features:
-- PP-LCNet: lightweight visual backbone network: PP-LCNet_x0_75 params=2.4M, Flops=99M, model size=526.15KB
-- Pre-trained model on ImageNet dataset
-
+In this demo, the model we used is based on [PP-PicoDet](https://github.com/PaddlePaddle/PaddleDetection/tree/release/2.5/configs/picodet). Because of the excellent performance, PP-PicoDet are very suitable for deployment on mobile or CPU. And it is released by [PaddleDetection](https://github.com/PaddlePaddle/PaddleDetection).
