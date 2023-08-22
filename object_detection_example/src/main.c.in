@@ -1,0 +1,39 @@
+#include <stdio.h>
+#include "uart_stdout.h"
+#include "tvmgen_detection.h"
+#include "inputs.h"
+#include "outputs.h"
+
+
+int main(){
+    UartStdOutInit();
+    printf("Starting image detectionsification inference\n");
+    struct tvmgen_detection_outputs detection_outputs = {
+            .output0 = output0,
+            .output1 = output1,
+    };
+    struct tvmgen_detection_inputs detection_inputs = {
+            .${INPUT_NODE_NAME} = input,
+    };
+    tvmgen_detection_run(&detection_inputs, &detection_outputs);
+
+    for (int i = 0; i < TVMGEN_DETECTION_OUTPUT0_SIZE / 4; i++) {
+        float score = 0;
+        int32_t class = 0;
+        for (int j = 0; j < 80; j++) {
+            if (output1[i + j * 2125] > score) {
+                score = output1[i + j * 2125];
+                class = j;
+            }
+        }
+        if (score > 0.1 && output0[i * 4] > 0 && output0[i * 4 + 1] > 0) {
+            printf("box: %f, %f, %f, %f, class: %d, score: %f\n", output0[i * 4] * 2,
+                   output0[i * 4 + 1] * 2, output0[i * 4 + 2] * 2,
+                   output0[i * 4 + 3] * 2, class, score);
+        }
+    }
+
+    // The FVP will shut down when it receives "EXITTHESIM" on the UART
+    printf("EXITTHESIM\n");
+    return 0;
+}
