@@ -69,15 +69,7 @@ cmake .. -DCMAKE_TOOLCHAIN_FILE=${PWD}/../../cmake/arm-none-eabi-gcc.cmake \
 make -j8
 
 
-if [ "$architecture" = "cortex-m33" ]; then
-  VHT_MPS2_Cortex-M33 -C fvp_mps2.UART0.out_file=\"-\" \
-                      -C fvp_mps2.UART0.shutdown_tag=\"EXITTHESIM\" \
-                      -C fvp_mps2.mps2_visualisation.disable-visualisation=1 \
-                      -C fvp_mps2.telnetterminal0.start_telnet=0 \
-                      -C fvp_mps2.telnetterminal1.start_telnet=0 \
-                      -C fvp_mps2.telnetterminal2.start_telnet=0 \
-                      demo --stat
-elif [ "$architecture" = "cortex-m55" ]; then
+if [ "$architecture" = "cortex-m55" ]; then
   VHT_MPS3_Corstone_SSE-300 -C cpu0.CFGDTCMSZ=15 \
                             -C cpu0.CFGITCMSZ=15 \
                             -C mps3_board.uart0.out_file=\"-\" \
