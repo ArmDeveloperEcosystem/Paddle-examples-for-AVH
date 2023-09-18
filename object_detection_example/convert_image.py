@@ -45,6 +45,9 @@ def create_header_file(name, tensor_name, tensor_data, output_path):
     file_path = pathlib.Path(f"{output_path}/" + name).resolve()
     # Create header file with npy_data as a C array
     raw_path = file_path.with_suffix(".h").resolve()
+    if not os.path.exists(output_path):
+        # 创建文件夹
+        os.makedirs(output_path)
     with open(raw_path, "a") as header_file:
         header_file.write(
             "\n" + f"const size_t {tensor_name}_len = {tensor_data.size};\n" +

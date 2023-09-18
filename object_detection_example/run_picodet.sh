@@ -8,14 +8,13 @@ fi
 
 architecture=$1
 current_dir=$(pwd)
-model_name="PPLCNet_x0_25"
-model_url="https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/PPLCNet_x0_25_infer.tar"
-model_zip_name="PPLCNet_x0_25_infer.tar"
-model_input_node_name="x"
-model_output_node_name="output"
-tvm_input_model_path="PPLCNet_x0_25_infer/inference.pdmodel"
-tvm_output_model_name="clas"
-tvm_output_zip_name="clas.tar"
+model_name="MobileNetV3_small_x0_35"
+model_url="https://bj.bcebos.com/v1/paddledet/deploy/Inference/picodet_s_320_coco_lcnet_no_nms.tar"
+model_zip_name="picodet_s_320_coco_lcnet_no_nms.tar"
+model_input_node_name="image"
+tvm_input_model_path="picodet_s_320_coco_lcnet_no_nms/model.pdmodel"
+tvm_output_model_name="detection"
+tvm_output_zip_name="detection.tar"
 
 
 echo "****************************** BASH OPTIONS ******************************"
@@ -29,10 +28,7 @@ echo "tvm_output_model_name: $tvm_output_model_name"
 echo "tvm_output_zip_name: $tvm_output_zip_name"
 echo "****************************** BASH OPTIONS ******************************"
 
-
-python3 ./convert_image.py images/ILSVRC2012_val_00020010.jpg
-python3 ./convert_labels.py labels/labels.txt
-
+python3 ./convert_image.py images/000000014439_640x640.jpg
 rm -rf build && mkdir -p build && cd build
 
 wget $model_url
@@ -56,7 +52,7 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --output-format=mlf \
     --model-format=paddle \
     --module-name=$tvm_output_model_name \
-    --input-shapes $model_input_node_name:[1,3,224,224] \
+    --input-shapes $model_input_node_name:[1,3,320,320] \
     --output=$tvm_output_zip_name
 tar -xf $tvm_output_zip_name
 
@@ -64,8 +60,7 @@ mv templates/crt_config.h.template runtime/include/crt_config.h
 
 cmake .. -DCMAKE_TOOLCHAIN_FILE=${PWD}/../../cmake/arm-none-eabi-gcc.cmake \
         -DCMAKE_SYSTEM_PROCESSOR=$architecture \
-        -DINPUT_NODE_NAME=$model_input_node_name \
-        -DOUTPUT_NODE_NAME=$model_output_node_name
+        -DINPUT_NODE_NAME=$model_input_node_name
 make -j8
 
 
