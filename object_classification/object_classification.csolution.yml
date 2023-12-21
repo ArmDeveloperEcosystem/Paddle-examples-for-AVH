@@ -3,11 +3,17 @@ solution:
   created-for: CMSIS-Toolbox@2.0.0
   compiler: AC6
   target-types:
-    - type: MobileNetV3
+    - type: MobileNetV3M55
       device: SSE-300-MPS3
       optimize: none
-    - type: PPLCNet
+    - type: MobileNetV3M85
+      device: SSE-310-MPS3_FVP
+      optimize: none
+    - type: PPLCNetM55
       device: SSE-300-MPS3
+      optimize: none
+    - type: PPLCNetM85
+      device: SSE-310-MPS3_FVP
       optimize: none
   projects:
     - project: object_classification.cproject.yml

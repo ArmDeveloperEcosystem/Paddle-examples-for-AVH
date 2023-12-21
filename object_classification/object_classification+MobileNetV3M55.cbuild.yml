@@ -2,7 +2,7 @@ build:
   generated-by: csolution version 2.2.1
   solution: object_classification.csolution.yml
   project: object_classification.cproject.yml
-  context: object_classification+MobileNetV3
+  context: object_classification+MobileNetV3M55
   compiler: AC6
   device: SSE-300-MPS3
   device-pack: ARM::V2M_MPS3_SSE_300_BSP@1.4.0
@@ -12,12 +12,10 @@ build:
     trustzone: off
     core: Cortex-M55
   packs:
-    - pack: ARM::CMSIS-DSP@1.15.0
-      path: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0
     - pack: ARM::CMSIS-NN@4.1.0
       path: ${CMSIS_PACK_ROOT}/ARM/CMSIS-NN/4.1.0
-    - pack: ARM::CMSIS@6.0.0
-      path: ${CMSIS_PACK_ROOT}/ARM/CMSIS/6.0.0
+    - pack: ARM::CMSIS@5.9.0
+      path: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0
     - pack: ARM::V2M_MPS3_SSE_300_BSP@1.4.0
       path: ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.4.0
     - pack: Keil::ARM_Compiler@1.7.2
@@ -67,18 +65,18 @@ build:
     - cls/runtime/include
     - include
     - RTE/Device/SSE-300-MPS3
-    - RTE/_MobileNetV3
-    - ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Include
-    - ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/PrivateInclude
+    - RTE/_MobileNetV3M55
     - ${CMSIS_PACK_ROOT}/ARM/CMSIS-NN/4.1.0/Include
-    - ${CMSIS_PACK_ROOT}/ARM/CMSIS/6.0.0/CMSIS/Core/Include
-    - ${CMSIS_PACK_ROOT}/ARM/CMSIS/6.0.0/CMSIS/Driver/Include
+    - ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/Core/Include
+    - ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Include
+    - ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/PrivateInclude
+    - ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/Driver/Include
     - ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.4.0/Board/Device_Definition
     - ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.4.0/Board/Platform
     - ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.4.0/Device/Include
   output-dirs:
-    intdir: tmp/object_classification/MobileNetV3
-    outdir: out/object_classification/MobileNetV3
+    intdir: tmp/object_classification/MobileNetV3M55
+    outdir: out/object_classification/MobileNetV3M55
     rtedir: RTE
   output:
     - type: elf
@@ -91,70 +89,70 @@ build:
       files:
         - file: ${CMSIS_PACK_ROOT}/ARM/V2M_MPS3_SSE_300_BSP/1.4.0/CMSIS_Driver/Driver_USART.c
           category: source
-    - component: ARM::CMSIS:CORE@6.0.0
+    - component: ARM::CMSIS:CORE@5.6.0
       condition: ARMv6_7_8-M Device
-      from-pack: ARM::CMSIS@6.0.0
+      from-pack: ARM::CMSIS@5.9.0
       selected-by: ARM::CMSIS:CORE
-    - component: ARM::CMSIS:DSP&Source@1.15.0
-      condition: CMSISCORE
-      from-pack: ARM::CMSIS-DSP@1.15.0
+    - component: ARM::CMSIS:DSP&Source@1.10.0
+      condition: CMSIS DSP
+      from-pack: ARM::CMSIS@5.9.0
       selected-by: ARM::CMSIS:DSP&Source
       files:
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/BasicMathFunctions/BasicMathFunctions.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/BasicMathFunctions/BasicMathFunctions.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/BasicMathFunctions/BasicMathFunctionsF16.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/BasicMathFunctions/BasicMathFunctionsF16.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/BayesFunctions/BayesFunctions.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/BayesFunctions/BayesFunctions.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/BayesFunctions/BayesFunctionsF16.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/BayesFunctions/BayesFunctionsF16.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/CommonTables/CommonTables.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/CommonTables/CommonTables.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/CommonTables/CommonTablesF16.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/CommonTables/CommonTablesF16.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/ComplexMathFunctions/ComplexMathFunctions.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/ComplexMathFunctions/ComplexMathFunctions.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/ComplexMathFunctions/ComplexMathFunctionsF16.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/ComplexMathFunctions/ComplexMathFunctionsF16.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/ControllerFunctions/ControllerFunctions.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/ControllerFunctions/ControllerFunctions.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/DistanceFunctions/DistanceFunctions.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/DistanceFunctions/DistanceFunctions.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/DistanceFunctions/DistanceFunctionsF16.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/DistanceFunctions/DistanceFunctionsF16.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/FastMathFunctions/FastMathFunctions.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/FastMathFunctions/FastMathFunctions.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/FastMathFunctions/FastMathFunctionsF16.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/FastMathFunctions/FastMathFunctionsF16.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/FilteringFunctions/FilteringFunctions.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/FilteringFunctions/FilteringFunctions.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/FilteringFunctions/FilteringFunctionsF16.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/FilteringFunctions/FilteringFunctionsF16.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/InterpolationFunctions/InterpolationFunctions.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/InterpolationFunctions/InterpolationFunctions.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/InterpolationFunctions/InterpolationFunctionsF16.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/InterpolationFunctions/InterpolationFunctionsF16.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/MatrixFunctions/MatrixFunctions.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/MatrixFunctions/MatrixFunctions.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/MatrixFunctions/MatrixFunctionsF16.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/MatrixFunctions/MatrixFunctionsF16.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/QuaternionMathFunctions/QuaternionMathFunctions.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/QuaternionMathFunctions/QuaternionMathFunctions.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/SVMFunctions/SVMFunctions.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/SVMFunctions/SVMFunctions.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/SVMFunctions/SVMFunctionsF16.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/SVMFunctions/SVMFunctionsF16.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/StatisticsFunctions/StatisticsFunctions.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/StatisticsFunctions/StatisticsFunctions.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/StatisticsFunctions/StatisticsFunctionsF16.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/StatisticsFunctions/StatisticsFunctionsF16.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/SupportFunctions/SupportFunctions.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/SupportFunctions/SupportFunctions.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/SupportFunctions/SupportFunctionsF16.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/SupportFunctions/SupportFunctionsF16.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/TransformFunctions/TransformFunctions.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/TransformFunctions/TransformFunctions.c
           category: source
-        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/Source/TransformFunctions/TransformFunctionsF16.c
+        - file: ${CMSIS_PACK_ROOT}/ARM/CMSIS/5.9.0/CMSIS/DSP/Source/TransformFunctions/TransformFunctionsF16.c
           category: source
     - component: ARM::CMSIS:NN Lib@4.1.0
       condition: CMSIS-NN
@@ -414,27 +412,21 @@ build:
         - file: cls/runtime/src/runtime/crt/common/crt_backend_api.c
           category: sourceC
   constructed-files:
-    - file: RTE/_MobileNetV3/RTE_Components.h
+    - file: RTE/_MobileNetV3M55/RTE_Components.h
       category: header
   licenses:
-    - license: <unknown>
-      license-agreement: ${CMSIS_PACK_ROOT}/ARM/CMSIS-DSP/1.15.0/LICENSE
-      packs:
-        - pack: ARM::CMSIS-DSP@1.15.0
-      components:
-        - component: ARM::CMSIS:DSP&Source@1.15.0
     - license: <unknown>
       packs:
         - pack: ARM::CMSIS-NN@4.1.0
       components:
         - component: ARM::CMSIS:NN Lib@4.1.0
     - license: <unknown>
-      license-agreement: ${CMSIS_PACK_ROOT}/ARM/CMSIS/6.0.0/LICENSE
       packs:
-        - pack: ARM::CMSIS@6.0.0
+        - pack: ARM::CMSIS@5.9.0
       components:
         - component: ::CMSIS Driver:USART(API)
-        - component: ARM::CMSIS:CORE@6.0.0
+        - component: ARM::CMSIS:CORE@5.6.0
+        - component: ARM::CMSIS:DSP&Source@1.10.0
     - license: <unknown>
       packs:
         - pack: ARM::V2M_MPS3_SSE_300_BSP@1.4.0
