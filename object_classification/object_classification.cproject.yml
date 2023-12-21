@@ -6,19 +6,21 @@ project:
     - pack: ARM::CMSIS-NN
     - pack: Keil::ARM_Compiler
   setups:
-    - setup: Options for MobileNetV3smallx035ssldinfer
+    - setup: Options for MobileNetV3
       processor:
         trustzone: "off"
       add-path:
-        - MobileNetV3_small_x0_35_ssld_infer/cls/codegen/host/include
-        - MobileNetV3_small_x0_35_ssld_infer/cls/runtime/include
-        - MobileNetV3_small_x0_35_ssld_infer/include
-      debug: "off"
+        - cls/codegen/host/include
+        - cls/runtime/include
+        - include
+      debug: "on"
+      define:
+        - USE_MOBILENETV3
       misc:
         - C:
             - -std=c99
           C-CPP:
-            - -Wl,--no-whole-archive -lm -specs=nosys.specs -static -T corstone300.ld
+            - -mthumb
             - -fno-rtti
             - -funsigned-char
             - -fshort-enums
@@ -44,16 +46,16 @@ project:
             - --summary_stderr
             - --info summarysizes
   linker:
-    - script: RTE/Device/SSE-300-MPS3/linker_SSE300MPS3_secure.sct
+    - script: sct/VHT_Corstone_SSE-300.sct
   groups:
     - group: Source
       files:
-        - file: MobileNetV3_small_x0_35_ssld_infer/main.c
+        - file: main.c
     - group: Cls
       files:
-        - file: MobileNetV3_small_x0_35_ssld_infer/cls/codegen/host/src/cls_lib0.c
-        - file: MobileNetV3_small_x0_35_ssld_infer/cls/codegen/host/src/cls_lib1.c
-        - file: MobileNetV3_small_x0_35_ssld_infer/cls/runtime/src/runtime/crt/common/crt_backend_api.c
+        - file: cls/codegen/host/src/cls_lib0.c
+        - file: cls/codegen/host/src/cls_lib1.c
+        - file: cls/runtime/src/runtime/crt/common/crt_backend_api.c
   components:
     - component: ARM::CMSIS Driver:USART
     - component: ARM::CMSIS:CORE

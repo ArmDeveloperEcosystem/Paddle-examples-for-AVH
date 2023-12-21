@@ -34,8 +34,8 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
 rm inference.onnx
 
 # decompression cls.tar
-mkdir -p ${PWD}/MobileNetV3_small_x0_35_ssld_infer/cls
-tar -xvf cls.tar -C ${PWD}/MobileNetV3_small_x0_35_ssld_infer/cls
+mkdir -p ${PWD}/cls
+tar -xvf cls.tar -C ${PWD}/cls
 rm cls.tar
 
 # create input and output head file
@@ -46,7 +46,7 @@ csolution list packs -s object_classification.csolution.yml -m > packs.txt
 cpackget update-index
 cpackget add -f packs.txt
 cbuild object_classification.csolution.yml 
-rm -rf ${PWD}/MobileNetV3_small_x0_35_ssld_infer/cls
+rm -rf ${PWD}/cls
 
 # run
 VHT_Corstone_SSE-300_Ethos-U55  -C cpu0.CFGDTCMSZ=15 \
