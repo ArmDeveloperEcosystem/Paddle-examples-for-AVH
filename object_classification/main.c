@@ -15,21 +15,21 @@ __asm("  .global __ARM_use_no_argv\n");
 #endif
 
 int main(){
-	stdout_init();
+  stdout_init();
 #if USE_MOBILENETV3 || USE_PP_LCNET
 	struct tvmgen_cls_inputs cls_inputs = {
-			.x = input,
+		.x = input,
 	};
 #endif
 	struct tvmgen_cls_outputs cls_outputs = {
-			.output = output,
+		.output = output,
 	};
 		
 	tvmgen_cls_run(&cls_inputs, &cls_outputs);
 	int index = 0;
 	for(int i = 0; i < output_len;i++){
 		if(output[i] > output[index]){
-				index = i;
+			index = i;
 		}
 	}
   printf("Index is %d; Confidence is%f; Label is %s\n", index, output[index], labels[index]);

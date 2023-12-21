@@ -46,8 +46,11 @@ python3 ./convert_image.py ./imgs/ILSVRC2012_val_00020010.jpg
 csolution list packs -s object_classification.csolution.yml -m > packs.txt
 cpackget update-index
 cpackget add -f packs.txt
-cbuild object_classification.csolution.yml 
+cbuild object_classification+PPLCNet.cprj
 rm -rf ${PWD}/cls
+rm ${PWD}/include/inputs.h
+rm ${PWD}/include/outputs.h
+rm ${PWD}/include/labels.h
 
 # run
 VHT_Corstone_SSE-300_Ethos-U55  -C cpu0.CFGDTCMSZ=15 \
@@ -59,14 +62,10 @@ VHT_Corstone_SSE-300_Ethos-U55  -C cpu0.CFGDTCMSZ=15 \
                                 -C mps3_board.telnetterminal1.start_telnet=0 \
                                 -C mps3_board.telnetterminal2.start_telnet=0 \
                                 -C mps3_board.telnetterminal5.start_telnet=0 \
-                                out/object_classification/MobileNetV3/object_classification.axf \
+                                out/object_classification/PPLCNet/object_classification.axf \
                                 --stat
 
 # clean
 rm -rf out
 rm -rf tmp
 rm -rf packs.txt
-rm object_classification+MobileNetV3.cbuild.yml
-rm object_classification+MobileNetV3.cprj
-rm object_classification.cbuild-idx.yml
-rm object_classification.cbuild-pack.yml
