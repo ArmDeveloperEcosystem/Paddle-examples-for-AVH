@@ -1,0 +1,707 @@
+{
+  "modules": {
+    "cls": {
+      "executors": [
+        "aot"
+      ],
+      "export_datetime": "2023-12-21 01:18:49Z",
+      "external_dependencies": [
+        {
+          "short_name": "tvm_standalone_crt",
+          "url": "./runtime",
+          "url_type": "mlf_path",
+          "version_spec": "0.11.1"
+        }
+      ],
+      "memory": {
+        "functions": {
+          "main": [
+            {
+              "constants_size_bytes": 6655320,
+              "device": 1,
+              "inputs": {
+                "x": {
+                  "dtype": "float32",
+                  "size": 49152
+                }
+              },
+              "io_size_bytes": 367304,
+              "outputs": {
+                "output": {
+                  "dtype": "float32",
+                  "size": 4000
+                }
+              },
+              "workspace_size_bytes": 115776
+            }
+          ],
+          "operator_functions": [
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_6",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_4",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_1",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_3",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu_4",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu_14",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu_9",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_global_avg_pool2d_7",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_10",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_5",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_squeeze_expand_dims_multiply_layout_transform_1",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_squeeze_expand_dims_multiply_layout_transform_5",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu_7",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_4",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_squeeze_expand_dims_multiply_layout_transform_6",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_squeeze_expand_dims_multiply_layout_transform_2",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_7",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_3",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_global_avg_pool2d",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_6",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu_1",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_squeeze_expand_dims_multiply_layout_transform_4",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_global_avg_pool2d_1",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_14",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu_11",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu_8",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_squeeze_expand_dims_multiply_layout_transform_3",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_1",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_dense_add",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_8",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_squeeze_expand_dims_multiply_layout_transform_7",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu_13",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_17",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_3",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_2",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_1",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_3",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_global_avg_pool2d_3",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_squeeze_expand_dims_multiply_layout_transform",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_12",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_4",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_global_avg_pool2d_6",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_5",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu_3",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu_5",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_16",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_11",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_global_avg_pool2d_2",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu_12",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_9",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_global_avg_pool2d_4",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_15",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_5",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu_10",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_1",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_2",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_13",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_2",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_6",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_2",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu_6",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_nn_relu_2",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide_7",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_softmax",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_8",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_clip_multiply_divide_multiply",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_global_avg_pool2d_5",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_squeeze_expand_dims_multiply_layout_transform_8",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_cls_fused_nn_conv2d_add_add_clip_multiply_divide",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "model_name": "cls",
+      "style": "full-model",
+      "target": [
+        "c -keys=arm_cpu,cpu -mcpu=cortex-m55"
+      ]
+    }
+  },
+  "version": 7
+}
