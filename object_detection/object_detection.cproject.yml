@@ -1,0 +1,105 @@
+project:
+  packs:
+    - pack: ARM::V2M_MPS3_SSE_300_BSP
+      for-context: +PicodetM55
+    - pack: ARM::V2M_MPS3_SSE_310_BSP
+      for-context: +PicodetM85
+    - pack: ARM::CMSIS
+    - pack: ARM::CMSIS-DSP
+    - pack: ARM::CMSIS-NN
+    - pack: Keil::ARM_Compiler
+  setups:
+    - setup: Options for PicodetM55, PicodetM85
+      processor:
+        trustzone: "off"
+      add-path:
+        - det/codegen/host/include
+        - det/runtime/include
+        - include
+      debug: "on"
+      define:
+        - USE_PICODET
+      misc:
+        - C:
+            - -std=c99
+          C-CPP:
+            - -mthumb
+            - -fno-rtti
+            - -funsigned-char
+            - -fshort-enums
+            - -fshort-wchar
+            - -ffunction-sections
+            - -w
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --strict
+            - --summary_stderr
+            - --info summarysizes
+  linker:
+    - script: sct/VHT_Corstone_SSE-300.sct
+      for-context: +PicodetM55
+    - script: sct/VHT_Corstone_SSE-310.sct
+      for-context: +PicodetM85
+  groups:
+    - group: Source
+      files:
+        - file: main.c
+    - group: Det
+      files:
+        - file: det/codegen/host/src/det_lib0.c
+        - file: det/codegen/host/src/det_lib1.c
+        - file: det/runtime/src/runtime/crt/common/crt_backend_api.c
+  components:
+    - component: ARM::CMSIS Driver:USART
+      for-context: +PicodetM55
+    - component: ARM::CMSIS Driver:USART
+      for-context: +PicodetM85
+    - component: ARM::CMSIS:CORE
+    - component: ARM::CMSIS:DSP&Source
+    - component: ARM::CMSIS:NN Lib
+    - component: ARM::Device:Definition
+      for-context: +PicodetM55
+    - component: ARM::Device:Definition
+      for-context: +PicodetM85
+    - component: ARM::Device:Native Driver:IO
+      for-context: +PicodetM85
+    - component: ARM::Device:Native Driver:IO
+      for-context: +PicodetM55
+    - component: ARM::Device:Native Driver:SysCounter
+      for-context: +PicodetM85
+    - component: ARM::Device:Native Driver:SysCounter
+      for-context: +PicodetM55
+    - component: ARM::Device:Native Driver:SysTimer
+      for-context: +PicodetM85
+    - component: ARM::Device:Native Driver:SysTimer
+      for-context: +PicodetM55
+    - component: ARM::Device:Native Driver:Timeout
+      for-context: +PicodetM55
+    - component: ARM::Device:Native Driver:Timeout
+      for-context: +PicodetM85
+    - component: ARM::Device:Native Driver:UART
+      for-context: +PicodetM55
+    - component: ARM::Device:Native Driver:UART
+      for-context: +PicodetM85
+    - component: ARM::Device:Startup&C Startup
+      for-context: +PicodetM55
+    - component: ARM::Device:Startup&C Startup
+      for-context: +PicodetM85
+    - component: ARM::Device:UART STDOUT
+      for-context: +PicodetM85
+    - component: ARM::Device:USART STDOUT
+      for-context: +PicodetM55
+    - component: Keil::Compiler&ARM Compiler:I/O:STDOUT&User
