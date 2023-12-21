@@ -1,18 +1,18 @@
 #!/bin/bash
 
 # download paddle model
-wget https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/MobileNetV3_small_x0_35_ssld_infer.tar
+wget "https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/MobileNetV3_small_x0_35_ssld_infer.tar"
 tar -xf MobileNetV3_small_x0_35_ssld_infer.tar
 rm MobileNetV3_small_x0_35_ssld_infer.tar
-mv MobileNetV3_small_x0_35_ssld_infer/inference ${PWD}/model
+mv MobileNetV3_small_x0_35_ssld_infer/inference "${PWD}/model"
 rm -rf MobileNetV3_small_x0_35_ssld_infer
 
 # convert paddle model to onnx model
-paddle2onnx --model_dir  ${PWD}/model\
+paddle2onnx --model_dir  "${PWD}/model" \
             --model_filename inference.pdmodel \
             --params_filename inference.pdiparams \
             --save_file inference.onnx
-rm -rf ${PWD}/model
+rm -rf "${PWD}/model"
 
 # convert onnx model to tvm model
 python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
@@ -35,8 +35,8 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
 rm inference.onnx
 
 # decompression cls.tar
-mkdir -p ${PWD}/cls
-tar -xvf cls.tar -C ${PWD}/cls
+mkdir -p "${PWD}/cls"
+tar -xvf cls.tar -C "${PWD}/cls"
 rm cls.tar
 
 # create input and output head file

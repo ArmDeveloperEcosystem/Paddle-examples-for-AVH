@@ -16,7 +16,7 @@ __asm("  .global __ARM_use_no_argv\n");
 
 int main(){
 	stdout_init();
-#if USE_MOBILENETV3
+#if USE_MOBILENETV3 || USE_PP_LCNET
 	struct tvmgen_cls_inputs cls_inputs = {
 			.x = input,
 	};
@@ -32,6 +32,6 @@ int main(){
 				index = i;
 		}
 	}
-  	printf("Index is %d; Confidence is%f; Label is %s\n", index, output[index], labels[index]);
+  printf("Index is %d; Confidence is%f; Label is %s\n", index, output[index], labels[index]);
 	printf("EXITTHESIM\r\n");
 }
