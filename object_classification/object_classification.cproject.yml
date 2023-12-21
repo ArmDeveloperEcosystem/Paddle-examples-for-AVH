@@ -7,6 +7,7 @@ project:
     - pack: Keil::ARM_Compiler
   setups:
     - setup: Options for MobileNetV3
+      for-context: +MobileNetV3
       processor:
         trustzone: "off"
       add-path:
@@ -16,6 +17,46 @@ project:
       debug: "on"
       define:
         - USE_MOBILENETV3
+      misc:
+        - C:
+            - -std=c99
+          C-CPP:
+            - -mthumb
+            - -fno-rtti
+            - -funsigned-char
+            - -fshort-enums
+            - -fshort-wchar
+            - -ffunction-sections
+            - -w
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --strict
+            - --summary_stderr
+            - --info summarysizes
+    - setup: Options for PPLCNet
+      for-context: +PPLCNet
+      processor:
+        trustzone: "off"
+      add-path:
+        - cls/codegen/host/include
+        - cls/runtime/include
+        - include
+      debug: "on"
+      define:
+        - USE_PP_LCNET
       misc:
         - C:
             - -std=c99

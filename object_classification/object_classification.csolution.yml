@@ -6,5 +6,8 @@ solution:
     - type: MobileNetV3
       device: SSE-300-MPS3
       optimize: none
+    - type: PPLCNet
+      device: SSE-300-MPS3
+      optimize: none
   projects:
     - project: object_classification.cproject.yml
