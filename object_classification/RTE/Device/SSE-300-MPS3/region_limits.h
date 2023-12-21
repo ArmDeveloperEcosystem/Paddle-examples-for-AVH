@@ -27,7 +27,7 @@
  ****************************************************************/
 
 /* Secure Code */
-#define S_ROM_ALIAS               (0x10000000) /* ITCM_BASE_S */
+#define S_ROM_ALIAS               (0x00000000) /* ITCM_BASE_S */
 #define TOTAL_S_ROM_SIZE          (0x00080000) /* 512 kB */
 
 /* Secure Data */

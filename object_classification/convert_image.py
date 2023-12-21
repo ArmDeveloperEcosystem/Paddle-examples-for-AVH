@@ -26,7 +26,7 @@ def decode_image(img_bgr):
     return img_rgb
 
 
-def resize_image(im_rgb, resize_short=64):
+def resize_image(im_rgb, resize_short=256):
     img_h = im_rgb.shape[0]
     img_w = im_rgb.shape[1]
     percent = float(resize_short) / min(img_w, img_h)
@@ -36,7 +36,7 @@ def resize_image(im_rgb, resize_short=64):
     return resize_img
 
 
-def crop_image(im_rgb, size=56):
+def crop_image(im_rgb, size=224):
     if type(size) is int:
         size = (size, size)
     else:
@@ -66,7 +66,6 @@ def resize_norm_img(img):
     image = decode_image(image)
     image = resize_image(image)
     image = crop_image(image)
-    cv2.imwrite("./temp_image.png",image)
     image = normalize_image(image, [0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     image = np.transpose(image, [2, 0, 1])
     return image

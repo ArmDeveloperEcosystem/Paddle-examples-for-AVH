@@ -14,21 +14,20 @@ __asm("  .global __ARM_use_no_argv\n");
 
 int main(){
 	stdout_init();
-	printf("Hello World!\r\n");
-	struct tvmgen_cls_inputs cls_inputs = {
-			.x = input,
-	};
 	struct tvmgen_cls_outputs cls_outputs = {
 			.output = output,
+	};
+	struct tvmgen_cls_inputs cls_inputs = {
+			.x = input,
 	};
 		
 	tvmgen_cls_run(&cls_inputs, &cls_outputs);
 	int index = 0;
-  for(int i = 0; i < output_len;i++){
-    if(output[i] > output[index]){
-        index = i;
-    }
-  }
-  printf("%d,%f\n", index, output[index]);
+  	for(int i = 0; i < output_len;i++){
+    	if(output[i] > output[index]){
+        	index = i;
+    	}
+  	}
+  	printf("%d,%f\n", index, output[index]);
 	printf("EXITTHESIM\r\n");
 }

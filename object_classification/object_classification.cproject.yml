@@ -13,7 +13,7 @@ project:
         - MobileNetV3_small_x0_35_ssld_infer/cls/codegen/host/include
         - MobileNetV3_small_x0_35_ssld_infer/cls/runtime/include
         - MobileNetV3_small_x0_35_ssld_infer/include
-      debug: "on"
+      debug: "off"
       misc:
         - C:
             - -std=c99
