@@ -32,6 +32,6 @@ int main(){
 			index = i;
 		}
 	}
-  printf("Index is %d; Confidence is%f; Label is %s\n", index, output[index], labels[index]);
+  printf("Index is %d; Confidence is %f; Label is %s\n", index, output[index], labels[index]);
 	printf("EXITTHESIM\r\n");
 }

@@ -55,7 +55,7 @@ done
 echo "Device name is $DEVICE"
 if [ "$DEVICE" == "cortex-m55" ]; then
    RUN_DEVICE_NAME="M55"
-   VHT_Platform="VHT_Corstone_SSE-300"
+   VHT_Platform="VHT_MPS3_Corstone_SSE-300"
 elif [ "$DEVICE" == "cortex-m85" ]; then
    RUN_DEVICE_NAME="M85"
    VHT_Platform="VHT_Corstone_SSE-310"
