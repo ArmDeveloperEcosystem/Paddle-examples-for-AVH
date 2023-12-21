@@ -66,20 +66,11 @@ fi
 
 # download paddle model
 echo "Model name is $MODEL_NAME"
-if [ "$MODEL_NAME" == "MobileNetV3" ]; then
-	wget "https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/MobileNetV3_small_x0_35_ssld_infer.tar"
-  tar -xf MobileNetV3_small_x0_35_ssld_infer.tar
-  rm MobileNetV3_small_x0_35_ssld_infer.tar
-  mv MobileNetV3_small_x0_35_ssld_infer/inference "${PWD}/model"
-  rm -rf MobileNetV3_small_x0_35_ssld_infer
-elif [ "$MODEL_NAME" == "PP_LCNet" ]; then
-  wget "https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/PPLCNet_x0_75_infer.tar"
-  tar -xf PPLCNet_x0_75_infer.tar
-  rm PPLCNet_x0_75_infer.tar
-  mv PPLCNet_x0_75_infer "${PWD}/model"
-  MODEL_NAME="PPLCNet"
+if [ "$MODEL_NAME" == "Picodet" ]; then
+  wget https://bj.bcebos.com/v1/paddledet/deploy/Inference/picodet_s_320_coco_lcnet_no_nms.tar
+  tar -xf picodet_s_320_coco_lcnet_no_nms.tar
 else
-  echo 'ERROR: --model_name only support MobileNetV3/PP_LCNet' >&2
+  echo 'ERROR: --model_name only support Picodet' >&2
   exit 1
 fi
 
@@ -117,7 +108,7 @@ rm cls.tar
 
 # create input and output head file
 python3 ./convert_labels.py ./labels/labels.txt
-python3 ./convert_image.py ./image/ILSVRC2012_val_00020010.jpg
+python3 ./convert_image.py ./imgs/ILSVRC2012_val_00020010.jpg
 
 # build
 csolution list packs -s object_classification.csolution.yml -m > packs.txt
