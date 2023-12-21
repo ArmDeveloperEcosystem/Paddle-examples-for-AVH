@@ -1,0 +1,10 @@
+solution:
+  created-by: uv2csolution@1.2.0
+  created-for: CMSIS-Toolbox@2.0.0
+  compiler: AC6
+  target-types:
+    - type: MobileNetV3smallx035ssldinfer
+      device: SSE-300-MPS3
+      optimize: speed
+  projects:
+    - project: object_classification.cproject.yml
