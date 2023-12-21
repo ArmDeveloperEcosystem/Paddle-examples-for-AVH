@@ -87,8 +87,8 @@ rm -rf "${PWD}/model"
 
 # convert onnx model to tvm model
 python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
-    --target-cmsis-nn-mcpu=$TVM_TARGET \
-    --target-c-mcpu=$TVM_TARGET \
+    --target-cmsis-nn-mcpu="${TVM_TARGET}" \
+    --target-c-mcpu="${TVM_TARGET}" \
     --runtime=crt \
     --executor=aot \
     --executor-aot-interface-api=c \

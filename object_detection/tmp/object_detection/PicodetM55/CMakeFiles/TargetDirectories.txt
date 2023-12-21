@@ -1,0 +1,4 @@
+/home/ubuntu/Paddle-examples-for-AVH/object_detection/tmp/object_detection/PicodetM55/CMakeFiles/database.dir
+/home/ubuntu/Paddle-examples-for-AVH/object_detection/tmp/object_detection/PicodetM55/CMakeFiles/object_detection.dir
+/home/ubuntu/Paddle-examples-for-AVH/object_detection/tmp/object_detection/PicodetM55/CMakeFiles/edit_cache.dir
+/home/ubuntu/Paddle-examples-for-AVH/object_detection/tmp/object_detection/PicodetM55/CMakeFiles/rebuild_cache.dir

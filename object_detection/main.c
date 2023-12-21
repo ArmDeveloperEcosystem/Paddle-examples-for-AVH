@@ -56,5 +56,6 @@ int main(int argc, char **argv) {
              output0[i * 4 + 3] * 2, class, score);
     }
   }
+	printf("EXITTHESIM\r\n");
   return 0;
 }
