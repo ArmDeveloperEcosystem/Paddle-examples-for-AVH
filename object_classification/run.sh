@@ -5,6 +5,7 @@ wget https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/MobileN
 tar -xf MobileNetV3_small_x0_35_ssld_infer.tar
 rm MobileNetV3_small_x0_35_ssld_infer.tar
 mv MobileNetV3_small_x0_35_ssld_infer/inference ${PWD}/model
+rm -rf MobileNetV3_small_x0_35_ssld_infer
 
 # convert paddle model to onnx model
 paddle2onnx --model_dir  ${PWD}/model\
@@ -39,7 +40,8 @@ tar -xvf cls.tar -C ${PWD}/cls
 rm cls.tar
 
 # create input and output head file
-python3 ./convert_image.py ./imgs/ILSVRC2012_val_00000010.jpeg
+python3 ./convert_labels.py ./labels/labels.txt
+python3 ./convert_image.py ./imgs/ILSVRC2012_val_00020010.jpg
 
 # build
 csolution list packs -s object_classification.csolution.yml -m > packs.txt
@@ -58,14 +60,14 @@ VHT_Corstone_SSE-300_Ethos-U55  -C cpu0.CFGDTCMSZ=15 \
                                 -C mps3_board.telnetterminal1.start_telnet=0 \
                                 -C mps3_board.telnetterminal2.start_telnet=0 \
                                 -C mps3_board.telnetterminal5.start_telnet=0 \
-                                out/object_classification/MobileNetV3smallx035ssldinfer/object_classification.axf \
+                                out/object_classification/MobileNetV3/object_classification.axf \
                                 --stat
 
 # clean
 rm -rf out
 rm -rf tmp
 rm -rf packs.txt
-rm object_classification+MobileNetV3smallx035ssldinfer.cbuild.yml
-rm object_classification+MobileNetV3smallx035ssldinfer.cprj
+rm object_classification+MobileNetV3.cbuild.yml
+rm object_classification+MobileNetV3.cprj
 rm object_classification.cbuild-idx.yml
 rm object_classification.cbuild-pack.yml

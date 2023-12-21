@@ -78,7 +78,7 @@ def create_header_file(name, tensor_name, tensor_data, output_path):
     file_path = pathlib.Path(f"{output_path}/" + name).resolve()
     # Create header file with npy_data as a C array
     raw_path = file_path.with_suffix(".h").resolve()
-    with open(raw_path, "w") as header_file:
+    with open(raw_path, "w+") as header_file:
         header_file.write(
             "\n"
             + f"const size_t {tensor_name}_len = {tensor_data.size};\n"
@@ -102,11 +102,11 @@ def create_headers(img_path):
     img_data = img.astype("float32")
     # Add the batch dimension, as we are expecting 4-dimensional input: NCHW.
     img_data = np.expand_dims(img_data, axis=0)
-    create_header_file("inputs", "input", img_data, "MobileNetV3_small_x0_35_ssld_infer/include")
+    create_header_file("inputs", "input", img_data, "include")
     
     # Create output header file
     output_data = np.zeros([1000], np.float32)
-    create_header_file("outputs", "output", output_data, "MobileNetV3_small_x0_35_ssld_infer/include")
+    create_header_file("outputs", "output", output_data, "include")
 
 
 if __name__ == "__main__":

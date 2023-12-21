@@ -4,6 +4,8 @@
 #include <tvm_runtime.h>
 #include <tvmgen_cls.h>
 
+#include "labels.h"
+
 #include "inputs.h"
 #include "outputs.h"
 #include "stdout_USART.h"
@@ -30,6 +32,6 @@ int main(){
 				index = i;
 		}
 	}
-  printf("%d,%f\n", index, output[index]);
+  	printf("Index is %d; Confidence is%f; Label is %s\n", index, output[index], labels[index]);
 	printf("EXITTHESIM\r\n");
 }
