@@ -67,19 +67,23 @@ fi
 
 # download paddle model
 echo "Model name is $MODEL_NAME"
-if [ "$MODEL_NAME" == "PP_LiteSeg" ]; then
-  echo -e "\e[36mDownload PaddlePaddle inference model\e[0m"
-  wget https://paddleseg.bj.bcebos.com/dygraph/demo/pp_liteseg_infer_model.tar.gz
-  tar -zxvf pp_liteseg_infer_model.tar.gz
-  rm pp_liteseg_infer_model.tar.gz
-  mv pp_liteseg_infer_model model
-  MODEL_NAME="PP_LiteSeg"
+if [ "$MODEL_NAME" == "PP_HumanSeg" ]; then
+  wget https://paddleseg.bj.bcebos.com/dygraph/pp_humanseg_v2/portrait_pp_humansegv1_lite_398x224_inference_model.zip
+  unzip portrait_pp_humansegv1_lite_398x224_inference_model.zip
+  rm portrait_pp_humansegv1_lite_398x224_inference_model.zip
+  mv portrait_pp_humansegv1_lite_398x224_inference_model model
+  MODEL_NAME="PPHumanSeg"
 else
-  echo 'ERROR: --model_name only support PP_LiteSeg' >&2
+  echo 'ERROR: --model_name only support PP_HumanSeg' >&2
   exit 1
 fi
 
 # convert paddle model to onnx model
+python paddle_infer_shape.py --model_dir model \
+                             --model_filename model.pdmodel \
+                             --params_filename model.pdiparams \
+                             --save_dir model \
+                             --input_shape_dict="{'x':[1,3,128,128]}"
 paddle2onnx --model_dir  "${PWD}/model" \
             --model_filename model.pdmodel \
             --params_filename model.pdiparams \
@@ -111,7 +115,7 @@ tar -xvf object_segmentation.tar -C "${PWD}/object_segmentation"
 rm object_segmentation.tar
 
 # create input and output head file
-python3 ./convert_image.py imgs_words_en/word_116.png
+python3 ./convert_image.py image/human.jpg
 
 # # build
 # csolution list packs -s object_segmentation.csolution.yml -m > packs.txt
