@@ -20,6 +20,18 @@ while (( $# )); do
             exit 0
             ;;
 
+        --model_name)
+            if [ $# -gt 1 ]
+            then
+                export MODEL_NAME="$2"
+                shift 2
+            else
+                echo 'ERROR: --model_name requires a non-empty argument' >&2
+                show_usage >&2
+                exit 1
+            fi
+            ;;
+
         --device)
             if [ $# -gt 1 ]
             then
@@ -55,13 +67,21 @@ else
 fi
 
 # download paddle model
-wget https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_cls_infer.tar
-tar -xf ch_ppocr_mobile_v2.0_cls_infer.tar
+echo "Model name is $MODEL_NAME"
+if [ "$MODEL_NAME" == "CH_PPOCRV2_CLS" ]; then
+    wget https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_cls_infer.tar
+    tar -xvf ch_ppocr_mobile_v2.0_cls_infer.tar
+    rm ch_ppocr_mobile_v2.0_cls_infer.tar
+    mv ch_ppocr_mobile_v2.0_cls_infer model
+else
+  echo 'ERROR: --model_name only support CH_PPOCRV2_CLS' >&2
+  exit 1
+fi
 
 # convert paddle model to onnx model
 paddle2onnx --model_dir  "${PWD}/model" \
-            --model_filename model.pdmodel \
-            --params_filename model.pdiparams \
+            --model_filename inference.pdmodel \
+            --params_filename inference.pdiparams \
             --save_file model.onnx
 rm -rf "${PWD}/model"
 
@@ -79,46 +99,46 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --pass-config tir.disable_vectorize=1 model.onnx \
     --output-format=mlf \
     --model-format=onnx \
-    --module-name=det \
-    --input-shapes image:[1,3,320,320] \
-    --output=det.tar
+    --module-name=text_angle_cls \
+    --input-shapes "x:[1,3,48,192]" \
+    --output=text_angle_cls.tar
 rm model.onnx
 
 # decompression cls.tar
-mkdir -p "${PWD}/det"
-tar -xvf det.tar -C "${PWD}/det"
-rm det.tar
+mkdir -p "${PWD}/text_angle_cls"
+tar -xvf text_angle_cls.tar -C "${PWD}/text_angle_cls"
+rm text_angle_cls.tar
 
 # create input and output head file
- python3 ./convert_image.py ./image/000000014439_640x640.jpg
+python3 ./convert_image.py image/horizontal.png
 
-# build
- csolution list packs -s object_detection.csolution.yml -m > packs.txt
- cpackget update-index
- cpackget add -f packs.txt
+# # build
+#  csolution list packs -s object_detection.csolution.yml -m > packs.txt
+#  cpackget update-index
+#  cpackget add -f packs.txt
 
- PROJECT_FILE_NAME="object_detection+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
- echo "Project file name is $PROJECT_FILE_NAME"
- cbuild "$PROJECT_FILE_NAME"
+#  PROJECT_FILE_NAME="object_detection+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
+#  echo "Project file name is $PROJECT_FILE_NAME"
+#  cbuild "$PROJECT_FILE_NAME"
 
- rm -rf "${PWD}/cls"
- rm "${PWD}/include/inputs.h"
- rm "${PWD}/include/outputs.h"
+#  rm -rf "${PWD}/cls"
+#  rm "${PWD}/include/inputs.h"
+#  rm "${PWD}/include/outputs.h"
 
- # run
- $VHT_Platform  -C cpu0.CFGDTCMSZ=15 \
-               -C cpu0.CFGITCMSZ=15 \
-               -C mps3_board.uart0.out_file=\"-\" \
-               -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
-               -C mps3_board.visualisation.disable-visualisation=1 \
-               -C mps3_board.telnetterminal0.start_telnet=0 \
-               -C mps3_board.telnetterminal1.start_telnet=0 \
-               -C mps3_board.telnetterminal2.start_telnet=0 \
-               -C mps3_board.telnetterminal5.start_telnet=0 \
-               "out/object_detection/$MODEL_NAME$RUN_DEVICE_NAME/object_detection.axf" \
-               --stat
+#  # run
+#  $VHT_Platform  -C cpu0.CFGDTCMSZ=15 \
+#                -C cpu0.CFGITCMSZ=15 \
+#                -C mps3_board.uart0.out_file=\"-\" \
+#                -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
+#                -C mps3_board.visualisation.disable-visualisation=1 \
+#                -C mps3_board.telnetterminal0.start_telnet=0 \
+#                -C mps3_board.telnetterminal1.start_telnet=0 \
+#                -C mps3_board.telnetterminal2.start_telnet=0 \
+#                -C mps3_board.telnetterminal5.start_telnet=0 \
+#                "out/object_detection/$MODEL_NAME$RUN_DEVICE_NAME/object_detection.axf" \
+#                --stat
 
- # clean
- rm -rf out
- rm -rf tmp
- rm -rf packs.txt
+#  # clean
+#  rm -rf out
+#  rm -rf tmp
+#  rm -rf packs.txt

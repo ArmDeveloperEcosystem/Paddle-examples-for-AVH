@@ -91,12 +91,7 @@ def create_headers(image_name):
     create_header_file("inputs", "text_angle_cls_input", img_data, "include")
     # Create output header file
     output_data = np.zeros([2], np.float32)
-    create_header_file(
-        "outputs",
-        "text_angle_cls_output",
-        output_data,
-        "include",
-    )
+    create_header_file("outputs", "text_angle_cls_output", output_data, "include")
 
 
 if __name__ == "__main__":
