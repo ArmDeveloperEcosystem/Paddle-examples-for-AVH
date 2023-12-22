@@ -67,12 +67,13 @@ fi
 
 # download paddle model
 echo "Model name is $MODEL_NAME"
-if [ "$MODEL_NAME" == "CH_PPOCRV2_CLS" ]; then
-    wget https://paddleocr.bj.bcebos.com/dygraph_v2.0/ch/ch_ppocr_mobile_v2.0_cls_infer.tar
-    tar -xvf ch_ppocr_mobile_v2.0_cls_infer.tar
-    rm ch_ppocr_mobile_v2.0_cls_infer.tar
-    mv ch_ppocr_mobile_v2.0_cls_infer model
-    MODEL_NAME="CHPPOCRV2CLS"
+if [ "$MODEL_NAME" == "EN_PPOCRV3_REC" ]; then
+  echo -e "\e[36mDownload PaddlePaddle inference model\e[0m"
+  wget https://paddleocr.bj.bcebos.com/tvm/ocr_en.tar
+  tar -xf ocr_en.tar
+  mv ocr_en model
+  rm ocr_en.tar
+  MODEL_NAME="ENPPOCRV3REC"
 else
   echo 'ERROR: --model_name only support CH_PPOCRV2_CLS' >&2
   exit 1
@@ -99,28 +100,28 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --pass-config tir.disable_vectorize=1 model.onnx \
     --output-format=mlf \
     --model-format=onnx \
-    --module-name=text_angle_cls \
+    --module-name=text_recognition \
     --input-shapes "x:[1,3,48,192]" \
-    --output=text_angle_cls.tar
+    --output=text_recognition.tar
 rm model.onnx
 
 # decompression cls.tar
-mkdir -p "${PWD}/text_angle_cls"
-tar -xvf text_angle_cls.tar -C "${PWD}/text_angle_cls"
-rm text_angle_cls.tar
+mkdir -p "${PWD}/text_recognition"
+tar -xvf text_recognition.tar -C "${PWD}/text_recognition"
+rm text_recognition.tar
 
 # create input and output head file
 python3 ./convert_image.py image/horizontal.png
 
 # build
-csolution list packs -s text_angle_classification.csolution.yml -m > packs.txt
+csolution list packs -s text_recognition.csolution.yml -m > packs.txt
 cpackget update-index
 cpackget add -f packs.txt
-PROJECT_FILE_NAME="text_angle_classification+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
+PROJECT_FILE_NAME="text_recognition+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
 echo "Project file name is $PROJECT_FILE_NAME"
 cbuild "$PROJECT_FILE_NAME"
 
-rm -rf "${PWD}/text_angle_cls"
+rm -rf "${PWD}/text_recognition"
 rm "${PWD}/include/inputs.h"
 rm "${PWD}/include/outputs.h"
 
@@ -134,7 +135,7 @@ $VHT_Platform  -C cpu0.CFGDTCMSZ=15 \
             -C mps3_board.telnetterminal1.start_telnet=0 \
             -C mps3_board.telnetterminal2.start_telnet=0 \
             -C mps3_board.telnetterminal5.start_telnet=0 \
-            "out/text_angle_classification/$MODEL_NAME$RUN_DEVICE_NAME/text_angle_classification.axf" \
+            "out/text_recognition/$MODEL_NAME$RUN_DEVICE_NAME/text_recognition.axf" \
             --stat
 
 # clean
