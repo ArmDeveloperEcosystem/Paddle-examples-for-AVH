@@ -113,32 +113,32 @@ rm object_segmentation.tar
 # create input and output head file
 python3 ./convert_image.py imgs_words_en/word_116.png
 
-# build
-csolution list packs -s object_segmentation.csolution.yml -m > packs.txt
-cpackget update-index
-cpackget add -f packs.txt
-PROJECT_FILE_NAME="object_segmentation+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
-echo "Project file name is $PROJECT_FILE_NAME"
-cbuild "$PROJECT_FILE_NAME"
+# # build
+# csolution list packs -s object_segmentation.csolution.yml -m > packs.txt
+# cpackget update-index
+# cpackget add -f packs.txt
+# PROJECT_FILE_NAME="object_segmentation+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
+# echo "Project file name is $PROJECT_FILE_NAME"
+# cbuild "$PROJECT_FILE_NAME"
 
-rm -rf "${PWD}/object_segmentation"
-rm "${PWD}/include/inputs.h"
-rm "${PWD}/include/outputs.h"
+# rm -rf "${PWD}/object_segmentation"
+# rm "${PWD}/include/inputs.h"
+# rm "${PWD}/include/outputs.h"
 
-# run
-$VHT_Platform  -C cpu0.CFGDTCMSZ=15 \
-           -C cpu0.CFGITCMSZ=15 \
-           -C mps3_board.uart0.out_file=\"-\" \
-           -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
-           -C mps3_board.visualisation.disable-visualisation=1 \
-           -C mps3_board.telnetterminal0.start_telnet=0 \
-           -C mps3_board.telnetterminal1.start_telnet=0 \
-           -C mps3_board.telnetterminal2.start_telnet=0 \
-           -C mps3_board.telnetterminal5.start_telnet=0 \
-           "out/object_segmentation/$MODEL_NAME$RUN_DEVICE_NAME/object_segmentation.axf" \
-           --stat
+# # run
+# $VHT_Platform  -C cpu0.CFGDTCMSZ=15 \
+#            -C cpu0.CFGITCMSZ=15 \
+#            -C mps3_board.uart0.out_file=\"-\" \
+#            -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
+#            -C mps3_board.visualisation.disable-visualisation=1 \
+#            -C mps3_board.telnetterminal0.start_telnet=0 \
+#            -C mps3_board.telnetterminal1.start_telnet=0 \
+#            -C mps3_board.telnetterminal2.start_telnet=0 \
+#            -C mps3_board.telnetterminal5.start_telnet=0 \
+#            "out/object_segmentation/$MODEL_NAME$RUN_DEVICE_NAME/object_segmentation.axf" \
+#            --stat
 
-# clean
-rm -rf out
-rm -rf tmp
-rm -rf packs.txt
+# # clean
+# rm -rf out
+# rm -rf tmp
+# rm -rf packs.txt
