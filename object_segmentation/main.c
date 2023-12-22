@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <crt_config.h>
 #include <tvm_runtime.h>
-#include <tvmgen_text_recognition.h>
+#include <tvmgen_object_segmentation.h>
 #include "inputs.h"
 #include "outputs.h"
 #include "stdout_USART.h"
@@ -29,17 +29,17 @@
 
 int main(int argc, char** argv) {
   stdout_init();
-  struct tvmgen_seg_outputs seg_outputs = {
+  struct tvmgen_object_segmentation_outputs seg_outputs = {
       .output = output,
   };
-  struct tvmgen_seg_inputs seg_inputs = {
+  struct tvmgen_object_segmentation_inputs seg_inputs = {
       .x = input,
   };
 
-  tvmgen_seg_run(&seg_inputs, &seg_outputs);
+  tvmgen_object_segmentation_run(&seg_inputs, &seg_outputs);
 
   // print output
-  int width = 64, height = 128;
+  int width = 128, height = 128;
   for (int i = 0; i < width * height; i++) {
     printf("%d ", output[i]);
   }
