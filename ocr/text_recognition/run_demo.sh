@@ -80,9 +80,14 @@ else
 fi
 
 # convert paddle model to onnx model
+python paddle_infer_shape.py --model_dir model \
+                             --model_filename model.pdmodel \
+                             --params_filename model.pdiparams \
+                             --save_dir model \
+                             --input_shape_dict="{'x':[1,3,128,128]}"
 paddle2onnx --model_dir  "${PWD}/model" \
-            --model_filename inference.pdmodel \
-            --params_filename inference.pdiparams \
+            --model_filename model.pdmodel \
+            --params_filename model.pdiparams \
             --save_file model.onnx
 rm -rf "${PWD}/model"
 
@@ -101,7 +106,7 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --output-format=mlf \
     --model-format=onnx \
     --module-name=text_recognition \
-    --input-shapes "x:[1,3,32,320]"  \
+    --input-shapes "x:[1,3,128,128]"  \
     --output=text_recognition.tar
 rm model.onnx
 
