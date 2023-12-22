@@ -71,8 +71,8 @@ if [ "$MODEL_NAME" == "PP_LiteSeg" ]; then
   echo -e "\e[36mDownload PaddlePaddle inference model\e[0m"
   wget https://paddleseg.bj.bcebos.com/dygraph/demo/pp_liteseg_infer_model.tar.gz
   tar -zxvf pp_liteseg_infer_model.tar.gz
+  rm pp_liteseg_infer_model.tar.gz
   mv pp_liteseg_infer_model model
-  rm pp_liteseg_infer_model.tar
   MODEL_NAME="PP_LiteSeg"
 else
   echo 'ERROR: --model_name only support PP_LiteSeg' >&2
@@ -101,7 +101,7 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --output-format=mlf \
     --model-format=onnx \
     --module-name=object_segmentation \
-    --input-shapes "x:[1,3,64,128]"  \
+    --input-shapes "x:[1,3,128,128]"  \
     --output=object_segmentation.tar
 rm model.onnx
 
