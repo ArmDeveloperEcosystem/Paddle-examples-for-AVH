@@ -21,7 +21,7 @@
 #include <stdio.h>
 #include <crt_config.h>
 #include <tvm_runtime.h>
-#include <tvmgen_rec.h>
+#include <tvmgen_text_recognition.h>
 #include "inputs.h"
 #include "outputs.h"
 #include "stdout_USART.h"
@@ -32,14 +32,14 @@ int main(int argc, char** argv) {
   int char_dict_nums = 97;
   stdout_init();
   printf("Starting ocr rec inference\n");
-  struct tvmgen_rec_outputs rec_outputs = {
+  struct tvmgen_text_recognition_outputs rec_outputs = {
       .output = output,
   };
-  struct tvmgen_rec_inputs rec_inputs = {
+  struct tvmgen_text_recognition_inputs rec_inputs = {
       .x = input,
   };
 
-  tvmgen_rec_run(&rec_inputs, &rec_outputs);
+  tvmgen_text_recognition_run(&rec_inputs, &rec_outputs);
 
   // post process
   int char_nums = output_len / char_dict_nums;

@@ -1,0 +1,12 @@
+build-idx:
+  generated-by: csolution version 2.2.1
+  csolution: text_recognition.csolution.yml
+  cprojects:
+    - cproject: text_recognition.cproject.yml
+  cbuilds:
+    - cbuild: text_recognition+ENPPOCRV3RECM55.cbuild.yml
+      project: text_recognition
+      configuration: +ENPPOCRV3RECM55
+    - cbuild: text_recognition+ENPPOCRV3RECM85.cbuild.yml
+      project: text_recognition
+      configuration: +ENPPOCRV3RECM85
