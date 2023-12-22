@@ -67,7 +67,7 @@ def create_headers(image_name):
 
     # Resize image to 224x224
     img = cv2.imread(img_path)
-    img = resize_norm_img(img, [3,224,398])
+    img = resize_norm_img(img, [3,114,256])
     img_data = img.astype("float32")
 
     # # Add the batch dimension, as we are expecting 4-dimensional input: NCHW.
@@ -76,7 +76,7 @@ def create_headers(image_name):
     # Create input header file
     create_header_file("inputs", "float", "input", img_data, "./include")
     # Create output header file
-    output_data = np.zeros([224*398], np.int32)
+    output_data = np.zeros([114*256], np.int32)
     create_header_file("outputs", "int", "output", output_data, "./include")
 
 

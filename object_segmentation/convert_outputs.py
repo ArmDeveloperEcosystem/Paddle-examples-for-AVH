@@ -32,7 +32,7 @@ def create_mask_jpg(output_file):
         content = f.read()
     
     # process outputs
-    height, width = (224, 398)
+    height, width = (114, 256)
     
     mask = []
     for line in content.splitlines():

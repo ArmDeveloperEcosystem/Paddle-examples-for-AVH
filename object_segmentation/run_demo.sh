@@ -68,10 +68,10 @@ fi
 # download paddle model
 echo "Model name is $MODEL_NAME"
 if [ "$MODEL_NAME" == "PP_HumanSeg" ]; then
-  wget https://paddleseg.bj.bcebos.com/dygraph/pp_humanseg_v2/portrait_pp_humansegv1_lite_398x224_inference_model.zip
-  unzip portrait_pp_humansegv1_lite_398x224_inference_model.zip
-  rm portrait_pp_humansegv1_lite_398x224_inference_model.zip
-  mv portrait_pp_humansegv1_lite_398x224_inference_model model
+  wget https://bj.bcebos.com/paddlehub/fastdeploy/Portrait_PP_HumanSegV2_Lite_256x144_with_argmax_infer.tgz
+  tar -xvf Portrait_PP_HumanSegV2_Lite_256x144_with_argmax_infer.tgz
+  rm Portrait_PP_HumanSegV2_Lite_256x144_with_argmax_infer.tgz
+  mv Portrait_PP_HumanSegV2_Lite_256x144_with_argmax_infer model
   rm -rf __MACOSX
   MODEL_NAME="PPHumanSeg"
 else
@@ -84,7 +84,7 @@ python paddle_infer_shape.py --model_dir model \
                              --model_filename model.pdmodel \
                              --params_filename model.pdiparams \
                              --save_dir model \
-                             --input_shape_dict="{'x':[1,3,224,398]}"
+                             --input_shape_dict="{'x':[1,3,114,256]}"
 paddle2onnx --model_dir  "${PWD}/model" \
             --model_filename model.pdmodel \
             --params_filename model.pdiparams \
@@ -106,7 +106,7 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --output-format=mlf \
     --model-format=onnx \
     --module-name=object_segmentation \
-    --input-shapes "x:[1,3,224,398]"  \
+    --input-shapes "x:[1,3,114,256]"  \
     --output=object_segmentation.tar
 rm model.onnx
 
