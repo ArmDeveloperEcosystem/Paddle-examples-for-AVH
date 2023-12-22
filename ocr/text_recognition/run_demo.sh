@@ -75,7 +75,7 @@ if [ "$MODEL_NAME" == "EN_PPOCRV3_REC" ]; then
   rm ocr_en.tar
   MODEL_NAME="ENPPOCRV3REC"
 else
-  echo 'ERROR: --model_name only support CH_PPOCRV2_CLS' >&2
+  echo 'ERROR: --model_name only support EN_PPOCRV3_REC' >&2
   exit 1
 fi
 
@@ -111,34 +111,34 @@ tar -xvf text_recognition.tar -C "${PWD}/text_recognition"
 rm text_recognition.tar
 
 # create input and output head file
-python3 ./convert_image.py image/horizontal.png
+python3 ./convert_image.py imgs_words_en/word_116.png
 
 # build
-csolution list packs -s text_recognition.csolution.yml -m > packs.txt
-cpackget update-index
-cpackget add -f packs.txt
-PROJECT_FILE_NAME="text_recognition+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
-echo "Project file name is $PROJECT_FILE_NAME"
-cbuild "$PROJECT_FILE_NAME"
+# csolution list packs -s text_recognition.csolution.yml -m > packs.txt
+# cpackget update-index
+# cpackget add -f packs.txt
+# PROJECT_FILE_NAME="text_recognition+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
+# echo "Project file name is $PROJECT_FILE_NAME"
+# cbuild "$PROJECT_FILE_NAME"
 
-rm -rf "${PWD}/text_recognition"
-rm "${PWD}/include/inputs.h"
-rm "${PWD}/include/outputs.h"
+# rm -rf "${PWD}/text_recognition"
+# rm "${PWD}/include/inputs.h"
+# rm "${PWD}/include/outputs.h"
 
-# run
-$VHT_Platform  -C cpu0.CFGDTCMSZ=15 \
-            -C cpu0.CFGITCMSZ=15 \
-            -C mps3_board.uart0.out_file=\"-\" \
-            -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
-            -C mps3_board.visualisation.disable-visualisation=1 \
-            -C mps3_board.telnetterminal0.start_telnet=0 \
-            -C mps3_board.telnetterminal1.start_telnet=0 \
-            -C mps3_board.telnetterminal2.start_telnet=0 \
-            -C mps3_board.telnetterminal5.start_telnet=0 \
-            "out/text_recognition/$MODEL_NAME$RUN_DEVICE_NAME/text_recognition.axf" \
-            --stat
+# # run
+# $VHT_Platform  -C cpu0.CFGDTCMSZ=15 \
+#             -C cpu0.CFGITCMSZ=15 \
+#             -C mps3_board.uart0.out_file=\"-\" \
+#             -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
+#             -C mps3_board.visualisation.disable-visualisation=1 \
+#             -C mps3_board.telnetterminal0.start_telnet=0 \
+#             -C mps3_board.telnetterminal1.start_telnet=0 \
+#             -C mps3_board.telnetterminal2.start_telnet=0 \
+#             -C mps3_board.telnetterminal5.start_telnet=0 \
+#             "out/text_recognition/$MODEL_NAME$RUN_DEVICE_NAME/text_recognition.axf" \
+#             --stat
 
-# clean
-rm -rf out
-rm -rf tmp
-rm -rf packs.txt
+# # clean
+# rm -rf out
+# rm -rf tmp
+# rm -rf packs.txt
