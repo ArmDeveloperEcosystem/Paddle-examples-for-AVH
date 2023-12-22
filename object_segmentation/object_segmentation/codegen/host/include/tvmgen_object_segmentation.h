@@ -9,11 +9,11 @@ extern "C" {
 /*!
  * \brief Input tensor x size (in bytes) for TVM module "object_segmentation" 
  */
-#define TVMGEN_OBJECT_SEGMENTATION_X_SIZE 85290752
+#define TVMGEN_OBJECT_SEGMENTATION_X_SIZE 68897760
 /*!
  * \brief Output tensor output size (in bytes) for TVM module "object_segmentation" 
  */
-#define TVMGEN_OBJECT_SEGMENTATION_OUTPUT_SIZE 79535664
+#define TVMGEN_OBJECT_SEGMENTATION_OUTPUT_SIZE 73386640
 /*!
  * \brief Input tensor pointers for TVM module "object_segmentation" 
  */
@@ -40,7 +40,7 @@ int32_t tvmgen_object_segmentation_run(
 /*!
  * \brief Workspace size for TVM module "object_segmentation" 
  */
-#define TVMGEN_OBJECT_SEGMENTATION_WORKSPACE_SIZE 2693096
+#define TVMGEN_OBJECT_SEGMENTATION_WORKSPACE_SIZE 4794328
 
 #ifdef __cplusplus
 }

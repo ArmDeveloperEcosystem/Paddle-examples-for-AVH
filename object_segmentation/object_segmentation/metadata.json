@@ -4,7 +4,7 @@
       "executors": [
         "aot"
       ],
-      "export_datetime": "2023-12-22 09:36:18Z",
+      "export_datetime": "2023-12-22 09:49:18Z",
       "external_dependencies": [
         {
           "short_name": "tvm_standalone_crt",
@@ -22,17 +22,17 @@
               "inputs": {
                 "x": {
                   "dtype": "float32",
-                  "size": 196608
+                  "size": 350208
                 }
               },
-              "io_size_bytes": 8896512,
+              "io_size_bytes": 16228352,
               "outputs": {
                 "output": {
                   "dtype": "int64",
-                  "size": 131072
+                  "size": 233472
                 }
               },
-              "workspace_size_bytes": 2693096
+              "workspace_size_bytes": 4794328
             }
           ],
           "operator_functions": [
@@ -46,7 +46,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_16",
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add",
               "workspace": [
                 {
                   "device": 1,
@@ -64,7 +64,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_concatenate_reshape_transpose_reshape_split_2",
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_16",
               "workspace": [
                 {
                   "device": 1,
@@ -73,7 +73,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_27",
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_1",
               "workspace": [
                 {
                   "device": 1,
@@ -100,7 +100,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_1",
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_15",
               "workspace": [
                 {
                   "device": 1,
@@ -109,7 +109,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add",
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu",
               "workspace": [
                 {
                   "device": 1,
@@ -127,15 +127,6 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_concatenate_reshape_transpose_reshape_1",
-              "workspace": [
-                {
-                  "device": 1,
-                  "workspace_size_bytes": 0
-                }
-              ]
-            },
-            {
               "function_name": "tvmgen_object_segmentation_fused_image_resize2d",
               "workspace": [
                 {
@@ -145,7 +136,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_22",
+              "function_name": "tvmgen_object_segmentation_fused_concatenate_reshape_transpose_reshape_1",
               "workspace": [
                 {
                   "device": 1,
@@ -155,6 +146,15 @@
             },
             {
               "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_17",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_6",
               "workspace": [
                 {
                   "device": 1,
@@ -181,16 +181,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_6",
-              "workspace": [
-                {
-                  "device": 1,
-                  "workspace_size_bytes": 0
-                }
-              ]
-            },
-            {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_14",
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_27",
               "workspace": [
                 {
                   "device": 1,
@@ -208,7 +199,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_concatenate_reshape_transpose_reshape_split_1",
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_14",
               "workspace": [
                 {
                   "device": 1,
@@ -218,6 +209,15 @@
             },
             {
               "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_19",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_object_segmentation_fused_concatenate_reshape_transpose_reshape_split_1",
               "workspace": [
                 {
                   "device": 1,
@@ -253,7 +253,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_12",
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_7",
               "workspace": [
                 {
                   "device": 1,
@@ -280,15 +280,6 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_concatenate_reshape_transpose_reshape",
-              "workspace": [
-                {
-                  "device": 1,
-                  "workspace_size_bytes": 0
-                }
-              ]
-            },
-            {
               "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_26",
               "workspace": [
                 {
@@ -298,7 +289,43 @@
               ]
             },
             {
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_12",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
               "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_7",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_10",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_object_segmentation_fused_nn_max_pool2d",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_18",
               "workspace": [
                 {
                   "device": 1,
@@ -325,7 +352,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_18",
+              "function_name": "tvmgen_object_segmentation_fused_concatenate_reshape_transpose_reshape",
               "workspace": [
                 {
                   "device": 1,
@@ -343,33 +370,6 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_2",
-              "workspace": [
-                {
-                  "device": 1,
-                  "workspace_size_bytes": 0
-                }
-              ]
-            },
-            {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_10",
-              "workspace": [
-                {
-                  "device": 1,
-                  "workspace_size_bytes": 0
-                }
-              ]
-            },
-            {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_7",
-              "workspace": [
-                {
-                  "device": 1,
-                  "workspace_size_bytes": 0
-                }
-              ]
-            },
-            {
               "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_24",
               "workspace": [
                 {
@@ -379,7 +379,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_concatenate_reshape_transpose_reshape_split_3",
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_6",
               "workspace": [
                 {
                   "device": 1,
@@ -388,7 +388,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_30",
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_15",
               "workspace": [
                 {
                   "device": 1,
@@ -415,7 +415,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_6",
+              "function_name": "tvmgen_object_segmentation_fused_concatenate_reshape_transpose_reshape_split_3",
               "workspace": [
                 {
                   "device": 1,
@@ -424,7 +424,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_10",
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_30",
               "workspace": [
                 {
                   "device": 1,
@@ -442,16 +442,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_15",
-              "workspace": [
-                {
-                  "device": 1,
-                  "workspace_size_bytes": 0
-                }
-              ]
-            },
-            {
-              "function_name": "tvmgen_object_segmentation_fused_nn_max_pool2d",
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_10",
               "workspace": [
                 {
                   "device": 1,
@@ -461,6 +452,15 @@
             },
             {
               "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_3",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_22",
               "workspace": [
                 {
                   "device": 1,
@@ -523,6 +523,15 @@
               ]
             },
             {
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_2",
+              "workspace": [
+                {
+                  "device": 1,
+                  "workspace_size_bytes": 0
+                }
+              ]
+            },
+            {
               "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_14",
               "workspace": [
                 {
@@ -532,16 +541,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_4",
-              "workspace": [
-                {
-                  "device": 1,
-                  "workspace_size_bytes": 0
-                }
-              ]
-            },
-            {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_15",
+              "function_name": "tvmgen_object_segmentation_fused_concatenate_reshape_transpose_reshape_split_2",
               "workspace": [
                 {
                   "device": 1,
@@ -559,7 +559,7 @@
               ]
             },
             {
-              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu",
+              "function_name": "tvmgen_object_segmentation_fused_nn_conv2d_add_nn_relu_4",
               "workspace": [
                 {
                   "device": 1,
