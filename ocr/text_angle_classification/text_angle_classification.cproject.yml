@@ -1,0 +1,146 @@
+project:
+  packs:
+    - pack: ARM::V2M_MPS3_SSE_300_BSP
+      for-context: +CHPPOCRV2CLSM55
+    - pack: ARM::V2M_MPS3_SSE_310_BSP
+      for-context: +CHPPOCRV2CLSM85
+    - pack: ARM::CMSIS
+    - pack: ARM::CMSIS-DSP
+    - pack: ARM::CMSIS-NN
+    - pack: Keil::ARM_Compiler
+  setups:
+    - setup: Options for CHPPOCRV2CLSM55
+      for-context: +CHPPOCRV2CLSM55
+      processor:
+        trustzone: "off"
+      add-path:
+        - text_angle_cls/codegen/host/include
+        - text_angle_cls/runtime/include
+        - include
+      debug: "on"
+      define:
+        - USE_CH_PPOCRV2_CLS
+      misc:
+        - C:
+            - -std=c99
+          C-CPP:
+            - -mthumb
+            - -fno-rtti
+            - -funsigned-char
+            - -fshort-enums
+            - -fshort-wchar
+            - -ffunction-sections
+            - -w
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --strict
+            - --summary_stderr
+            - --info summarysizes
+    - setup: Options for CHPPOCRV2CLSM85
+      for-context: +CHPPOCRV2CLSM85
+      processor:
+        trustzone: "off"
+      add-path:
+        - include
+        - text_angle_cls/runtime/include
+        - text_angle_cls/codegen/host/include
+      debug: "on"
+      define:
+        - USE_CH_PPOCRV2_CLS
+      misc:
+        - C:
+            - -std=c99
+          C-CPP:
+            - -mthumb
+            - -fno-rtti
+            - -funsigned-char
+            - -fshort-enums
+            - -fshort-wchar
+            - -ffunction-sections
+            - -w
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --strict
+            - --summary_stderr
+            - --info summarysizes
+  linker:
+    - script: sct/VHT_Corstone_SSE-300.sct
+      for-context: +CHPPOCRV2CLSM55
+    - script: sct/VHT_Corstone_SSE-310.sct
+      for-context: +CHPPOCRV2CLSM85
+  groups:
+    - group: Source
+      files:
+        - file: main.c
+    - group: TextAngleClassification
+      files:
+        - file: text_angle_cls/codegen/host/src/text_angle_cls_lib0.c
+        - file: text_angle_cls/codegen/host/src/text_angle_cls_lib1.c
+        - file: text_angle_cls/runtime/src/runtime/crt/common/crt_backend_api.c
+  components:
+    - component: ARM::CMSIS Driver:USART
+      for-context: +CHPPOCRV2CLSM55
+    - component: ARM::CMSIS Driver:USART
+      for-context: +CHPPOCRV2CLSM85
+    - component: ARM::CMSIS:CORE
+    - component: ARM::CMSIS:DSP&Source
+    - component: ARM::CMSIS:NN Lib
+    - component: ARM::Device:Definition
+      for-context: +CHPPOCRV2CLSM55
+    - component: ARM::Device:Definition
+      for-context: +CHPPOCRV2CLSM85
+    - component: ARM::Device:Native Driver:IO
+      for-context: +CHPPOCRV2CLSM85
+    - component: ARM::Device:Native Driver:IO
+      for-context: +CHPPOCRV2CLSM55
+    - component: ARM::Device:Native Driver:SysCounter
+      for-context: +CHPPOCRV2CLSM85
+    - component: ARM::Device:Native Driver:SysCounter
+      for-context: +CHPPOCRV2CLSM55
+    - component: ARM::Device:Native Driver:SysTimer
+      for-context: +CHPPOCRV2CLSM85
+    - component: ARM::Device:Native Driver:SysTimer
+      for-context: +CHPPOCRV2CLSM55
+    - component: ARM::Device:Native Driver:Timeout
+      for-context: +CHPPOCRV2CLSM55
+    - component: ARM::Device:Native Driver:Timeout
+      for-context: +CHPPOCRV2CLSM85
+    - component: ARM::Device:Native Driver:UART
+      for-context: +CHPPOCRV2CLSM55
+    - component: ARM::Device:Native Driver:UART
+      for-context: +CHPPOCRV2CLSM85
+    - component: ARM::Device:Startup&C Startup
+      for-context: +CHPPOCRV2CLSM55
+    - component: ARM::Device:Startup&C Startup
+      for-context: +CHPPOCRV2CLSM85
+    - component: ARM::Device:UART STDOUT
+      for-context: +CHPPOCRV2CLSM85
+    - component: ARM::Device:USART STDOUT
+      for-context: +CHPPOCRV2CLSM55
+    - component: Keil::Compiler&ARM Compiler:I/O:STDOUT&User
