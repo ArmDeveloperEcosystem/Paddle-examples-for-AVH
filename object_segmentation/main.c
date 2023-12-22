@@ -39,7 +39,7 @@ int main(int argc, char** argv) {
   tvmgen_object_segmentation_run(&seg_inputs, &seg_outputs);
 
   // print output
-  int width = 128, height = 128;
+  int width = 256, height = 114;
   for (int i = 0; i < width * height; i++) {
     printf("%d ", output[i]);
   }
