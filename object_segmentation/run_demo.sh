@@ -72,6 +72,7 @@ if [ "$MODEL_NAME" == "PP_HumanSeg" ]; then
   unzip portrait_pp_humansegv1_lite_398x224_inference_model.zip
   rm portrait_pp_humansegv1_lite_398x224_inference_model.zip
   mv portrait_pp_humansegv1_lite_398x224_inference_model model
+  rm -rf __MACOSX
   MODEL_NAME="PPHumanSeg"
 else
   echo 'ERROR: --model_name only support PP_HumanSeg' >&2
@@ -83,7 +84,7 @@ python paddle_infer_shape.py --model_dir model \
                              --model_filename model.pdmodel \
                              --params_filename model.pdiparams \
                              --save_dir model \
-                             --input_shape_dict="{'x':[1,3,114,256]}"
+                             --input_shape_dict="{'x':[1,3,224,398]}"
 paddle2onnx --model_dir  "${PWD}/model" \
             --model_filename model.pdmodel \
             --params_filename model.pdiparams \
@@ -105,7 +106,7 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --output-format=mlf \
     --model-format=onnx \
     --module-name=object_segmentation \
-    --input-shapes "x:[1,3,114,256]"  \
+    --input-shapes "x:[1,3,224,398]"  \
     --output=object_segmentation.tar
 rm model.onnx
 
@@ -115,34 +116,37 @@ tar -xvf object_segmentation.tar -C "${PWD}/object_segmentation"
 rm object_segmentation.tar
 
 # create input and output head file
-python3 ./convert_image.py image/human.jpg
+python3 ./convert_image.py images/portrait_heng.jpg
 
-# # build
-# csolution list packs -s object_segmentation.csolution.yml -m > packs.txt
-# cpackget update-index
-# cpackget add -f packs.txt
-# PROJECT_FILE_NAME="object_segmentation+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
-# echo "Project file name is $PROJECT_FILE_NAME"
-# cbuild "$PROJECT_FILE_NAME"
+# build
+csolution list packs -s object_segmentation.csolution.yml -m > packs.txt
+cpackget update-index
+cpackget add -f packs.txt
+PROJECT_FILE_NAME="object_segmentation+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
+echo "Project file name is $PROJECT_FILE_NAME"
+cbuild "$PROJECT_FILE_NAME"
 
-# rm -rf "${PWD}/object_segmentation"
-# rm "${PWD}/include/inputs.h"
-# rm "${PWD}/include/outputs.h"
+rm -rf "${PWD}/object_segmentation"
+rm "${PWD}/include/inputs.h"
+rm "${PWD}/include/outputs.h"
 
-# # run
-# $VHT_Platform  -C cpu0.CFGDTCMSZ=15 \
-#            -C cpu0.CFGITCMSZ=15 \
-#            -C mps3_board.uart0.out_file=\"-\" \
-#            -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
-#            -C mps3_board.visualisation.disable-visualisation=1 \
-#            -C mps3_board.telnetterminal0.start_telnet=0 \
-#            -C mps3_board.telnetterminal1.start_telnet=0 \
-#            -C mps3_board.telnetterminal2.start_telnet=0 \
-#            -C mps3_board.telnetterminal5.start_telnet=0 \
-#            "out/object_segmentation/$MODEL_NAME$RUN_DEVICE_NAME/object_segmentation.axf" \
-#            --stat
+# run
+$VHT_Platform  -C cpu0.CFGDTCMSZ=15 \
+           -C cpu0.CFGITCMSZ=15 \
+           -C mps3_board.uart0.out_file=\"uart0.txt\" \
+           -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
+           -C mps3_board.visualisation.disable-visualisation=1 \
+           -C mps3_board.telnetterminal0.start_telnet=0 \
+           -C mps3_board.telnetterminal1.start_telnet=0 \
+           -C mps3_board.telnetterminal2.start_telnet=0 \
+           -C mps3_board.telnetterminal5.start_telnet=0 \
+           "out/object_segmentation/$MODEL_NAME$RUN_DEVICE_NAME/object_segmentation.axf" \
+           --stat
 
-# # clean
-# rm -rf out
-# rm -rf tmp
-# rm -rf packs.txt
+# Convert outputs to image
+python3 ./convert_outputs.py uart0.txt
+
+# clean
+rm -rf out
+rm -rf tmp
+rm -rf packs.txt
