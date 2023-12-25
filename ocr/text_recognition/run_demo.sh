@@ -81,13 +81,13 @@ fi
 
 # convert paddle model to onnx model
 python paddle_infer_shape.py --model_dir model \
-                             --model_filename model.pdmodel \
-                             --params_filename model.pdiparams \
+                             --model_filename inference.pdmodel \
+                             --params_filename inference.pdiparams \
                              --save_dir model \
                              --input_shape_dict="{'x':[1,3,32,320]}"
 paddle2onnx --model_dir  "${PWD}/model" \
-            --model_filename model.pdmodel \
-            --params_filename model.pdiparams \
+            --model_filename inference.pdmodel \
+            --params_filename inference.pdiparams \
             --save_file model.onnx
 rm -rf "${PWD}/model"
 
@@ -108,42 +108,42 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --module-name=text_recognition \
     --input-shapes "x:[1,3,32,320]"  \
     --output=text_recognition.tar
-#rm model.onnx
-#
-## decompression cls.tar
-#mkdir -p "${PWD}/text_recognition"
-#tar -xvf text_recognition.tar -C "${PWD}/text_recognition"
-#rm text_recognition.tar
-#
-## create input and output head file
-#python3 ./convert_image.py imgs_words_en/word_116.png
-#
-## build
-#csolution list packs -s text_recognition.csolution.yml -m > packs.txt
-#cpackget update-index
-#cpackget add -f packs.txt
-#PROJECT_FILE_NAME="text_recognition+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
-#echo "Project file name is $PROJECT_FILE_NAME"
-#cbuild "$PROJECT_FILE_NAME"
-#
-#rm -rf "${PWD}/text_recognition"
-#rm "${PWD}/include/inputs.h"
-#rm "${PWD}/include/outputs.h"
-#
-## run
-#$VHT_Platform  -C cpu0.CFGDTCMSZ=15 \
-#           -C cpu0.CFGITCMSZ=15 \
-#           -C mps3_board.uart0.out_file=\"-\" \
-#           -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
-#           -C mps3_board.visualisation.disable-visualisation=1 \
-#           -C mps3_board.telnetterminal0.start_telnet=0 \
-#           -C mps3_board.telnetterminal1.start_telnet=0 \
-#           -C mps3_board.telnetterminal2.start_telnet=0 \
-#           -C mps3_board.telnetterminal5.start_telnet=0 \
-#           "out/text_recognition/$MODEL_NAME$RUN_DEVICE_NAME/text_recognition.axf" \
-#           --stat
-#
-## clean
-#rm -rf out
-#rm -rf tmp
-#rm -rf packs.txt
+rm model.onnx
+
+# decompression cls.tar
+mkdir -p "${PWD}/text_recognition"
+tar -xvf text_recognition.tar -C "${PWD}/text_recognition"
+rm text_recognition.tar
+
+# create input and output head file
+python3 ./convert_image.py imgs_words_en/word_116.png
+
+# build
+csolution list packs -s text_recognition.csolution.yml -m > packs.txt
+cpackget update-index
+cpackget add -f packs.txt
+PROJECT_FILE_NAME="text_recognition+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
+echo "Project file name is $PROJECT_FILE_NAME"
+cbuild "$PROJECT_FILE_NAME"
+
+rm -rf "${PWD}/text_recognition"
+rm "${PWD}/include/inputs.h"
+rm "${PWD}/include/outputs.h"
+
+# run
+$VHT_Platform  -C cpu0.CFGDTCMSZ=15 \
+           -C cpu0.CFGITCMSZ=15 \
+           -C mps3_board.uart0.out_file=\"-\" \
+           -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
+           -C mps3_board.visualisation.disable-visualisation=1 \
+           -C mps3_board.telnetterminal0.start_telnet=0 \
+           -C mps3_board.telnetterminal1.start_telnet=0 \
+           -C mps3_board.telnetterminal2.start_telnet=0 \
+           -C mps3_board.telnetterminal5.start_telnet=0 \
+           "out/text_recognition/$MODEL_NAME$RUN_DEVICE_NAME/text_recognition.axf" \
+           --stat
+
+# clean
+rm -rf out
+rm -rf tmp
+rm -rf packs.txt
