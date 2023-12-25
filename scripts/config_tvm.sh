@@ -6,3 +6,4 @@ pip install --upgrade pip
 pip install opencv-python
 pip install apache-tvm
 pip install paddle2onnx
+pip install onnx
