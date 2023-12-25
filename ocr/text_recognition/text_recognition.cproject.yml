@@ -1,0 +1,146 @@
+project:
+  packs:
+    - pack: ARM::V2M_MPS3_SSE_300_BSP
+      for-context: +ENPPOCRV3RECM55
+    - pack: ARM::V2M_MPS3_SSE_310_BSP
+      for-context: +ENPPOCRV3RECM85
+    - pack: ARM::CMSIS
+    - pack: ARM::CMSIS-DSP
+    - pack: ARM::CMSIS-NN
+    - pack: Keil::ARM_Compiler
+  setups:
+    - setup: Options for ENPPOCRV3RECM55
+      for-context: +ENPPOCRV3RECM55
+      processor:
+        trustzone: "off"
+      add-path:
+        - text_recognition/codegen/host/include
+        - text_recognition/runtime/include
+        - include
+      debug: "on"
+      define:
+        - USE_EN_PPOCRV3_REC
+      misc:
+        - C:
+            - -std=c99
+          C-CPP:
+            - -mthumb
+            - -fno-rtti
+            - -funsigned-char
+            - -fshort-enums
+            - -fshort-wchar
+            - -ffunction-sections
+            - -w
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --strict
+            - --summary_stderr
+            - --info summarysizes
+    - setup: Options for ENPPOCRV3RECM85
+      for-context: +ENPPOCRV3RECM85
+      processor:
+        trustzone: "off"
+      add-path:
+        - include
+        - text_recognition/runtime/include
+        - text_recognition/codegen/host/include
+      debug: "on"
+      define:
+        - USE_EN_PPOCRV3_REC
+      misc:
+        - C:
+            - -std=c99
+          C-CPP:
+            - -mthumb
+            - -fno-rtti
+            - -funsigned-char
+            - -fshort-enums
+            - -fshort-wchar
+            - -ffunction-sections
+            - -w
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --strict
+            - --summary_stderr
+            - --info summarysizes
+  linker:
+    - script: sct/VHT_Corstone_SSE-300.sct
+      for-context: +ENPPOCRV3RECM55
+    - script: sct/VHT_Corstone_SSE-310.sct
+      for-context: +ENPPOCRV3RECM85
+  groups:
+    - group: Source
+      files:
+        - file: main.c
+    - group: TextAngleClassification
+      files:
+        - file: text_recognition/runtime/src/runtime/crt/common/crt_backend_api.c
+        - file: text_recognition/codegen/host/src/text_recognition_lib0.c
+        - file: text_recognition/codegen/host/src/text_recognition_lib1.c
+  components:
+    - component: ARM::CMSIS Driver:USART
+      for-context: +ENPPOCRV3RECM55
+    - component: ARM::CMSIS Driver:USART
+      for-context: +ENPPOCRV3RECM85
+    - component: ARM::CMSIS:CORE
+    - component: ARM::CMSIS:DSP&Source
+    - component: ARM::CMSIS:NN Lib
+    - component: ARM::Device:Definition
+      for-context: +ENPPOCRV3RECM55
+    - component: ARM::Device:Definition
+      for-context: +ENPPOCRV3RECM85
+    - component: ARM::Device:Native Driver:IO
+      for-context: +ENPPOCRV3RECM85
+    - component: ARM::Device:Native Driver:IO
+      for-context: +ENPPOCRV3RECM55
+    - component: ARM::Device:Native Driver:SysCounter
+      for-context: +ENPPOCRV3RECM85
+    - component: ARM::Device:Native Driver:SysCounter
+      for-context: +ENPPOCRV3RECM55
+    - component: ARM::Device:Native Driver:SysTimer
+      for-context: +ENPPOCRV3RECM85
+    - component: ARM::Device:Native Driver:SysTimer
+      for-context: +ENPPOCRV3RECM55
+    - component: ARM::Device:Native Driver:Timeout
+      for-context: +ENPPOCRV3RECM55
+    - component: ARM::Device:Native Driver:Timeout
+      for-context: +ENPPOCRV3RECM85
+    - component: ARM::Device:Native Driver:UART
+      for-context: +ENPPOCRV3RECM55
+    - component: ARM::Device:Native Driver:UART
+      for-context: +ENPPOCRV3RECM85
+    - component: ARM::Device:Startup&C Startup
+      for-context: +ENPPOCRV3RECM55
+    - component: ARM::Device:Startup&C Startup
+      for-context: +ENPPOCRV3RECM85
+    - component: ARM::Device:UART STDOUT
+      for-context: +ENPPOCRV3RECM85
+    - component: ARM::Device:USART STDOUT
+      for-context: +ENPPOCRV3RECM55
+    - component: Keil::Compiler&ARM Compiler:I/O:STDOUT&User
