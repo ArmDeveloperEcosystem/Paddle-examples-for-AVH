@@ -4,8 +4,9 @@
 function show_usage() {
     cat <<EOF
 Usage: run_demo.sh
--h, --help Display this help message.
---model_name MODEL_NAME
+-h, --help
+  Display this help message.
+--model MODEL
 	Set name of paddle model.
 --device DEVICE
   Set device to run.
@@ -19,13 +20,13 @@ while (( $# )); do
             exit 0
             ;;
 
-        --model_name)
+        --model)
             if [ $# -gt 1 ]
             then
                 export MODEL_NAME="$2"
                 shift 2
             else
-                echo 'ERROR: --model_name requires a non-empty argument' >&2
+                echo 'ERROR: --model requires a non-empty argument' >&2
                 show_usage >&2
                 exit 1
             fi
@@ -75,7 +76,7 @@ if [ "$MODEL_NAME" == "EN_PPOCRV3_REC" ]; then
   rm ocr_en.tar
   MODEL_NAME="ENPPOCRV3REC"
 else
-  echo 'ERROR: --model_name only support EN_PPOCRV3_REC' >&2
+  echo 'ERROR: --model only support EN_PPOCRV3_REC' >&2
   exit 1
 fi
 
