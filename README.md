@@ -24,23 +24,37 @@ features that cover core deep learning frameworks, basic model libraries, end-to
 components as well as service platforms. For more details, please refer
 to [PaddlePaddle Github](https://github.com/PaddlePaddle/Paddle) for details.
 
-## Running environment and prerequisites
-
-If you haven't configured the environment yet, please run the following command to set up the dependencies for this
-repository.
-
-```bash
-cd /path/to/Paddle-examples-for-AVH
-bash scripts/config_cmsis_toolbox.sh
-bash scripts/config_tvm.sh
-```
-
 ## Example
 
-We have divided the repository into several sections based on common tasks in the computer vision field. Please refer to
-the table below for details.
+We provide 4 use cases in this reposiotry ([ocr](./ocr), [object_classification](./object_classification), [object_detection](./object_detection) and [object_segmentation](./object_segmentation))
+To run the demos in Arm Virtual Hardware context, please follow these 3 steps:
 
-| Task                                      | Model       | Cortex-M55 | Cortex-M85 |
-|-------------------------------------------|-------------|------------|------------|
-| [Classification](./object_classification) | MobileNetV3 | ✅          | ✅          | 
-| [Classification](./object_classification) | PP_LCNet    | ✅          | ✅          | 
+#### 1. Set up running environment
+
+When you try to run the demo for the first time, you need to set up the running environment in AVH instance by the following command.
+```bash
+cd /path/to/Paddle-examples-for-AVH
+sudo bash scripts/config_cmsis_toolbox.sh
+sudo bash scripts/config_tvm.sh
+```
+#### 2. Run the demo
+
+You must specify the model name (by parameter `--model`) and the device name (by parameter `--device`) when you run the demo.
+```bash
+cd /path/to/usecase
+bash run_demo.sh --model model_name --device device_name
+```
+Parameter options can be found in the following table. 
+
+| Use Case | Model Name | Device Name| 
+|-------------------------------------------|-------------|------------|
+|object_classification| MobileNetV3<br>PP_LCNet | cortex-m55<br>cortex-m85 |
+|ocr| CH_PPOCRV2_CLS <br> EN_PPOCRV3_REC| cortex-m55<br>cortex-m85 |
+|object_detection| Picodet | cortex-m55<br>cortex-m85 |
+|object_segmentation| PP_HumanSeg | cortex-m55<br>cortex-m85 |
+
+For example, to run object classfication demo with PP-LCNet model on Arm Cortex-M55 platform, input the following command:
+
+```bash
+bash run_demo.sh --model PP_LCNet --device cortex-m55
+```
