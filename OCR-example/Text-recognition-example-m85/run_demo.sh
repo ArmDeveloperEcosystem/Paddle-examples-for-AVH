@@ -40,7 +40,7 @@ EOF
 
 # Configure environment variables
 FVP_enable=0
-export PATH=/opt/arm/gcc-arm-none-eabi/bin:$PATH
+export PATH=/opt/arm/gcc-arm-none-eabi/arm-gnu-toolchain-12.2.mpacbti-rel1-x86_64-arm-none-eabi/bin:$PATH
 
 # Install python libraries
 echo -e "\e[36mInstall python libraries\e[0m"
@@ -123,14 +123,9 @@ while (( $# )); do
 done
 
 # Choose running environment: cloud(default) or local environment
-Platform="VHT_Corstone_SSE-300_Ethos-U55"
-if [ $FVP_enable == "1" ]; then
-	Platform="FVP_Corstone_SSE-300_Ethos-U55"
-	echo -e "\e[36mRun application on local Fixed Virtual Platforms (FVPs)\e[0m"
-else
-	if [ ! -d "/opt/arm/" ]; then
-		sudo ./configure_avh.sh
-	fi
+Platform="VHT_Corstone_SSE-310"
+if [ ! -d "/opt/arm/" ]; then
+  sudo ./configure_avh.sh
 fi
 
 # Directories
@@ -142,15 +137,16 @@ mkdir -p build
 cd build
 
 # Get PaddlePaddle inference model
-wget https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/PPLCNet_x0_75_infer.tar
-tar -xf PPLCNet_x0_75_infer.tar
+echo -e "\e[36mDownload PaddlePaddle inference model\e[0m"
+wget https://paddleocr.bj.bcebos.com/tvm/ocr_en.tar
+tar -xf ocr_en.tar
 
 # Compile model for Arm(R) Cortex(R)-M55 CPU and CMSIS-NN
 # An alternative to using "python3 -m tvm.driver.tvmc" is to call
 # "tvmc" directly once TVM has been pip installed.
 python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
-    --target-cmsis-nn-mcpu=cortex-m55 \
-    --target-c-mcpu=cortex-m55 \
+    --target-cmsis-nn-mcpu=cortex-m85 \
+    --target-c-mcpu=cortex-m85 \
     --runtime=crt \
     --executor=aot \
     --executor-aot-interface-api=c \
@@ -158,18 +154,17 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --pass-config tir.usmp.enable=1 \
     --pass-config tir.usmp.algorithm=hill_climb \
     --pass-config tir.disable_storage_rewrite=1 \
-    --pass-config tir.disable_vectorize=1 PPLCNet_x0_75_infer/inference.pdmodel \
+    --pass-config tir.disable_vectorize=1 ocr_en/inference.pdmodel \
     --output-format=mlf \
     --model-format=paddle \
-    --module-name=clas \
-    --input-shapes x:[1,3,224,224] \
-    --output=clas.tar
-tar -xf clas.tar
+    --module-name=rec \
+    --input-shapes x:[1,3,32,320] \
+    --output=rec.tar
+tar -xf rec.tar
 
 # Create C header files
 cd ..
-python3 labels/convert_labels.py labels/labels.txt
-python3 ./convert_image.py image/ILSVRC2012_val_00020010.jpg
+python3 ./convert_image.py imgs_words_en/word_116.png
 
 # Build demo executable
 cd ${script_dir}

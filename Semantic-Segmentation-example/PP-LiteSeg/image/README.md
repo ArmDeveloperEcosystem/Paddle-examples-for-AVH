@@ -1,0 +1,3 @@
+# About Dataset
+* The test image [test.png](./test.png) for this example comes from [](https://www.cityscapes-dataset.com/) dataset `Test`. It is used for verifying the inference results of PP-LiteSeg model running on AVH Corstone 300 platform with Cortex-M55 CPU. 
+* The Cityscapes Dataset focuses on semantic understanding of urban street scenes. Please refer to [Cityscapes](https://www.cityscapes-dataset.com/dataset-overview/) for more features. You can use relevant dataset after accepting their [license terms](https://www.cityscapes-dataset.com/license/). It is licensed under custom [terms and conditions](https://www.cityscapes-dataset.com/license/).

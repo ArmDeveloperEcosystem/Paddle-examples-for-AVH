@@ -142,8 +142,8 @@ mkdir -p build
 cd build
 
 # Get PaddlePaddle inference model
-wget https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/PPLCNet_x0_75_infer.tar
-tar -xf PPLCNet_x0_75_infer.tar
+wget https://paddleseg.bj.bcebos.com/dygraph/demo/pp_liteseg_infer_model.tar.gz
+tar -zxvf pp_liteseg_infer_model.tar.gz
 
 # Compile model for Arm(R) Cortex(R)-M55 CPU and CMSIS-NN
 # An alternative to using "python3 -m tvm.driver.tvmc" is to call
@@ -158,18 +158,17 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --pass-config tir.usmp.enable=1 \
     --pass-config tir.usmp.algorithm=hill_climb \
     --pass-config tir.disable_storage_rewrite=1 \
-    --pass-config tir.disable_vectorize=1 PPLCNet_x0_75_infer/inference.pdmodel \
+    --pass-config tir.disable_vectorize=1 pp_liteseg_infer_model/model.pdmodel \
     --output-format=mlf \
     --model-format=paddle \
-    --module-name=clas \
-    --input-shapes x:[1,3,224,224] \
-    --output=clas.tar
-tar -xf clas.tar
+    --module-name=seg \
+    --input-shapes x:[1,3,64,128] \
+    --output=seg.tar
+tar -xf seg.tar
 
 # Create C header files
 cd ..
-python3 labels/convert_labels.py labels/labels.txt
-python3 ./convert_image.py image/ILSVRC2012_val_00020010.jpg
+python3 ./convert_image.py image/test.png
 
 # Build demo executable
 cd ${script_dir}
@@ -178,7 +177,10 @@ make
 
 # Run demo executable on the AVH
 $Platform -C cpu0.CFGDTCMSZ=15 \
--C cpu0.CFGITCMSZ=15 -C mps3_board.uart0.out_file=\"-\" -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
+-C cpu0.CFGITCMSZ=15 -C mps3_board.uart0.out_file=\"./build/uart0.txt\" -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
 -C mps3_board.visualisation.disable-visualisation=1 -C mps3_board.telnetterminal0.start_telnet=0 \
 -C mps3_board.telnetterminal1.start_telnet=0 -C mps3_board.telnetterminal2.start_telnet=0 -C mps3_board.telnetterminal5.start_telnet=0 \
 ./build/demo --stat
+
+# Convert outputs to image
+python3 ./convert_outputs.py ./build/uart0.txt
