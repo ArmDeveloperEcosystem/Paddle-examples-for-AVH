@@ -20,13 +20,13 @@ while (( $# )); do
             exit 0
             ;;
 
-        --model_name)
+        --model)
             if [ $# -gt 1 ]
             then
                 export MODEL_NAME="$2"
                 shift 2
             else
-                echo 'ERROR: --model_name requires a non-empty argument' >&2
+                echo 'ERROR: --model requires a non-empty argument' >&2
                 show_usage >&2
                 exit 1
             fi
@@ -81,7 +81,7 @@ elif [ "$MODEL_NAME" == "PP_LCNet" ]; then
   mv PPLCNet_x0_75_infer "${PWD}/model"
   MODEL_NAME="PPLCNet"
 else
-  echo 'ERROR: --model_name only support MobileNetV3/PP_LCNet' >&2
+  echo 'ERROR: --model only support MobileNetV3/PP_LCNet' >&2
   exit 1
 fi
 
