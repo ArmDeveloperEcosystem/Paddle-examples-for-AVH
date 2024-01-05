@@ -4,8 +4,9 @@
 function show_usage() {
     cat <<EOF
 Usage: run_demo.sh
--h, --help Display this help message.
---model_name MODEL_NAME
+-h, --help
+  Display this help message.
+--model MODEL
 	Set name of paddle model.
 --device DEVICE
   Set device to run.
