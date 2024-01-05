@@ -19,13 +19,13 @@ while (( $# )); do
             exit 0
             ;;
 
-        --model_name)
+        --model)
             if [ $# -gt 1 ]
             then
                 export MODEL_NAME="$2"
                 shift 2
             else
-                echo 'ERROR: --model_name requires a non-empty argument' >&2
+                echo 'ERROR: --model requires a non-empty argument' >&2
                 show_usage >&2
                 exit 1
             fi
@@ -74,7 +74,7 @@ if [ "$MODEL_NAME" == "CH_PPOCRV2_CLS" ]; then
     mv ch_ppocr_mobile_v2.0_cls_infer model
     MODEL_NAME="CHPPOCRV2CLS"
 else
-  echo 'ERROR: --model_name only support CH_PPOCRV2_CLS' >&2
+  echo 'ERROR: --model only support CH_PPOCRV2_CLS' >&2
   exit 1
 fi
 
