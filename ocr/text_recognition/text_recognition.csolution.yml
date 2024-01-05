@@ -1,0 +1,13 @@
+solution:
+  created-by: uv2csolution@1.2.0
+  created-for: CMSIS-Toolbox@2.0.0
+  compiler: AC6
+  target-types:
+    - type: ENPPOCRV3RECM55
+      device: SSE-300-MPS3
+      optimize: none
+    - type: ENPPOCRV3RECM85
+      device: SSE-310-MPS3_FVP
+      optimize: none
+  projects:
+    - project: text_recognition.cproject.yml

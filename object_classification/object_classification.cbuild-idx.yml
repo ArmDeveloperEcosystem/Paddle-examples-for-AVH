@@ -1,0 +1,18 @@
+build-idx:
+  generated-by: csolution version 2.2.1
+  csolution: object_classification.csolution.yml
+  cprojects:
+    - cproject: object_classification.cproject.yml
+  cbuilds:
+    - cbuild: object_classification+MobileNetV3M55.cbuild.yml
+      project: object_classification
+      configuration: +MobileNetV3M55
+    - cbuild: object_classification+MobileNetV3M85.cbuild.yml
+      project: object_classification
+      configuration: +MobileNetV3M85
+    - cbuild: object_classification+PPLCNetM55.cbuild.yml
+      project: object_classification
+      configuration: +PPLCNetM55
+    - cbuild: object_classification+PPLCNetM85.cbuild.yml
+      project: object_classification
+      configuration: +PPLCNetM85
