@@ -3,16 +3,10 @@ solution:
   created-for: CMSIS-Toolbox@2.0.0
   compiler: AC6
   target-types:
-    - type: MobileNetV3M55
+    - type: PaddleClasM55
       device: SSE-300-MPS3
       optimize: none
-    - type: MobileNetV3M85
-      device: SSE-310-MPS3_FVP
-      optimize: none
-    - type: PPLCNetM55
-      device: SSE-300-MPS3
-      optimize: none
-    - type: PPLCNetM85
+    - type: PaddleClasM85
       device: SSE-310-MPS3_FVP
       optimize: none
   projects:

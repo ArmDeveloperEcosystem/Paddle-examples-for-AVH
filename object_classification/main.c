@@ -16,11 +16,9 @@ __asm("  .global __ARM_use_no_argv\n");
 
 int main(){
   stdout_init();
-#if USE_MOBILENETV3 || USE_PP_LCNET
 	struct tvmgen_cls_inputs cls_inputs = {
 		.x = input,
 	};
-#endif
 	struct tvmgen_cls_outputs cls_outputs = {
 		.output = output,
 	};

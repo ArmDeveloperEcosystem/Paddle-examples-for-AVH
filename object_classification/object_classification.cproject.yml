@@ -1,22 +1,15 @@
 project:
   packs:
     - pack: ARM::V2M_MPS3_SSE_300_BSP
-      for-context:
-        - +MobileNetV3M55
-        - +PPLCNetM55
+      for-context: +PaddleClasM55
     - pack: ARM::V2M_MPS3_SSE_310_BSP
-      for-context:
-        - +MobileNetV3M85
-        - +PPLCNetM85
+      for-context: +PaddleClasM85
     - pack: ARM::CMSIS
     - pack: ARM::CMSIS-DSP
     - pack: ARM::CMSIS-NN
     - pack: Keil::ARM_Compiler
   setups:
-    - setup: Options for MobileNetV3M55, MobileNetV3M85
-      for-context:
-        - +MobileNetV3M55
-        - +MobileNetV3M85
+    - setup: Options for PaddleClasM55, PaddleClasM85
       processor:
         trustzone: "off"
       add-path:
@@ -24,50 +17,6 @@ project:
         - cls/runtime/include
         - include
       debug: "on"
-      define:
-        - USE_MOBILENETV3
-      misc:
-        - C:
-            - -std=c99
-          C-CPP:
-            - -mthumb
-            - -fno-rtti
-            - -funsigned-char
-            - -fshort-enums
-            - -fshort-wchar
-            - -ffunction-sections
-            - -w
-          CPP:
-            - -xc++
-            - -std=c++11
-          ASM:
-            - -masm=auto
-          Link:
-            - --map
-            - --load_addr_map_info
-            - --xref
-            - --callgraph
-            - --symbols
-            - --info sizes
-            - --info totals
-            - --info unused
-            - --info veneers
-            - --strict
-            - --summary_stderr
-            - --info summarysizes
-    - setup: Options for PPLCNetM55, PPLCNetM85
-      for-context:
-        - +PPLCNetM55
-        - +PPLCNetM85
-      processor:
-        trustzone: "off"
-      add-path:
-        - cls/codegen/host/include
-        - cls/runtime/include
-        - include
-      debug: "on"
-      define:
-        - USE_PP_LCNET
       misc:
         - C:
             - -std=c99
@@ -99,13 +48,9 @@ project:
             - --info summarysizes
   linker:
     - script: sct/VHT_Corstone_SSE-300.sct
-      for-context:
-        - +MobileNetV3M55
-        - +PPLCNetM55
+      for-context: +PaddleClasM55
     - script: sct/VHT_Corstone_SSE-310.sct
-      for-context:
-        - +MobileNetV3M85
-        - +PPLCNetM85
+      for-context: +PaddleClasM85
   groups:
     - group: Source
       files:
@@ -117,78 +62,42 @@ project:
         - file: cls/runtime/src/runtime/crt/common/crt_backend_api.c
   components:
     - component: ARM::CMSIS Driver:USART
-      for-context:
-        - +MobileNetV3M55
-        - +PPLCNetM55
+      for-context: +PaddleClasM55
     - component: ARM::CMSIS Driver:USART
-      for-context:
-        - +MobileNetV3M85
-        - +PPLCNetM85
+      for-context: +PaddleClasM85
     - component: ARM::CMSIS:CORE
     - component: ARM::CMSIS:DSP&Source
     - component: ARM::CMSIS:NN Lib
     - component: ARM::Device:Definition
-      for-context:
-        - +MobileNetV3M55
-        - +PPLCNetM55
+      for-context: +PaddleClasM55
     - component: ARM::Device:Definition
-      for-context:
-        - +MobileNetV3M85
-        - +PPLCNetM85
+      for-context: +PaddleClasM85
     - component: ARM::Device:Native Driver:IO
-      for-context:
-        - +MobileNetV3M85
-        - +PPLCNetM85
+      for-context: +PaddleClasM85
     - component: ARM::Device:Native Driver:IO
-      for-context:
-        - +MobileNetV3M55
-        - +PPLCNetM55
+      for-context: +PaddleClasM55
     - component: ARM::Device:Native Driver:SysCounter
-      for-context:
-        - +MobileNetV3M85
-        - +PPLCNetM85
+      for-context: +PaddleClasM85
     - component: ARM::Device:Native Driver:SysCounter
-      for-context:
-        - +MobileNetV3M55
-        - +PPLCNetM55
+      for-context: +PaddleClasM55
     - component: ARM::Device:Native Driver:SysTimer
-      for-context:
-        - +MobileNetV3M85
-        - +PPLCNetM85
+      for-context: +PaddleClasM85
     - component: ARM::Device:Native Driver:SysTimer
-      for-context:
-        - +MobileNetV3M55
-        - +PPLCNetM55
+      for-context: +PaddleClasM55
     - component: ARM::Device:Native Driver:Timeout
-      for-context:
-        - +MobileNetV3M55
-        - +PPLCNetM55
+      for-context: +PaddleClasM55
     - component: ARM::Device:Native Driver:Timeout
-      for-context:
-        - +MobileNetV3M85
-        - +PPLCNetM85
+      for-context: +PaddleClasM85
     - component: ARM::Device:Native Driver:UART
-      for-context:
-        - +MobileNetV3M55
-        - +PPLCNetM55
+      for-context: +PaddleClasM55
     - component: ARM::Device:Native Driver:UART
-      for-context:
-        - +MobileNetV3M85
-        - +PPLCNetM85
+      for-context: +PaddleClasM85
     - component: ARM::Device:Startup&C Startup
-      for-context:
-        - +MobileNetV3M55
-        - +PPLCNetM55
+      for-context: +PaddleClasM55
     - component: ARM::Device:Startup&C Startup
-      for-context:
-        - +MobileNetV3M85
-        - +PPLCNetM85
+      for-context: +PaddleClasM85
     - component: ARM::Device:UART STDOUT
-      for-context:
-        - +MobileNetV3M85
-        - +PPLCNetM85
+      for-context: +PaddleClasM85
     - component: ARM::Device:USART STDOUT
-      for-context:
-        - +MobileNetV3M55
-        - +PPLCNetM55
+      for-context: +PaddleClasM55
     - component: Keil::Compiler&ARM Compiler:I/O:STDOUT&User

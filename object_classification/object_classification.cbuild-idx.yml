@@ -4,15 +4,9 @@ build-idx:
   cprojects:
     - cproject: object_classification.cproject.yml
   cbuilds:
-    - cbuild: object_classification+MobileNetV3M55.cbuild.yml
+    - cbuild: object_classification+PaddleClasM55.cbuild.yml
       project: object_classification
-      configuration: +MobileNetV3M55
-    - cbuild: object_classification+MobileNetV3M85.cbuild.yml
+      configuration: +PaddleClasM55
+    - cbuild: object_classification+PaddleClasM85.cbuild.yml
       project: object_classification
-      configuration: +MobileNetV3M85
-    - cbuild: object_classification+PPLCNetM55.cbuild.yml
-      project: object_classification
-      configuration: +PPLCNetM55
-    - cbuild: object_classification+PPLCNetM85.cbuild.yml
-      project: object_classification
-      configuration: +PPLCNetM85
+      configuration: +PaddleClasM85
