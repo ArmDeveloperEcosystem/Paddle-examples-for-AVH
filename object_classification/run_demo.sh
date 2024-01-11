@@ -80,14 +80,12 @@ elif [ "$MODEL_NAME" == "PP_LCNet" ]; then
   tar -xf PPLCNet_x0_75_infer.tar
   rm PPLCNet_x0_75_infer.tar
   mv PPLCNet_x0_75_infer "${PWD}/model"
-  MODEL_NAME="PPLCNet"
   INPUT_NODE_NAME="x"
 elif [ "$MODEL_NAME" == "MobileNetV1" ]; then
   wget "https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/MobileNetV1_x0_25_infer.tar"
   tar -xf MobileNetV1_x0_25_infer.tar
   rm MobileNetV1_x0_25_infer.tar
   mv MobileNetV1_x0_25_infer "${PWD}/model"
-  MODEL_NAME="MobileNetV3"
   INPUT_NODE_NAME="inputs"
 else
   echo 'ERROR: --model only support MobileNetV3/PP_LCNet/MobileNetV1' >&2
@@ -142,7 +140,7 @@ csolution list packs -s object_classification.csolution.yml -m > packs.txt
 cpackget update-index
 cpackget add -f packs.txt
 
-PROJECT_FILE_NAME="object_classification+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
+PROJECT_FILE_NAME="object_classification+PaddleClas$RUN_DEVICE_NAME.cprj"
 echo "Project file name is $PROJECT_FILE_NAME"
 cbuild "$PROJECT_FILE_NAME"
 
