@@ -80,8 +80,14 @@ elif [ "$MODEL_NAME" == "PP_LCNet" ]; then
   rm PPLCNet_x0_75_infer.tar
   mv PPLCNet_x0_75_infer "${PWD}/model"
   MODEL_NAME="PPLCNet"
+elif [ "$MODEL_NAME" == "EfficientNet" ]; then
+  wget "https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/EfficientNetB0_small_infer.tar"
+  tar -xf EfficientNetB0_small_infer.tar
+  rm EfficientNetB0_small_infer.tar
+  mv EfficientNetB0_small_infer "${PWD}/model"
+  MODEL_NAME="EfficientNet"
 else
-  echo 'ERROR: --model only support MobileNetV3/PP_LCNet' >&2
+  echo 'ERROR: --model only support MobileNetV3/PP_LCNet/EfficientNet' >&2
   exit 1
 fi
 
@@ -121,34 +127,34 @@ rm cls.tar
 python3 ./convert_labels.py ./labels/labels.txt
 python3 ./convert_image.py ./image/ILSVRC2012_val_00020010.jpg
 
-# build
-csolution list packs -s object_classification.csolution.yml -m > packs.txt
-cpackget update-index
-cpackget add -f packs.txt
-
-PROJECT_FILE_NAME="object_classification+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
-echo "Project file name is $PROJECT_FILE_NAME"
-cbuild "$PROJECT_FILE_NAME"
-
-rm -rf "${PWD}/cls"
-rm "${PWD}/include/inputs.h"
-rm "${PWD}/include/outputs.h"
-rm "${PWD}/include/labels.h"
-
-# run
-$VHT_Platform  -C cpu0.CFGDTCMSZ=15 \
-              -C cpu0.CFGITCMSZ=15 \
-              -C mps3_board.uart0.out_file=\"-\" \
-              -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
-              -C mps3_board.visualisation.disable-visualisation=1 \
-              -C mps3_board.telnetterminal0.start_telnet=0 \
-              -C mps3_board.telnetterminal1.start_telnet=0 \
-              -C mps3_board.telnetterminal2.start_telnet=0 \
-              -C mps3_board.telnetterminal5.start_telnet=0 \
-              "out/object_classification/$MODEL_NAME$RUN_DEVICE_NAME/object_classification.axf" \
-              --stat
-
-# clean
-rm -rf out
-rm -rf tmp
-rm -rf packs.txt
+## build
+#csolution list packs -s object_classification.csolution.yml -m > packs.txt
+#cpackget update-index
+#cpackget add -f packs.txt
+#
+#PROJECT_FILE_NAME="object_classification+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
+#echo "Project file name is $PROJECT_FILE_NAME"
+#cbuild "$PROJECT_FILE_NAME"
+#
+#rm -rf "${PWD}/cls"
+#rm "${PWD}/include/inputs.h"
+#rm "${PWD}/include/outputs.h"
+#rm "${PWD}/include/labels.h"
+#
+## run
+#$VHT_Platform  -C cpu0.CFGDTCMSZ=15 \
+#              -C cpu0.CFGITCMSZ=15 \
+#              -C mps3_board.uart0.out_file=\"-\" \
+#              -C mps3_board.uart0.shutdown_tag=\"EXITTHESIM\" \
+#              -C mps3_board.visualisation.disable-visualisation=1 \
+#              -C mps3_board.telnetterminal0.start_telnet=0 \
+#              -C mps3_board.telnetterminal1.start_telnet=0 \
+#              -C mps3_board.telnetterminal2.start_telnet=0 \
+#              -C mps3_board.telnetterminal5.start_telnet=0 \
+#              "out/object_classification/$MODEL_NAME$RUN_DEVICE_NAME/object_classification.axf" \
+#              --stat
+#
+## clean
+#rm -rf out
+#rm -rf tmp
+#rm -rf packs.txt
