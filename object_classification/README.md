@@ -11,6 +11,7 @@ For your convenience, we have provided a corresponding table of models currently
 
 | Model       | Cortex-M55 | Cortex-M85 | 
 |-------------|------------|------------|
+| MobileNetV1 | ✅          | ✅          | 
 | MobileNetV3 | ✅          | ✅          | 
 | PP_LCNet    | ✅          | ✅          | 
 
@@ -18,10 +19,10 @@ For your convenience, we have provided a corresponding table of models currently
 
 We use **run_demo.sh** to build the entire project. The parameters you need to pass are listed in the table below.
 
-| Arguments | Details                                                                                                      |
-|-----------|--------------------------------------------------------------------------------------------------------------|
-| --model   | The '--model' parameter is used to select the desired model. Currently, it supports MobileNetV3/PP_LCNet.    |
-| --device  | The '--device' parameter is used to select the desired device. Currently, it supports cortex-m55/cortex-m85. |
+| Arguments | Details                                                                                                               |
+|-----------|-----------------------------------------------------------------------------------------------------------------------|
+| --model   | The '--model' parameter is used to select the desired model. Currently, it supports MobileNetV1/MobileNetV3/PP_LCNet. |
+| --device  | The '--device' parameter is used to select the desired device. Currently, it supports cortex-m55/cortex-m85.          |
 
 For example, running the following command can execute the MobileNetV3 model on Cortex-M55:
 

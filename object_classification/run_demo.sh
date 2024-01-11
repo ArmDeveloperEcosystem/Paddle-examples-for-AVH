@@ -68,7 +68,13 @@ fi
 
 # download paddle model
 echo "Model name is $MODEL_NAME"
-if [ "$MODEL_NAME" == "MobileNetV3" ]; then
+if [ "$MODEL_NAME" == "MobileNetV1" ]; then
+  wget "https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/MobileNetV1_x0_25_infer.tar"
+  tar -xf MobileNetV1_x0_25_infer.tar
+  rm MobileNetV1_x0_25_infer.tar
+  mv MobileNetV1_x0_25_infer "${PWD}/model"
+  INPUT_NODE_NAME="inputs"
+elif [ "$MODEL_NAME" == "MobileNetV3" ]; then
 	wget "https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/MobileNetV3_small_x0_35_ssld_infer.tar"
   tar -xf MobileNetV3_small_x0_35_ssld_infer.tar
   rm MobileNetV3_small_x0_35_ssld_infer.tar
@@ -81,14 +87,8 @@ elif [ "$MODEL_NAME" == "PP_LCNet" ]; then
   rm PPLCNet_x0_75_infer.tar
   mv PPLCNet_x0_75_infer "${PWD}/model"
   INPUT_NODE_NAME="x"
-elif [ "$MODEL_NAME" == "MobileNetV1" ]; then
-  wget "https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/MobileNetV1_x0_25_infer.tar"
-  tar -xf MobileNetV1_x0_25_infer.tar
-  rm MobileNetV1_x0_25_infer.tar
-  mv MobileNetV1_x0_25_infer "${PWD}/model"
-  INPUT_NODE_NAME="inputs"
 else
-  echo 'ERROR: --model only support MobileNetV3/PP_LCNet/MobileNetV1' >&2
+  echo 'ERROR: --model only support MobileNetV1/MobileNetV3/PP_LCNet' >&2
   exit 1
 fi
 
@@ -159,7 +159,7 @@ $VHT_Platform  -C cpu0.CFGDTCMSZ=15 \
               -C mps3_board.telnetterminal1.start_telnet=0 \
               -C mps3_board.telnetterminal2.start_telnet=0 \
               -C mps3_board.telnetterminal5.start_telnet=0 \
-              "out/object_classification/$MODEL_NAME$RUN_DEVICE_NAME/object_classification.axf" \
+              "out/object_classification/PaddleClas$RUN_DEVICE_NAME/object_classification.axf" \
               --stat
 
 # clean
