@@ -116,7 +116,7 @@ python3 -m tvm.driver.tvmc compile --target=cmsis-nn,c \
     --input-shapes x:[1,3,224,224] \
     --module-name=cls \
     --output=cls.tar
-rm inference.onnx
+#rm inference.onnx
 
 # decompression cls.tar
 mkdir -p "${PWD}/cls"
