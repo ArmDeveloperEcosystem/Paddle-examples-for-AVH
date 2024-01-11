@@ -78,12 +78,6 @@ def create_header_file(name, tensor_name, tensor_data, output_path):
     file_path = pathlib.Path(f"{output_path}/" + name).resolve()
     # Create header file with npy_data as a C array
     raw_path = file_path.with_suffix(".h").resolve()
-<<<<<<<< HEAD:object_classfication_example/convert_image.py
-    if not os.path.exists(output_path):
-        # 创建文件夹
-        os.makedirs(output_path)
-========
->>>>>>>> a42aba5a08093184a0839a91e3ea3f5a28d2f23f:object_classification/convert_image.py
     with open(raw_path, "w+") as header_file:
         header_file.write(
             "\n"
