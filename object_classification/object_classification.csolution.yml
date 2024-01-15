@@ -1,0 +1,13 @@
+solution:
+  created-by: uv2csolution@1.2.0
+  created-for: CMSIS-Toolbox@2.0.0
+  compiler: AC6
+  target-types:
+    - type: PaddleClasM55
+      device: SSE-300-MPS3
+      optimize: none
+    - type: PaddleClasM85
+      device: SSE-310-MPS3_FVP
+      optimize: none
+  projects:
+    - project: object_classification.cproject.yml

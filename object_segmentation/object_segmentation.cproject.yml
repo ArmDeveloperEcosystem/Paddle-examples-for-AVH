@@ -1,0 +1,144 @@
+project:
+  packs:
+    - pack: ARM::V2M_MPS3_SSE_300_BSP
+      for-context: +PPHumanSegM55
+    - pack: ARM::V2M_MPS3_SSE_310_BSP
+      for-context: +PPHumanSegM85
+    - pack: ARM::CMSIS
+    - pack: ARM::CMSIS-DSP
+    - pack: ARM::CMSIS-NN
+    - pack: Keil::ARM_Compiler
+  setups:
+    - setup: Options for PPHumanSegM55
+      for-context: +PPHumanSegM55
+      processor:
+        trustzone: "off"
+      add-path:
+        - object_segmentation/codegen/host/include
+        - object_segmentation/runtime/include
+        - include
+      debug: "on"
+      define:
+        - USE_PP_HUMANSEG
+      misc:
+        - C:
+            - -std=c99
+          C-CPP:
+            - -mthumb
+            - -fno-rtti
+            - -funsigned-char
+            - -fshort-enums
+            - -fshort-wchar
+            - -ffunction-sections
+            - -w
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --strict
+            - --summary_stderr
+            - --info summarysizes
+    - setup: Options for PPHumanSegM85
+      for-context: +PPHumanSegM85
+      processor:
+        trustzone: "off"
+      add-path:
+        - include
+        - object_segmentation/runtime/include
+        - object_segmentation/codegen/host/include
+      debug: "on"
+      define:
+        - USE_PP_HUMANSEG
+      misc:
+        - C:
+            - -std=c99
+          C-CPP:
+            - -mthumb
+            - -fno-rtti
+            - -funsigned-char
+            - -fshort-enums
+            - -fshort-wchar
+            - -ffunction-sections
+            - -w
+          CPP:
+            - -xc++
+            - -std=c++11
+          ASM:
+            - -masm=auto
+          Link:
+            - --map
+            - --load_addr_map_info
+            - --xref
+            - --callgraph
+            - --symbols
+            - --info sizes
+            - --info totals
+            - --info unused
+            - --info veneers
+            - --strict
+            - --summary_stderr
+            - --info summarysizes
+  linker:
+    - script: sct/VHT_Corstone_SSE-300.sct
+      for-context: +PPHumanSegM55
+    - script: sct/VHT_Corstone_SSE-310.sct
+      for-context: +PPHumanSegM85
+  groups:
+    - group: Source
+      files:
+        - file: main.c
+        - file: object_segmentation/codegen/host/src/object_segmentation_lib0.c
+        - file: object_segmentation/codegen/host/src/object_segmentation_lib1.c
+        - file: object_segmentation/runtime/src/runtime/crt/common/crt_backend_api.c
+  components:
+    - component: ARM::CMSIS Driver:USART
+      for-context: +PPHumanSegM55
+    - component: ARM::CMSIS Driver:USART
+      for-context: +PPHumanSegM85
+    - component: ARM::CMSIS:CORE
+    - component: ARM::CMSIS:DSP&Source
+    - component: ARM::CMSIS:NN Lib
+    - component: ARM::Device:Definition
+      for-context: +PPHumanSegM55
+    - component: ARM::Device:Definition
+      for-context: +PPHumanSegM85
+    - component: ARM::Device:Native Driver:IO
+      for-context: +PPHumanSegM85
+    - component: ARM::Device:Native Driver:IO
+      for-context: +PPHumanSegM55
+    - component: ARM::Device:Native Driver:SysCounter
+      for-context: +PPHumanSegM85
+    - component: ARM::Device:Native Driver:SysCounter
+      for-context: +PPHumanSegM55
+    - component: ARM::Device:Native Driver:SysTimer
+      for-context: +PPHumanSegM85
+    - component: ARM::Device:Native Driver:SysTimer
+      for-context: +PPHumanSegM55
+    - component: ARM::Device:Native Driver:Timeout
+      for-context: +PPHumanSegM55
+    - component: ARM::Device:Native Driver:Timeout
+      for-context: +PPHumanSegM85
+    - component: ARM::Device:Native Driver:UART
+      for-context: +PPHumanSegM55
+    - component: ARM::Device:Native Driver:UART
+      for-context: +PPHumanSegM85
+    - component: ARM::Device:Startup&C Startup
+      for-context: +PPHumanSegM55
+    - component: ARM::Device:Startup&C Startup
+      for-context: +PPHumanSegM85
+    - component: ARM::Device:UART STDOUT
+      for-context: +PPHumanSegM85
+    - component: ARM::Device:USART STDOUT
+      for-context: +PPHumanSegM55
+    - component: Keil::Compiler&ARM Compiler:I/O:STDOUT&User

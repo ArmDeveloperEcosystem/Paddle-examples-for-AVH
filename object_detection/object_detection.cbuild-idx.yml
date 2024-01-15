@@ -1,0 +1,12 @@
+build-idx:
+  generated-by: csolution version 2.2.1
+  csolution: object_detection.csolution.yml
+  cprojects:
+    - cproject: object_detection.cproject.yml
+  cbuilds:
+    - cbuild: object_detection+PicodetM55.cbuild.yml
+      project: object_detection
+      configuration: +PicodetM55
+    - cbuild: object_detection+PicodetM85.cbuild.yml
+      project: object_detection
+      configuration: +PicodetM85
