@@ -48,7 +48,7 @@ Parameter options can be found in the following table.
 
 | Use Case | Model Name | Device Name| 
 |-------------------------------------------|-------------|------------|
-|object_classification| MobileNetV3<br>PP_LCNet | cortex-m55<br>cortex-m85 |
+|object_classification| MobileNetV3<br>PP_LCNet<br>MobileNetV1| cortex-m55<br>cortex-m85 |
 |ocr| CH_PPOCRV2_CLS <br> EN_PPOCRV3_REC| cortex-m55<br>cortex-m85 |
 |object_detection| Picodet | cortex-m55<br>cortex-m85 |
 |object_segmentation| PP_HumanSeg | cortex-m55<br>cortex-m85 |
