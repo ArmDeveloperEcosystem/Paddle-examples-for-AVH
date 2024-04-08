@@ -9,11 +9,11 @@ building and configuring board farms for testing. It enables modern agile softwa
 and MLOps workflows.
 
 Arm Virtual Hardware is available for [Corstone](https://www.arm.com/products/silicon-ip-subsystems) platforms
-and [Cortex](https://www.arm.com/products/silicon-ip-cpu) processors via an Amazon Machine Image (AMI)
-on [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-urbpq7yo5va7g) as well for third-party hardware
+and [Cortex](https://www.arm.com/products/silicon-ip-cpu) processors via a Baidu Cloud Compute(BCC) image
+on [Baidu Cloud Market](https://market.baidu.com/product/detail/b5f9d5d0-3861-4fb8-a0e5-314bcc6617ce) as well for third-party hardware
 available via Arm’s [SaaS platform](https://avh.arm.com/).
 
-For examples in this repository, we use Arm Virtual Hardware with Corstone platforms and Cortex processors via AWS.
+For examples in this repository, we use Arm Virtual Hardware with Corstone platforms and Cortex processors via BCC image.
 
 ## PaddlePaddle
 
@@ -26,7 +26,7 @@ to [PaddlePaddle Github](https://github.com/PaddlePaddle/Paddle) for details.
 
 ## Example
 
-We provide 4 use cases in this reposiotry ([ocr](./ocr), [object_classification](./object_classification), [object_detection](./object_detection) and [object_segmentation](./object_segmentation))
+We provide a [object_classification](./object_classification) use case in this repository.
 To run the demos in Arm Virtual Hardware context, please follow these 3 steps:
 
 #### 1. Set up running environment
@@ -48,13 +48,10 @@ Parameter options can be found in the following table.
 
 | Use Case | Model Name | Device Name| 
 |-------------------------------------------|-------------|------------|
-|object_classification| MobileNetV3<br>PP_LCNet<br>MobileNetV1| cortex-m55<br>cortex-m85 |
-|ocr| CH_PPOCRV2_CLS <br> EN_PPOCRV3_REC| cortex-m55<br>cortex-m85 |
-|object_detection| Picodet | cortex-m55<br>cortex-m85 |
-|object_segmentation| PP_HumanSeg | cortex-m55<br>cortex-m85 |
+|object_classification| BaseMobileNetV1<br>BaseMobileNetV2| cortex-m55|
 
-For example, to run object classfication demo with PP-LCNet model on Arm Cortex-M55 platform, input the following command:
+For example, to run object classfication demo with BaseMobileNetV1 model on Arm Cortex-M55 platform, input the following command:
 
 ```bash
-bash run_demo.sh --model PP_LCNet --device cortex-m55
+bash run_demo.sh --model BaseMobileNetV1 --device cortex-m55
 ```

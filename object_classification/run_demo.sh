@@ -55,40 +55,25 @@ done
 echo "Device name is $DEVICE"
 if [ "$DEVICE" == "cortex-m55" ]; then
    RUN_DEVICE_NAME="M55"
-   VHT_Platform="VHT_MPS3_Corstone_SSE-300"
+   VHT_Platform="FVP_Corstone_SSE-300"
    TVM_TARGET="cortex-m55"
-elif [ "$DEVICE" == "cortex-m85" ]; then
-   RUN_DEVICE_NAME="M85"
-   VHT_Platform="VHT_Corstone_SSE-310"
-   TVM_TARGET="cortex-m85"
 else
-  echo 'ERROR: --device only support cortex-m55/cortex-m85' >&2
+  echo 'ERROR: --device only support cortex-m55' >&2
   exit 1
 fi
 
 # download paddle model
 echo "Model name is $MODEL_NAME"
-if [ "$MODEL_NAME" == "MobileNetV1" ]; then
-  wget "https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/MobileNetV1_x0_25_infer.tar"
-  tar -xf MobileNetV1_x0_25_infer.tar
-  rm MobileNetV1_x0_25_infer.tar
-  mv MobileNetV1_x0_25_infer "${PWD}/model"
-  INPUT_NODE_NAME="inputs"
-elif [ "$MODEL_NAME" == "MobileNetV3" ]; then
-	wget "https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/MobileNetV3_small_x0_35_ssld_infer.tar"
-  tar -xf MobileNetV3_small_x0_35_ssld_infer.tar
-  rm MobileNetV3_small_x0_35_ssld_infer.tar
-  mv MobileNetV3_small_x0_35_ssld_infer/inference "${PWD}/model"
-  rm -rf MobileNetV3_small_x0_35_ssld_infer
+if [ "$MODEL_NAME" == "BaseMobileNetV1" ]; then
+  tar -xf models/BaseMobileNetV1.tar
+  mv BaseMobileNetV1 "${PWD}/model"
   INPUT_NODE_NAME="x"
-elif [ "$MODEL_NAME" == "PP_LCNet" ]; then
-  wget "https://paddle-imagenet-models-name.bj.bcebos.com/dygraph/inference/PPLCNet_x0_75_infer.tar"
-  tar -xf PPLCNet_x0_75_infer.tar
-  rm PPLCNet_x0_75_infer.tar
-  mv PPLCNet_x0_75_infer "${PWD}/model"
+elif [ "$MODEL_NAME" == "BaseMobileNetV2" ]; then
+  tar -xf models/BaseMobileNetV2.tar
+  mv BaseMobileNetV2 "${PWD}/model"
   INPUT_NODE_NAME="x"
 else
-  echo 'ERROR: --model only support MobileNetV1/MobileNetV3/PP_LCNet' >&2
+  echo 'ERROR: --model only support BaseMobileNetV1/BaseMobileNetV2' >&2
   exit 1
 fi
 
@@ -133,7 +118,10 @@ rm cls.tar
 
 # create input and output head file
 python3 ./convert_labels.py ./labels/labels.txt
-python3 ./convert_image.py ./image/ILSVRC2012_val_00020010.jpg
+# Test dog
+# python3 ./convert_image.py ./image/ILSVRC2012_val_00020010.jpg
+# Test cat
+python3 ./convert_image.py ./image/cat.jpg
 
 # build
 csolution list packs -s object_classification.csolution.yml -m > packs.txt
