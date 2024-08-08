@@ -55,11 +55,11 @@ done
 echo "Device name is $DEVICE"
 if [ "$DEVICE" == "cortex-m55" ]; then
    RUN_DEVICE_NAME="M55"
-   VHT_Platform="VHT_MPS3_Corstone_SSE-300"
+   VHT_Platform="FVP_Corstone_SSE-300"
    TVM_TARGET="cortex-m55"
 elif [ "$DEVICE" == "cortex-m85" ]; then
    RUN_DEVICE_NAME="M85"
-   VHT_Platform="VHT_Corstone_SSE-310"
+   VHT_Platform="FVP_Corstone_SSE-310"
    TVM_TARGET="cortex-m85"
 else
   echo 'ERROR: --device only support cortex-m55/cortex-m85' >&2
