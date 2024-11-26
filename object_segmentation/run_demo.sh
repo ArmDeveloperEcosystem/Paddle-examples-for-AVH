@@ -125,7 +125,7 @@ cpackget update-index
 cpackget add -f packs.txt
 PROJECT_FILE_NAME="object_segmentation+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
 echo "Project file name is $PROJECT_FILE_NAME"
-cbuild "$PROJECT_FILE_NAME"
+cbuild -p "$PROJECT_FILE_NAME"
 
 rm -rf "${PWD}/object_segmentation"
 rm "${PWD}/include/inputs.h"

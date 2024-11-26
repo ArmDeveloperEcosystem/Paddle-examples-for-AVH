@@ -119,7 +119,7 @@ rm det.tar
 
  PROJECT_FILE_NAME="object_detection+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
  echo "Project file name is $PROJECT_FILE_NAME"
- cbuild "$PROJECT_FILE_NAME"
+ cbuild -p "$PROJECT_FILE_NAME"
 
  rm -rf "${PWD}/cls"
  rm "${PWD}/include/inputs.h"

@@ -119,7 +119,7 @@ cpackget update-index
 cpackget add -f packs.txt
 PROJECT_FILE_NAME="text_angle_classification+$MODEL_NAME$RUN_DEVICE_NAME.cprj"
 echo "Project file name is $PROJECT_FILE_NAME"
-cbuild "$PROJECT_FILE_NAME"
+cbuild -p "$PROJECT_FILE_NAME"
 
 rm -rf "${PWD}/text_angle_cls"
 rm "${PWD}/include/inputs.h"
